@@ -219,6 +219,7 @@ const unassignedCell = (cell) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        backgroundColor: 'green',
       }}
       key={cell.id}
     >
@@ -284,7 +285,7 @@ const HomePage = () => {
         </div>
         <div style={{ display: "flex", justifyContent: "center", height: "100%"}}>
           {cells.filter(c => !c.inGrid).map((cell) => {
-            return droppableCell(cell);
+            return unassignedCell(cell);
           })}
         </div>
       </DragDropContext>
