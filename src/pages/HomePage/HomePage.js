@@ -104,7 +104,7 @@ const initialCells = [
   {
     id: 'unassigned',
     inGrid: false,
-    items: numbersInPuzzle,
+    items: [],
     column: undefined,
     row: undefined,
   }
@@ -125,7 +125,7 @@ const onDragEnd = (result, cells, setCells) => {
     const unassignedCell = newCells.find(cell => cell.id === 'unassigned');
     const movedItem = numbersInPuzzle.find(item => item.id === draggableId);
     // If destination has an item, move it to unassigned
-    if (destinationCell.items.length > 0) {
+    if (destinationCell.items.length > 0 && destinationCell !== unassignedCell) {
       unassignedCell.items.push(destinationCell.items[0]);
       destinationCell.items = [];
     }
@@ -155,7 +155,8 @@ const draggableCell = (item, index) => {
             {...provided.dragHandleProps}
             style={{
               userSelect: "none",
-              minHeight: 50,
+              height: 50,
+              width: 50,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -179,8 +180,8 @@ const droppableCell = (cell) => {
     <div
       style={{
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center"
+        flexDirection: "row",
+        alignItems: "center",
       }}
       key={cell.id}
     >
@@ -214,15 +215,7 @@ const droppableCell = (cell) => {
 
 const unassignedCell = (cell) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: 'green',
-      }}
-      key={cell.id}
-    >
+    <div key={cell.id}>
       <div style={{ margin: 8 }}>
         <Droppable droppableId={cell.id} key={cell.id}>
           {(provided, snapshot) => {
@@ -234,8 +227,11 @@ const unassignedCell = (cell) => {
                   background: snapshot.isDraggingOver
                     ? "lightblue"
                     : "lightgrey",
-                  width: 50,
-                  height: 50,
+                  midWidth: 500,
+                  minHeight: 150,
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: "center",
                 }}
               >
                 {cell.items.map((item, index) => {
