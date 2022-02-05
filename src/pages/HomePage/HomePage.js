@@ -112,37 +112,6 @@ const initialCells = [
   }
 ];
 
-const onDragEnd = (result, cells, setCells, checkPuzzle) => {
-  // console.log('-- On Drag End --', result, cells);
-  if (!result.destination) return;
-  const { source, destination, draggableId } = result;
-  // console.log('-- Source --', source);
-  // console.log('-- Destination --', destination);
-  // console.log('-- Draggable Id --', draggableId);
-
-  if (source.droppableId !== destination.droppableId) {
-    const newCells = [...cells];
-    const sourceCell = newCells.find(cell => cell.id === source.droppableId);
-    const destinationCell = newCells.find(cell => cell.id === destination.droppableId);
-    const unassignedCell = newCells.find(cell => cell.id === 'unassigned');
-    const movedItem = numbersInPuzzle.find(item => item.id === draggableId);
-    // If destination has an item, move it to unassigned
-    if (destinationCell.items.length > 0 && destinationCell !== unassignedCell) {
-      unassignedCell.items.push(destinationCell.items[0]);
-      destinationCell.items = [];
-    }
-    // Add Draggable ID to destination
-    destinationCell.items.push(movedItem);
-    // Remove Draggable ID from source
-    sourceCell.items = sourceCell.items.filter(item => item.id !== draggableId);
-    // Sort Unassigned Cell Items
-    unassignedCell.items.sort((a, b) => a.value - b.value);
-    // Update cells
-    setCells(newCells);
-    checkPuzzle(newCells);
-  }
-};
-
 const draggableCell = (item, index) => {
   return (
     <Draggable
@@ -258,11 +227,12 @@ const unassignedCell = (cell) => {
 const HomePage = () => {
   const [cells, setCells] = useState(initialCells);
   const [puzzleStatus, setPuzzleStatus] = useState({rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0})
+  // const [target, setTarget] = ustState (35); /// For future use
+  const target = 35;
   // const [gridSize, setGridSize] = useState(4); // For future use...
   const gridSize = 4;
 
   const checkPuzzle = (checkCells) => {
-    console.log("-- Let's check that puzzle! --", checkCells);
     const sumArray = (array) => {
       let val = 0;
       for(let i = 0; i < array.length; i++){
@@ -286,7 +256,38 @@ const HomePage = () => {
     const corners = sumArray(cornersCells);
     const unused = sumArray(unusedCells);
     setPuzzleStatus({rowTop, rowBottom, columnLeft, columnRight, corners, unused})
-  }
+  };
+
+  const onDragEnd = (result, cells, setCells, checkPuzzle) => {
+    // console.log('-- On Drag End --', result, cells);
+    if (!result.destination) return;
+    const { source, destination, draggableId } = result;
+    // console.log('-- Source --', source);
+    // console.log('-- Destination --', destination);
+    // console.log('-- Draggable Id --', draggableId);
+  
+    if (source.droppableId !== destination.droppableId) {
+      const newCells = [...cells];
+      const sourceCell = newCells.find(cell => cell.id === source.droppableId);
+      const destinationCell = newCells.find(cell => cell.id === destination.droppableId);
+      const unassignedCell = newCells.find(cell => cell.id === 'unassigned');
+      const movedItem = numbersInPuzzle.find(item => item.id === draggableId);
+      // If destination has an item, move it to unassigned
+      if (destinationCell.items.length > 0 && destinationCell !== unassignedCell) {
+        unassignedCell.items.push(destinationCell.items[0]);
+        destinationCell.items = [];
+      }
+      // Add Draggable ID to destination
+      destinationCell.items.push(movedItem);
+      // Remove Draggable ID from source
+      sourceCell.items = sourceCell.items.filter(item => item.id !== draggableId);
+      // Sort Unassigned Cell Items
+      unassignedCell.items.sort((a, b) => a.value - b.value);
+      // Update cells
+      setCells(newCells);
+      checkPuzzle(newCells);
+    }
+  };
 
   useEffect(() => {
     const newCells = initialCells.map((cell) => {
@@ -334,11 +335,6 @@ const HomePage = () => {
               return droppableCell(cell);
             })}
           </div>
-          {/* <div style={{ display: "flex", justifyContent: "center", height: "100%"}}>
-            {cells.filter(c => c.inGrid).map((cell) => {
-              return droppableCell(cell);
-            })}
-          </div> */}
           <div style={{ display: "flex", justifyContent: "center", height: "100%"}}>
             {cells.filter(c => !c.inGrid).map((cell) => {
               return unassignedCell(cell);
@@ -363,6 +359,11 @@ const HomePage = () => {
         <div>
           unused: {puzzleStatus.unused}
         </div>
+        {puzzleStatus.rowTop === target && puzzleStatus.rowBottom === target && puzzleStatus.columnLeft === target && puzzleStatus.columnRight === target && puzzleStatus.corners === target && puzzleStatus.unused === 0 &&(
+          <div>
+            WINNER WINNER!!!
+          </div>
+        )}
       </DragDropContext>
     </div>
   );
