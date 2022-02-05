@@ -1,13 +1,7 @@
-import DraggableArea from './DraggableArea/DraggableArea';
-import DroppableArea from './DroppableArea/DroppableArea';
-import DraggableElement from './DraggableElement/DraggableElement';
-import DragList from './DragList/DragList';
-import ListItem from './ListItem/ListItem';
+import DraggableCell from './DraggableCell/DraggableCell';
+import DroppableCell from './DroppableCell/DroppableCell';
 
 export {
-    DraggableArea,
-    DroppableArea,
-    DraggableElement,
-    DragList,
-    ListItem,
+    DraggableCell,
+    DroppableCell,
 };

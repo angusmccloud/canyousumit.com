@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { v4 as uuid } from 'uuid';
-
-const squareSize = 75;
+import { DroppableCell } from '../../components';
+import { UnassignedContainer, PageHeader } from '../../containers';
 
 const numbersInPuzzle = [
   { id: uuid(), value: 4, column: undefined, row: undefined },
   { id: uuid(), value: 5, column: undefined, row: undefined },
   { id: uuid(), value: 6, column: undefined, row: undefined },
+  { id: uuid(), value: 7, column: undefined, row: undefined },
   { id: uuid(), value: 7, column: undefined, row: undefined },
   { id: uuid(), value: 8, column: undefined, row: undefined },
   { id: uuid(), value: 9, column: undefined, row: undefined },
@@ -112,131 +113,21 @@ const initialCells = [
   }
 ];
 
-const draggableCell = (item, index) => {
-  return (
-    <Draggable
-      key={item.id}
-      draggableId={item.id}
-      index={index}
-    >
-      {(provided, snapshot) => {
-        return (
-          <div
-            ref={provided.innerRef}
-            {...provided.draggableProps}
-            {...provided.dragHandleProps}
-            style={{
-              userSelect: "none",
-              height: squareSize,
-              width: squareSize,
-              borderRadius: squareSize * .2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: snapshot.isDragging
-                ? "#263B4A"
-                : "#456C86",
-              color: "white",
-              ...provided.draggableProps.style
-            }}
-          >
-            {item.value.toString()}
-          </div>
-        );
-      }}
-    </Draggable>
-  );
-}
-
-const droppableCell = (cell) => {
-  return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-      }}
-      key={cell.id}
-    >
-      <div>
-        <Droppable droppableId={cell.id} key={cell.id}>
-          {(provided, snapshot) => {
-            return (
-              <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  background: snapshot.isDraggingOver
-                    ? "lightblue"
-                    : cell.items.length > 0 ? "none" : 'lightgrey',
-                  width: cell.items.length > 0 ? squareSize : squareSize - 4,
-                  height: cell.items.length > 0 ? squareSize : squareSize - 4,
-                  borderRadius: squareSize * .2,
-                  borderColor: snapshot.isDraggingOver
-                    ? 'darkblue' : 'darkgray',
-                  borderWidth: cell.items.length > 0 ? 0 : 2,
-                  borderStyle: 'solid',
-                }}
-              >
-                {cell.items.map((item, index) => {
-                  return draggableCell(item, index);
-                })}
-                {provided.placeholder}
-              </div>
-            );
-          }}
-        </Droppable>
-      </div>
-    </div>
-  );
-};
-
-const unassignedCell = (cell) => {
-  return (
-    <div key={cell.id}>
-      <Droppable droppableId={cell.id} key={cell.id}>
-        {(provided, snapshot) => {
-          return (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              style={{
-                background: snapshot.isDraggingOver
-                  ? "lightblue"
-                  : "lightgrey",
-                width: squareSize * 5,
-                minHeight: squareSize * 3,
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: "center",
-                flexWrap: 'wrap',
-              }}
-            >
-              {cell.items.map((item, index) => {
-                return draggableCell(item, index);
-              })}
-              {provided.placeholder}
-            </div>
-          );
-        }}
-      </Droppable>
-    </div>
-  );
-};
-
 const HomePage = () => {
   const [cells, setCells] = useState(initialCells);
-  const [puzzleStatus, setPuzzleStatus] = useState({rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0})
+  const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
   // const [target, setTarget] = ustState (35); /// For future use
   const target = 35;
   // const [gridSize, setGridSize] = useState(4); // For future use...
   const gridSize = 4;
+  // const [squareSize, setSquareSize] = useState(75); // For future use...
+  const squareSize = 75;
 
   const checkPuzzle = (checkCells) => {
     const sumArray = (array) => {
       let val = 0;
-      for(let i = 0; i < array.length; i++){
-        for(let ii = 0; ii < array[i].items.length; ii++) {
+      for (let i = 0; i < array.length; i++) {
+        for (let ii = 0; ii < array[i].items.length; ii++) {
           val += array[i].items[ii].value;
         }
       }
@@ -255,7 +146,7 @@ const HomePage = () => {
     const columnRight = sumArray(columnRightCells);
     const corners = sumArray(cornersCells);
     const unused = sumArray(unusedCells);
-    setPuzzleStatus({rowTop, rowBottom, columnLeft, columnRight, corners, unused})
+    setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused })
   };
 
   const onDragEnd = (result, cells, setCells, checkPuzzle) => {
@@ -265,7 +156,7 @@ const HomePage = () => {
     // console.log('-- Source --', source);
     // console.log('-- Destination --', destination);
     // console.log('-- Draggable Id --', draggableId);
-  
+
     if (source.droppableId !== destination.droppableId) {
       const newCells = [...cells];
       const sourceCell = newCells.find(cell => cell.id === source.droppableId);
@@ -291,7 +182,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const newCells = initialCells.map((cell) => {
-      if(cell.inGrid) {
+      if (cell.inGrid) {
         const items = numbersInPuzzle.filter((item) => item.column === cell.column && item.row === cell.row);
         return {
           ...cell,
@@ -310,62 +201,65 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", flexDirection: 'column', height: "100%"}}>
-      <DragDropContext
-        onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
-      >
-        <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%"}}>
-          <div style={{display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center'}}>
-            {cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
-              return droppableCell(cell);
-            })}
+    <>
+      <PageHeader pageName={'Sum it!'} />
+      <div style={{ display: "flex", justifyContent: "center", flexDirection: 'column', height: "100%", paddingTop: 20, }}>
+        <DragDropContext
+          onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
+        >
+          <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+              {cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
+                return DroppableCell(cell, squareSize);
+              })}
+            </div>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+              {cells.filter(c => c.inGrid && c.row === 1).map((cell) => {
+                return DroppableCell(cell, squareSize);
+              })}
+            </div>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+              {cells.filter(c => c.inGrid && c.row === 2).map((cell) => {
+                return DroppableCell(cell, squareSize);
+              })}
+            </div>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+              {cells.filter(c => c.inGrid && c.row === 3).map((cell) => {
+                return DroppableCell(cell, squareSize);
+              })}
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: 20, }}>
+              {cells.filter(c => !c.inGrid).map((cell) => {
+                return UnassignedContainer(cell, squareSize);
+              })}
+            </div>
           </div>
-          <div style={{display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center'}}>
-            {cells.filter(c => c.inGrid && c.row === 1).map((cell) => {
-              return droppableCell(cell);
-            })}
-          </div>
-          <div style={{display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center'}}>
-            {cells.filter(c => c.inGrid && c.row === 2).map((cell) => {
-              return droppableCell(cell);
-            })}
-          </div>
-          <div style={{display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center'}}>
-            {cells.filter(c => c.inGrid && c.row === 3).map((cell) => {
-              return droppableCell(cell);
-            })}
-          </div>
-          <div style={{ display: "flex", justifyContent: "center", height: "100%"}}>
-            {cells.filter(c => !c.inGrid).map((cell) => {
-              return unassignedCell(cell);
-            })}
-          </div>
-        </div>
-        <div>
-          rowTop: {puzzleStatus.rowTop}
-        </div>
-        <div>
-          rowBottom: {puzzleStatus.rowBottom}
-        </div>
-        <div>
-          columnLeft: {puzzleStatus.columnLeft}
-        </div>
-        <div>
-          columnRight: {puzzleStatus.columnRight}
-        </div>
-        <div>
-          corners: {puzzleStatus.corners}
-        </div>
-        <div>
-          unused: {puzzleStatus.unused}
-        </div>
-        {puzzleStatus.rowTop === target && puzzleStatus.rowBottom === target && puzzleStatus.columnLeft === target && puzzleStatus.columnRight === target && puzzleStatus.corners === target && puzzleStatus.unused === 0 &&(
           <div>
-            WINNER WINNER!!!
+            rowTop: {puzzleStatus.rowTop}
           </div>
-        )}
-      </DragDropContext>
-    </div>
+          <div>
+            rowBottom: {puzzleStatus.rowBottom}
+          </div>
+          <div>
+            columnLeft: {puzzleStatus.columnLeft}
+          </div>
+          <div>
+            columnRight: {puzzleStatus.columnRight}
+          </div>
+          <div>
+            corners: {puzzleStatus.corners}
+          </div>
+          <div>
+            unused: {puzzleStatus.unused}
+          </div>
+          {puzzleStatus.rowTop === target && puzzleStatus.rowBottom === target && puzzleStatus.columnLeft === target && puzzleStatus.columnRight === target && puzzleStatus.corners === target && puzzleStatus.unused === 0 && (
+            <div>
+              WINNER WINNER!!!
+            </div>
+          )}
+        </DragDropContext>
+      </div>
+    </>
   );
 }
 
