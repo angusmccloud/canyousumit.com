@@ -19,6 +19,8 @@ const DraggableCell = (item, index, squareSize) => {
               userSelect: "none",
               height: squareSize,
               width: squareSize,
+              // height: squareSize * .8,
+              // width: squareSize * .8,
               borderRadius: squareSize * .2,
               display: 'flex',
               alignItems: 'center',

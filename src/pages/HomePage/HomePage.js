@@ -138,7 +138,7 @@ const HomePage = () => {
     const rowBottomCells = checkCells.filter(c => c.row === gridSize - 1 && c.items.length > 0);
     const columnLeftCells = checkCells.filter(c => c.column === 0 && c.items.length > 0);
     const columnRightCells = checkCells.filter(c => c.column === gridSize - 1 && c.items.length > 0);
-    const cornersCells = checkCells.filter(c => (c.column === 0 && c.row === 0) || (c.column === 0 && c.row === gridSize - 1) || (c.column === gridSize - 1 && c.row === 0) || (c.column === gridSize - 1 && c.row === gridSize - 1) && c.items.length > 0);
+    const cornersCells = checkCells.filter(c => ((c.column === 0 && c.row === 0) || (c.column === 0 && c.row === gridSize - 1) || (c.column === gridSize - 1 && c.row === 0) || (c.column === gridSize - 1 && c.row === gridSize - 1)) && c.items.length > 0);
     const unusedCells = checkCells.filter(c => c.id === 'unassigned' && c.items.length > 0);
     const rowTop = sumArray(rowTopCells);
     const rowBottom = sumArray(rowBottomCells);
@@ -208,22 +208,22 @@ const HomePage = () => {
           onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
         >
           <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
-            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
               {cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
                 return DroppableCell(cell, squareSize);
               })}
             </div>
-            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
               {cells.filter(c => c.inGrid && c.row === 1).map((cell) => {
                 return DroppableCell(cell, squareSize);
               })}
             </div>
-            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
               {cells.filter(c => c.inGrid && c.row === 2).map((cell) => {
                 return DroppableCell(cell, squareSize);
               })}
             </div>
-            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * 1.1, justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
               {cells.filter(c => c.inGrid && c.row === 3).map((cell) => {
                 return DroppableCell(cell, squareSize);
               })}
