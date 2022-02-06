@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import { SettingsOutlined, InfoOutlined, BarChart } from '@mui/icons-material';
 
-const PageHeader = (pageName) => {
+const PageHeader = (props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
     <AppBar position="static">
@@ -21,7 +21,7 @@ const PageHeader = (pageName) => {
             <InfoOutlined />
         </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {pageName}
+            {props.pageName}
         </Typography>
         <IconButton
             size="large"
