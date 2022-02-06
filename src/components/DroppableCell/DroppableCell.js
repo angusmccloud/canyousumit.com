@@ -35,7 +35,7 @@ const DroppableCell = (cell, squareSize) => {
 							}}
 						>
 							{cell.items.map((item, index) => {
-								return DraggableCell(item, index, squareSize);
+								return DraggableCell(item, index, squareSize, false);
 							})}
 							{provided.placeholder}
 						</div>

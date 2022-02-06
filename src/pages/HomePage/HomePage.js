@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { v4 as uuid } from 'uuid';
 import { DroppableCell } from '../../components';
+import { Typography, CircularProgress } from "@mui/material";
 import { UnassignedContainer, PageHeader } from '../../containers';
+import { generatePuzzle } from '../../utils';
 
-const numbersInPuzzle = [
-  { id: uuid(), value: 4, column: undefined, row: undefined },
-  { id: uuid(), value: 5, column: undefined, row: undefined },
-  { id: uuid(), value: 6, column: undefined, row: undefined },
-  { id: uuid(), value: 7, column: undefined, row: undefined },
-  { id: uuid(), value: 7, column: undefined, row: undefined },
-  { id: uuid(), value: 8, column: undefined, row: undefined },
-  { id: uuid(), value: 9, column: undefined, row: undefined },
-  { id: uuid(), value: 10, column: undefined, row: undefined },
-  { id: uuid(), value: 11, column: 0, row: 0 },
-  { id: uuid(), value: 12, column: undefined, row: undefined },
-  { id: uuid(), value: 12, column: undefined, row: undefined },
-  { id: uuid(), value: 14, column: undefined, row: undefined },
-];
-
+// Need to replace this initialCells with a function based on gridSize below
 const initialCells = [
   {
     id: '0-0',
@@ -115,13 +102,41 @@ const initialCells = [
 
 const HomePage = () => {
   const [cells, setCells] = useState(initialCells);
+  const [puzzleNumbers, setPuzzleNumbers] = useState([]);
   const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
-  // const [target, setTarget] = ustState (35); /// For future use
-  const target = 35;
+  const [moves, setMoves] = useState(0);
+  const [target, setTarget] = useState(0); /// For future use
   // const [gridSize, setGridSize] = useState(4); // For future use...
   const gridSize = 4;
   // const [squareSize, setSquareSize] = useState(75); // For future use...
   const squareSize = 75;
+
+  useEffect(() => {
+    // Go load the puzzle input
+    const puzzleInput = generatePuzzle(4);
+    const {puzzleTarget, puzzleNumbers, puzzleCells} = puzzleInput;
+    // Then with puzzle input, set the cells
+
+    const newCells = puzzleCells.map((cell) => {
+      if (cell.inGrid) {
+        const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
+        return {
+          ...cell,
+          items
+        };
+      } else {
+        const items = puzzleNumbers.filter((item) => item.column === undefined && item.row === undefined);
+        return {
+          ...cell,
+          items
+        };
+      }
+    });
+    setCells(newCells);
+    setPuzzleNumbers(puzzleNumbers);
+    setTarget(puzzleTarget);
+    checkPuzzle(newCells);
+  }, []);
 
   const checkPuzzle = (checkCells) => {
     const sumArray = (array) => {
@@ -162,7 +177,7 @@ const HomePage = () => {
       const sourceCell = newCells.find(cell => cell.id === source.droppableId);
       const destinationCell = newCells.find(cell => cell.id === destination.droppableId);
       const unassignedCell = newCells.find(cell => cell.id === 'unassigned');
-      const movedItem = numbersInPuzzle.find(item => item.id === draggableId);
+      const movedItem = puzzleNumbers.find(item => item.id === draggableId);
       // If destination has an item, move it to unassigned
       if (destinationCell.items.length > 0 && destinationCell !== unassignedCell) {
         unassignedCell.items.push(destinationCell.items[0]);
@@ -177,61 +192,75 @@ const HomePage = () => {
       // Update cells
       setCells(newCells);
       checkPuzzle(newCells);
+      setMoves(moves + 1);
     }
   };
-
-  useEffect(() => {
-    const newCells = initialCells.map((cell) => {
-      if (cell.inGrid) {
-        const items = numbersInPuzzle.filter((item) => item.column === cell.column && item.row === cell.row);
-        return {
-          ...cell,
-          items
-        };
-      } else {
-        const items = numbersInPuzzle.filter((item) => item.column === undefined && item.row === undefined);
-        return {
-          ...cell,
-          items
-        };
-      }
-    });
-    setCells(newCells);
-    checkPuzzle(newCells);
-  }, []);
 
   return (
     <>
       <PageHeader pageName={'Sum it!'} />
-      <div style={{ display: "flex", justifyContent: "center", flexDirection: 'column', height: "100%", paddingTop: 20, }}>
+      <div style={{ display: "flex", justifyContent: "center", flexDirection: 'column', paddingTop: 20 }}>
         <DragDropContext
           onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
         >
           <div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
+            {/* Top Row */}
             <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
               {cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
                 return DroppableCell(cell, squareSize);
               })}
             </div>
-            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-              {cells.filter(c => c.inGrid && c.row === 1).map((cell) => {
-                return DroppableCell(cell, squareSize);
-              })}
+            {/* Middle Container */}
+            <div style={{ display: 'flex', flexDirection: 'row', width: squareSize * (gridSize + 1), height: squareSize * (gridSize - 2) * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
+              {/* Left Column */}
+              <div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
+                {cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+                  return DroppableCell(cell, squareSize);
+                })}
+              </div>
+              {/* Center Square */}
+              <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                {target === 0 ? (
+                  <CircularProgress />
+                ) : (
+                  <>
+                    <Typography variant="h1" component="div">
+                      {target.toString()}
+                    </Typography>
+                  </>
+                )}
+              </div>
+              {/* Right Column */}
+              <div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
+                {cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+                  return DroppableCell(cell, squareSize);
+                })}
+              </div>
             </div>
-            <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-              {cells.filter(c => c.inGrid && c.row === 2).map((cell) => {
-                return DroppableCell(cell, squareSize);
-              })}
-            </div>
+            {/* Bottom Row */}
             <div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
               {cells.filter(c => c.inGrid && c.row === 3).map((cell) => {
                 return DroppableCell(cell, squareSize);
               })}
             </div>
-            <div style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: 20, }}>
-              {cells.filter(c => !c.inGrid).map((cell) => {
-                return UnassignedContainer(cell, squareSize);
-              })}
+            {/* Moves and Best */}
+            {target !== 0 && (
+              <div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 15, paddingBottom: 15 }}>
+                <Typography variant="subtitle1" component="div">
+                  Moves: {moves}
+                </Typography>
+                <Typography variant="subtitle1" component="div">
+                  Best: 21
+                </Typography>
+              </div>
+            )}
+            {/* Bottom Container */}
+            <div style={{ display: "flex", justifyContent: "center", height: "100%"}}>
+              {target !== 0 && 
+                cells.filter(c => !c.inGrid).map((cell) => {
+                  return UnassignedContainer(cell, squareSize, gridSize);
+                })
+              }
             </div>
           </div>
           <div>
