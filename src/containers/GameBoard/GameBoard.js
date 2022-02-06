@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { DroppableCell } from '../../components';
 import { Typography, CircularProgress } from "@mui/material";
-import { UnassignedContainer } from '../../containers';
+import { UnassignedContainer, WinnerModal } from '../../containers';
 import { generatePuzzle } from '../../utils';
+import { InfoRounded } from "@mui/icons-material";
 
 // Need to replace this initialCells with a function based on gridSize below
 const initialCells = [
@@ -101,13 +102,14 @@ const initialCells = [
 ];
 
 const GameBoard = () => {
+	const [showWinnerModal, setShowWinnerModal] = useState(false);
 	const [cells, setCells] = useState(initialCells);
 	const [puzzleNumbers, setPuzzleNumbers] = useState([]);
 	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
 	const [moves, setMoves] = useState(0);
-	const [target, setTarget] = useState(0); /// For future use
+	const [target, setTarget] = useState(0);
 	// const [gridSize, setGridSize] = useState(4); // For future use...
-	const gridSize = 4;
+	const gridSize = 3;
 	// const [squareSize, setSquareSize] = useState(75); // For future use...
 	const squareSize = 75;
 
@@ -117,6 +119,7 @@ const GameBoard = () => {
 		const { puzzleTarget, puzzleNumbers, puzzleCells } = puzzleInput;
 		// Then with puzzle input, set the cells
 
+		// ...Why am I not doing this in Generate Puzzle?!
 		const newCells = puzzleCells.map((cell) => {
 			if (cell.inGrid) {
 				const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
@@ -161,7 +164,10 @@ const GameBoard = () => {
 		const columnRight = sumArray(columnRightCells);
 		const corners = sumArray(cornersCells);
 		const unused = sumArray(unusedCells);
-		setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused })
+		setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
+		if(rowTop === target && rowBottom === target && columnLeft === target && columnRight === target && corners === target && unused === 0) {
+			setShowWinnerModal(true);
+		}
 	};
 
 	const onDragEnd = (result, cells, setCells, checkPuzzle) => {
@@ -197,7 +203,9 @@ const GameBoard = () => {
 	};
 
 	return (
-		<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column', paddingTop: 20 }}>
+		<>
+			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} />
+			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column', paddingTop: 20 }}>
 			<DragDropContext
 				onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
 			>
@@ -281,6 +289,7 @@ const GameBoard = () => {
 				</div>
 			</DragDropContext>
 		</div>
+		</>
 	);
 }
 
