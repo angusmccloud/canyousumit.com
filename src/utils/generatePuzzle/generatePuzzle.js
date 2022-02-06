@@ -1,146 +1,72 @@
 import { v4 as uuid } from 'uuid';
 import shuffleSeed from 'shuffle-seed';
+import { random } from 'lodash';
 const _ = require('lodash');
-
-const initialCells = [
-  {
-    id: '0-0',
-    inGrid: true,
-    items: [],
-    column: 0,
-    row: 0,
-  },
-  {
-    id: '1-0',
-    inGrid: true,
-    items: [],
-    column: 1,
-    row: 0,
-  },
-  {
-    id: '2-0',
-    inGrid: true,
-    items: [],
-    column: 2,
-    row: 0,
-  },
-  {
-    id: '3-0',
-    inGrid: true,
-    items: [],
-    column: 3,
-    row: 0,
-  },
-  {
-    id: '0-1',
-    inGrid: true,
-    items: [],
-    column: 0,
-    row: 1,
-  },
-  {
-    id: '3-1',
-    inGrid: true,
-    items: [],
-    column: 3,
-    row: 1,
-  },
-  {
-    id: '0-2',
-    inGrid: true,
-    items: [],
-    column: 0,
-    row: 2,
-  },
-  {
-    id: '3-2',
-    inGrid: true,
-    items: [],
-    column: 3,
-    row: 2,
-  },
-  {
-    id: '0-3',
-    inGrid: true,
-    items: [],
-    column: 0,
-    row: 3,
-  },
-  {
-    id: '1-3',
-    inGrid: true,
-    items: [],
-    column: 1,
-    row: 3,
-  },
-  {
-    id: '2-3',
-    inGrid: true,
-    items: [],
-    column: 2,
-    row: 3,
-  },
-  {
-    id: '3-3',
-    inGrid: true,
-    items: [],
-    column: 3,
-    row: 3,
-  },
-  {
-    id: 'unassigned',
-    inGrid: false,
-    items: [],
-    column: undefined,
-    row: undefined,
-  }
-];
 
 const generatePuzzle = (gridSize) => {
 	const generateCorner = (possibleNumbers, seed, cornerNumber) => {
 		return shuffleSeed.shuffle(possibleNumbers, seed + `corner${cornerNumber}`)[0]
 	}
 
-	const generateSide = (seed, sideNumber, target, cornerOne, cornerTwo, gridSize) => {
-		const numNeeded = gridSize - 2;
-		const sumNeeded = target - cornerOne - cornerTwo;
-		const possibilities = _.range(1, sumNeeded + 2 - numNeeded);
-		// console.log('-- numNeeded, sumNeeded, possibilities --', numNeeded, sumNeeded, possibilities);
-		const randomPossibilities = shuffleSeed.shuffle(possibilities, seed + `side${sideNumber}`);
-		const numOne = randomPossibilities[0];
-		const numTwo = sumNeeded - numOne;
-		return [numOne, numTwo];
+	const generateSide = (seed, sideNumber, target, cornerOne, cornerTwo, numNeeded, allNumbers) => {
+		// console.log('-- Generate a side... --', sideNumber, target, cornerOne, cornerTwo, numNeeded);
+		let numLeft = numNeeded;
+		let totalThisRow = 0;
+		while (numLeft >= 2) {
+			/// DO SOME SHIT
+			const sumNeeded = target - cornerOne - cornerTwo - totalThisRow; // And those numbers add up to this
+			// Trying to avoid too many 1s and 2s, since they make it too easy
+			let count1 = allNumbers.filter((n) => n === 1).length;
+			let count2 = allNumbers.filter((n) => n === 2).length;
+			const min = count1 === 0 ? 1 : count2 === 0 ? 2 : 3;
+			const max = sumNeeded + 3 - min - numLeft - count1 - (count2 * 2);
+			const possibilities = _.range(min, max);
+			// console.log('-- count1, count2, min, max, numNeeded, sumNeeded, possibilities --', count1, count2, min, max, numNeeded, sumNeeded, possibilities);
+			const randomPossibilities = shuffleSeed.shuffle(possibilities, seed + `-side${sideNumber.toString()}-size${gridSize.toString()}-totalThisRow${totalThisRow.toString()}`);
+			for(let i = 0; i < randomPossibilities.length; i++) {
+				const num = randomPossibilities[i];
+				const checkNum = allNumbers.filter((n) => n === num);
+				const wouldBeLeft = target - num - cornerOne - cornerTwo - totalThisRow;
+				const wouldLeaveIssue = numLeft === 2 && allNumbers.filter((n) => n === wouldBeLeft).length >= 2;
+				if((checkNum.length < 2 && !wouldLeaveIssue ) || i === randomPossibilities.length - 1) {
+					allNumbers.push(num);
+					totalThisRow += num;
+					// console.log('-- Got a Num! --', num);
+					break;
+				}
+			}
+
+			numLeft--;
+		};
+		// console.log('-- And push one more... --', (target - cornerOne - cornerTwo - totalThisRow));
+		allNumbers.push(target - cornerOne - cornerTwo - totalThisRow);
+		return allNumbers;
 	}
 
 	console.log('-- Let\'s generate a puzzle! --');
 	const possibleNumbers = _.range(1, gridSize * (gridSize) + 1);
-	// console.log("-- possibleNumbers --", possibleNumbers);
 	// Build the base Seed (date)
 	const today = new Date();
 	const year = today.getFullYear();
 	const month = today.getMonth();
 	const date = today.getDate();
 	const seed = year.toString() + (month < 9 ? '0' : '') + (month + 1).toString() + (date < 10 ? '0' : '') + date.toString();
-	// console.log("-- seed --", seed);
-	const corners = [];
+
+	// Variable that will hold all the numbers
 	let numbers = [];
-	// Generate the corners
-	corners.push(generateCorner(possibleNumbers, seed, 1));
-	corners.push(generateCorner(possibleNumbers, seed, 2));
-	corners.push(generateCorner(possibleNumbers, seed, 3));
-	corners.push(generateCorner(possibleNumbers, seed, 4));
-	// console.log('-- Corners --', corners);
-	// Sum all items in Corners into puzzleTarget
-	const puzzleTarget = corners.reduce((a, b) => a + b);
-	// console.log('-- Puzzle Target', puzzleTarget);
+
+	// Generate a target between gridSize-squared and gridSize-cubed
+	const possibleSums = _.range(gridSize * gridSize, gridSize * gridSize * gridSize);
+	const puzzleTarget = shuffleSeed.shuffle(possibleSums, seed + `-target`)[0];
+	// Generate the corners, knowing what the target is
+	const corners = generateSide(seed, 0, puzzleTarget, 0, 0, gridSize, numbers);
 	numbers = [...corners];
-	// console.log('-- Only Corners --', numbers);
+
 	// Generate the 4 sides (between corners)
-	const sideOne = generateSide(seed, 1, puzzleTarget, corners[0], corners[1], gridSize);
-	const sideTwo = generateSide(seed, 2, puzzleTarget, corners[0], corners[2], gridSize);
-	const sideThree = generateSide(seed, 3, puzzleTarget, corners[1], corners[3], gridSize);
-	const sideFour = generateSide(seed, 4, puzzleTarget, corners[2], corners[3], gridSize);
-	numbers = [...numbers, ...sideOne, ...sideTwo, ...sideThree, ...sideFour];
+	numbers = generateSide(seed, 1, puzzleTarget, corners[0], corners[1], gridSize - 2, numbers);
+	numbers = generateSide(seed, 2, puzzleTarget, corners[0], corners[2], gridSize - 2, numbers);
+	numbers = generateSide(seed, 3, puzzleTarget, corners[1], corners[3], gridSize - 2, numbers);
+	numbers = generateSide(seed, 4, puzzleTarget, corners[2], corners[3], gridSize - 2, numbers);
 	const puzzleNumbers = numbers.map((num, index) => {
 		return {
 			id: uuid(),
