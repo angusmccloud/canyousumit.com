@@ -1,25 +1,21 @@
 import { v4 as uuid } from 'uuid';
 import shuffleSeed from 'shuffle-seed';
-import { random } from 'lodash';
 const _ = require('lodash');
 
 const generatePuzzle = (gridSize) => {
-	const generateCorner = (possibleNumbers, seed, cornerNumber) => {
-		return shuffleSeed.shuffle(possibleNumbers, seed + `corner${cornerNumber}`)[0]
-	}
-
 	const generateSide = (seed, sideNumber, target, cornerOne, cornerTwo, numNeeded, allNumbers) => {
 		// console.log('-- Generate a side... --', sideNumber, target, cornerOne, cornerTwo, numNeeded);
 		let numLeft = numNeeded;
 		let totalThisRow = 0;
 		while (numLeft >= 2) {
-			/// DO SOME SHIT
 			const sumNeeded = target - cornerOne - cornerTwo - totalThisRow; // And those numbers add up to this
+			// console.log('-- sumNeeded --', sumNeeded);
 			// Trying to avoid too many 1s and 2s, since they make it too easy
 			let count1 = allNumbers.filter((n) => n === 1).length;
 			let count2 = allNumbers.filter((n) => n === 2).length;
 			const min = count1 === 0 ? 1 : count2 === 0 ? 2 : 3;
-			const max = sumNeeded + 3 - min - numLeft - count1 - (count2 * 2);
+			let max = sumNeeded + 3 - min - numLeft - count1 - (count2 * 2);
+			max = max >= (target / 1.5) ? Math.round(max / 1.5) : max;
 			const possibilities = _.range(min, max);
 			// console.log('-- count1, count2, min, max, numNeeded, sumNeeded, possibilities --', count1, count2, min, max, numNeeded, sumNeeded, possibilities);
 			const randomPossibilities = shuffleSeed.shuffle(possibilities, seed + `-side${sideNumber.toString()}-size${gridSize.toString()}-totalThisRow${totalThisRow.toString()}`);
@@ -27,7 +23,7 @@ const generatePuzzle = (gridSize) => {
 				const num = randomPossibilities[i];
 				const checkNum = allNumbers.filter((n) => n === num);
 				const wouldBeLeft = target - num - cornerOne - cornerTwo - totalThisRow;
-				const wouldLeaveIssue = numLeft === 2 && allNumbers.filter((n) => n === wouldBeLeft).length >= 2;
+				const wouldLeaveIssue = wouldBeLeft < numLeft || (numLeft === 2 && allNumbers.filter((n) => n === wouldBeLeft).length >= 2);
 				if((checkNum.length < 2 && !wouldLeaveIssue ) || i === randomPossibilities.length - 1) {
 					allNumbers.push(num);
 					totalThisRow += num;
@@ -43,8 +39,7 @@ const generatePuzzle = (gridSize) => {
 		return allNumbers;
 	}
 
-	console.log('-- Let\'s generate a puzzle! --');
-	const possibleNumbers = _.range(1, gridSize * (gridSize) + 1);
+	// console.log('-- Let\'s generate a puzzle! --');
 	// Build the base Seed (date)
 	const today = new Date();
 	const year = today.getFullYear();
@@ -56,10 +51,12 @@ const generatePuzzle = (gridSize) => {
 	let numbers = [];
 
 	// Generate a target between gridSize-squared and gridSize-cubed
-	const possibleSums = _.range(gridSize * gridSize, gridSize * gridSize * gridSize);
-	const puzzleTarget = shuffleSeed.shuffle(possibleSums, seed + `-target`)[0];
+	const possibleTargets = _.range(gridSize * gridSize, gridSize * gridSize * gridSize);
+	// console.log('-- possibleTargets --', possibleTargets);
+	const puzzleTarget = shuffleSeed.shuffle(possibleTargets, seed + `-target`)[0];
 	// Generate the corners, knowing what the target is
-	const corners = generateSide(seed, 0, puzzleTarget, 0, 0, gridSize, numbers);
+	const corners = generateSide(seed, 0, puzzleTarget, 0, 0, 4, numbers);
+	// console.log('-- corners --', corners);
 	numbers = [...corners];
 
 	// Generate the 4 sides (between corners)
@@ -102,6 +99,9 @@ const generatePuzzle = (gridSize) => {
 			}
 		}
 	};
+
+	// console.log('-- puzzleTarget --', puzzleTarget);
+	// console.log('-- puzzleNumbers --', puzzleNumbers);
 	// console.log('-- puzzleCells --', puzzleCells);
 	
 	return({

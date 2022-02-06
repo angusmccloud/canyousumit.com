@@ -113,7 +113,7 @@ const GameBoard = () => {
 
 	useEffect(() => {
 		// Go load the puzzle input
-		const puzzleInput = generatePuzzle(4);
+		const puzzleInput = generatePuzzle(gridSize);
 		const { puzzleTarget, puzzleNumbers, puzzleCells } = puzzleInput;
 		// Then with puzzle input, set the cells
 
@@ -237,7 +237,7 @@ const GameBoard = () => {
 					</div>
 					{/* Bottom Row */}
 					<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-						{cells.filter(c => c.inGrid && c.row === 3).map((cell) => {
+						{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
 							return DroppableCell(cell, squareSize);
 						})}
 					</div>
