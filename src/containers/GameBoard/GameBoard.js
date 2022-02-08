@@ -109,7 +109,7 @@ const GameBoard = () => {
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
 	// const [gridSize, setGridSize] = useState(4); // For future use...
-	const gridSize = 3;
+	const gridSize = 4;
 	// const [squareSize, setSquareSize] = useState(75); // For future use...
 	const squareSize = 75;
 
