@@ -3,8 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { DroppableCell } from '../../components';
 import { Typography, CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
-import { generatePuzzle } from '../../utils';
-import { InfoRounded } from "@mui/icons-material";
+import { generatePuzzle, dateInfo } from '../../utils';
 
 // Need to replace this initialCells with a function based on gridSize below
 const initialCells = [
@@ -108,6 +107,7 @@ const GameBoard = () => {
 	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
+	const dtInfo = dateInfo();
 	// const [gridSize, setGridSize] = useState(4); // For future use...
 	const gridSize = 4;
 	// const [squareSize, setSquareSize] = useState(75); // For future use...
@@ -138,7 +138,7 @@ const GameBoard = () => {
 		setCells(newCells);
 		setPuzzleNumbers(puzzleNumbers);
 		setTarget(puzzleTarget);
-		checkPuzzle(newCells);
+		// checkPuzzle(newCells);
 	}, []);
 
 	const checkPuzzle = (checkCells) => {

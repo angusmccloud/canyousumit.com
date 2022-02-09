@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import shuffleSeed from 'shuffle-seed';
+import {dateInfo} from '../index';
 const _ = require('lodash');
 
 const generatePuzzle = (gridSize) => {
@@ -40,12 +41,8 @@ const generatePuzzle = (gridSize) => {
 	}
 
 	// console.log('-- Let\'s generate a puzzle! --');
-	// Build the base Seed (date)
-	const today = new Date();
-	const year = today.getFullYear();
-	const month = today.getMonth();
-	const date = today.getDate();
-	const seed = year.toString() + (month < 9 ? '0' : '') + (month + 1).toString() + (date < 10 ? '0' : '') + date.toString();
+	const dtInfo = dateInfo();
+	const { seed } = dtInfo;
 
 	// Variable that will hold all the numbers
 	let numbers = [];
