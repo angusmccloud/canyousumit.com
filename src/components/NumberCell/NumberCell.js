@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-
+import { colors } from '../../consts';
 
 const NumberCell = (provided, snapshot, squareSize, item) => {
   return (
@@ -17,9 +17,9 @@ const NumberCell = (provided, snapshot, squareSize, item) => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: snapshot.isDragging
-          ? "#263B4A"
-          : "#456C86",
-        color: "white",
+          ? colors.darkBlue
+          : colors.primaryBlue,
+        color: colors.white,
         ...provided.draggableProps.style
       }}
     >

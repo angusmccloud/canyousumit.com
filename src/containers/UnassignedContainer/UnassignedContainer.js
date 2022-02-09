@@ -1,6 +1,7 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
+import { colors } from '../../consts';
 
 const UnassignedContainer = (cell, squareSize, gridSize) => {
   return (
@@ -13,12 +14,12 @@ const UnassignedContainer = (cell, squareSize, gridSize) => {
               ref={provided.innerRef}
               style={{
                 background: snapshot.isDraggingOver
-                  ? "lightblue"
+                  ? colors.lightBlue
                   : "none",
                 borderRadius: squareSize * .2,
                 outline: snapshot.isDraggingOver 
-									? '2px solid darkblue'
-									: '2px solid darkgray',
+                  ? `2px solid ${colors.darkBlue}`
+                  : `2px solid ${colors.primaryBlue}`,
                 width: squareSize * (gridSize + 1),
                 minHeight: squareSize * 3,
                 display: 'flex',

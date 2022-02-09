@@ -1,8 +1,6 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { Typography } from "@mui/material";
 import { NumberCell } from '../index';
-
 
 const DraggableCell = (item, index, squareSize, addPadding, locked) => {
   return (
