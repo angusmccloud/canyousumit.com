@@ -16,12 +16,14 @@ const UnassignedContainer = (cell, squareSize, gridSize) => {
                 background: snapshot.isDraggingOver
                   ? colors.lightBlue
                   : "none",
+                width: (squareSize * (gridSize + 1)) - 4,
+                minHeight: (squareSize * 3) - 4,
                 borderRadius: squareSize * .2,
-                outline: snapshot.isDraggingOver 
-                  ? `2px solid ${colors.darkBlue}`
-                  : `2px solid ${colors.primaryBlue}`,
-                width: squareSize * (gridSize + 1),
-                minHeight: squareSize * 3,
+                borderWidth: 2,
+                border: 'solid',
+                borderColor: snapshot.isDraggingOver
+                  ? colors.darkBlue
+                  : colors.primaryBlue,
                 display: 'flex',
                 flexDirection: 'row',
                 alignItems: "flex-start",
