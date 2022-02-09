@@ -107,6 +107,7 @@ const GameBoard = () => {
 	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
+	const [won, setWon] = useState(false);
 	const lockCorner = true;
 	// const [lockCorner, setLockCornet] = useState(true); // For future use...
 	// const [gridSize, setGridSize] = useState(4); // For future use...
@@ -119,7 +120,7 @@ const GameBoard = () => {
 			return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;		
 		}
 		const dtInfo = dateInfo();
-		const boardStatus = JSON.parse(localStorage.getItem('cells'));
+		const boardStatus = JSON.parse(localStorage.getItem('gameStatus'));
 		console.log('-- Reloading Page, Status --', boardStatus);
 		// Go load the puzzle input
 		const puzzleInput = generatePuzzle(gridSize);
@@ -128,7 +129,7 @@ const GameBoard = () => {
 
 		let { puzzleNumbers } = puzzleInput;
 		let newCells = [];
-		if(boardStatus !== undefined && compareDateObjects(boardStatus.date, dtInfo.today)) {
+		if(boardStatus !== undefined && boardStatus.moves > 0 && boardStatus.numbers.length > 0 && compareDateObjects(boardStatus.date, dtInfo.today)) {
 			console.log('-- Have a Board Status --', boardStatus.cells);
 			newCells = boardStatus.cells;
 			puzzleNumbers = boardStatus.numbers;
@@ -156,12 +157,13 @@ const GameBoard = () => {
 		setCells(newCells);
 		setNumbers(puzzleNumbers);
 		setTarget(puzzleTarget);
-		// checkPuzzle(newCells);
+		// TO-DO Need to update stats (show they started the day)
 	}, []);
 
 	useEffect (() => {
 		const dtInfo = dateInfo();
-		localStorage.setItem('cells', JSON.stringify({date: dtInfo.today, cells, numbers, moves}));
+		localStorage.setItem('gameStatus', JSON.stringify({date: dtInfo.today, cells, numbers, moves, won}));
+		// TO-DO Need to update stats (# of moves for grid size, or something...)
 	}, [cells, numbers])
 
 	const checkPuzzle = (checkCells) => {
@@ -191,6 +193,10 @@ const GameBoard = () => {
 		setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
 		if(rowTop === target && rowBottom === target && columnLeft === target && columnRight === target && corners === target && unused === 0) {
 			setShowWinnerModal(true);
+			setWon(true);
+			// TO-DO Need to update stats
+			const dtInfo = dateInfo();
+			localStorage.setItem('gameStatus', JSON.stringify({date: dtInfo.today, cells, numbers, moves, won: true}));
 		}
 	};
 
@@ -225,7 +231,8 @@ const GameBoard = () => {
 			setCells(newCells);
 			checkPuzzle(newCells);
 			setMoves(moves + 1);
-		}
+		} 
+		// TO-DO: Let the use rearrange the ones in the unassigned bucket
 	};
 
 	return (
