@@ -103,45 +103,68 @@ const initialCells = [
 const GameBoard = () => {
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
 	const [cells, setCells] = useState(initialCells);
-	const [puzzleNumbers, setPuzzleNumbers] = useState([]);
+	const [numbers, setNumbers] = useState([]);
 	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
-	const dtInfo = dateInfo();
+	const lockCorner = true;
+	// const [lockCorner, setLockCornet] = useState(true); // For future use...
 	// const [gridSize, setGridSize] = useState(4); // For future use...
 	const gridSize = 4;
 	// const [squareSize, setSquareSize] = useState(75); // For future use...
 	const squareSize = 75;
 
 	useEffect(() => {
+		const compareDateObjects = ( date1, date2 ) => {
+			return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;		
+		}
+		const dtInfo = dateInfo();
+		const boardStatus = JSON.parse(localStorage.getItem('cells'));
+		// console.log('-- Reloading Page, Status --', boardStatus);
 		// Go load the puzzle input
 		const puzzleInput = generatePuzzle(gridSize);
-		const { puzzleTarget, puzzleNumbers, puzzleCells } = puzzleInput;
+		const { puzzleTarget, puzzleCells } = puzzleInput;
 		// Then with puzzle input, set the cells
 
-		// ...Why am I not doing this in Generate Puzzle?!
-		const newCells = puzzleCells.map((cell) => {
-			if (cell.inGrid) {
-				const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
-				return {
-					...cell,
-					items
-				};
-			} else {
-				const items = puzzleNumbers.filter((item) => item.column === undefined && item.row === undefined);
-				return {
-					...cell,
-					items
-				};
-			}
-		});
+		let { puzzleNumbers } = puzzleInput;
+		let newCells = [];
+		if(boardStatus !== undefined && compareDateObjects(boardStatus.date, dtInfo.today)) {
+			console.log('-- Have a Board Status --', boardStatus.cells);
+			newCells = boardStatus.cells;
+			puzzleNumbers = boardStatus.numbers;
+		} else {
+			console.log('-- Don\'t have a Board Status for today, set a blank one! --');
+			newCells = puzzleCells.map((cell) => {
+				if (cell.inGrid) {
+					const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
+					return {
+						...cell,
+						items
+					};
+				} else {
+					const items = puzzleNumbers.filter((item) => item.column === undefined && item.row === undefined);
+					return {
+						...cell,
+						items
+					};
+				}
+			});
+		}
+
+		// console.log('-- set New Cells --', newCells);
 		setCells(newCells);
-		setPuzzleNumbers(puzzleNumbers);
+		setNumbers(puzzleNumbers);
 		setTarget(puzzleTarget);
 		// checkPuzzle(newCells);
 	}, []);
 
+	useEffect (() => {
+		const dtInfo = dateInfo();
+		localStorage.setItem('cells', JSON.stringify({date: dtInfo.today, cells, numbers}));
+	}, [cells, numbers])
+
 	const checkPuzzle = (checkCells) => {
+		// console.log('-- checkPuzzle --', checkCells);
 		const sumArray = (array) => {
 			let val = 0;
 			for (let i = 0; i < array.length; i++) {
@@ -179,11 +202,12 @@ const GameBoard = () => {
 		// console.log('-- Draggable Id --', draggableId);
 
 		if (source.droppableId !== destination.droppableId) {
+			// console.log('-- numbers --', numbers);
 			const newCells = [...cells];
 			const sourceCell = newCells.find(cell => cell.id === source.droppableId);
 			const destinationCell = newCells.find(cell => cell.id === destination.droppableId);
 			const unassignedCell = newCells.find(cell => cell.id === 'unassigned');
-			const movedItem = puzzleNumbers.find(item => item.id === draggableId);
+			const movedItem = numbers.find(item => item.id === draggableId);
 			// If destination has an item, move it to unassigned
 			if (destinationCell.items.length > 0 && destinationCell !== unassignedCell) {
 				unassignedCell.items.push(destinationCell.items[0]);
@@ -196,6 +220,7 @@ const GameBoard = () => {
 			// Sort Unassigned Cell Items
 			unassignedCell.items.sort((a, b) => a.value - b.value);
 			// Update cells
+
 			setCells(newCells);
 			checkPuzzle(newCells);
 			setMoves(moves + 1);
@@ -213,7 +238,7 @@ const GameBoard = () => {
 					{/* Top Row */}
 					<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
 						{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
-							return DroppableCell(cell, squareSize);
+							return DroppableCell(cell, squareSize, lockCorner);
 						})}
 					</div>
 					{/* Middle Container */}
@@ -221,7 +246,7 @@ const GameBoard = () => {
 						{/* Left Column */}
 						<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
 							{cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
-								return DroppableCell(cell, squareSize);
+								return DroppableCell(cell, squareSize, lockCorner);
 							})}
 						</div>
 						{/* Center Square */}
@@ -239,14 +264,14 @@ const GameBoard = () => {
 						{/* Right Column */}
 						<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
 							{cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
-								return DroppableCell(cell, squareSize);
+								return DroppableCell(cell, squareSize, lockCorner);
 							})}
 						</div>
 					</div>
 					{/* Bottom Row */}
 					<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
 						{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
-							return DroppableCell(cell, squareSize);
+							return DroppableCell(cell, squareSize, lockCorner);
 						})}
 					</div>
 					{/* Moves and Best */}
