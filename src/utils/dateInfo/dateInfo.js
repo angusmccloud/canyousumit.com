@@ -17,7 +17,7 @@ const dateInfo = () => {
         yesterday: yesterdayDt,
     }
 
-    // console.log('-- Date Result --', result);
+    console.log('-- Date Result --', result);
     return result;
 }
 

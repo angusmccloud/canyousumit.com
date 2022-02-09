@@ -120,7 +120,7 @@ const GameBoard = () => {
 		}
 		const dtInfo = dateInfo();
 		const boardStatus = JSON.parse(localStorage.getItem('cells'));
-		// console.log('-- Reloading Page, Status --', boardStatus);
+		console.log('-- Reloading Page, Status --', boardStatus);
 		// Go load the puzzle input
 		const puzzleInput = generatePuzzle(gridSize);
 		const { puzzleTarget, puzzleCells } = puzzleInput;
@@ -132,6 +132,7 @@ const GameBoard = () => {
 			console.log('-- Have a Board Status --', boardStatus.cells);
 			newCells = boardStatus.cells;
 			puzzleNumbers = boardStatus.numbers;
+			setMoves(boardStatus.moves);
 		} else {
 			console.log('-- Don\'t have a Board Status for today, set a blank one! --');
 			newCells = puzzleCells.map((cell) => {
@@ -160,7 +161,7 @@ const GameBoard = () => {
 
 	useEffect (() => {
 		const dtInfo = dateInfo();
-		localStorage.setItem('cells', JSON.stringify({date: dtInfo.today, cells, numbers}));
+		localStorage.setItem('cells', JSON.stringify({date: dtInfo.today, cells, numbers, moves}));
 	}, [cells, numbers])
 
 	const checkPuzzle = (checkCells) => {

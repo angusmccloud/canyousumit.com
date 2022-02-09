@@ -3,8 +3,6 @@ import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
 
 const DroppableCell = (cell, squareSize, lockCorner) => {
-	console.log('-- cell --', cell, lockCorner)
-
 	return (
 		<div
 			style={{
