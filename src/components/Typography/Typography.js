@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography as MuiTypography } from "@mui/material";
-import { colors } from "../../consts";
+import { colorPalette } from "../../consts";
 
 const sizeConversion = {
   XXS: 8,
@@ -24,6 +24,7 @@ const weightConversion = {
 const defaultWeight = 'regular';
 
 const Typography = (props) => {
+  const colors = colorPalette();
   const { size, color, weight, children, ...rest } = props;
   let textColor = color || colors.black;
   let textSize = sizeConversion[size || defaultSize];

@@ -1,7 +1,7 @@
 import styles from './styles/styles';
-import colors from './colors/colors';
+import colorPalette from './colorPalette/colorPalette';
 
 export {
     styles,
-    colors,
+    colorPalette,
 };

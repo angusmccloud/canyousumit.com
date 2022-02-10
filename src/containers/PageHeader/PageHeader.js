@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import { SettingsOutlined, InfoOutlined, BarChart } from '@mui/icons-material';
 import { InfoModal, StatsModal, SettingsModal } from '../../containers';
-import { colors } from '../../consts';
+import { colorPalette } from '../../consts';
 import fullNameLogo from '../../assets/images/fullNameLogo.png';
 
 const PageHeader = (props) => {
+	const colors = colorPalette();
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [showStatsModal, setShowStatsModal] = useState(false);
 	const [showSettingsModal, setShowSettingsModal] = useState(false);

@@ -1,9 +1,10 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
-import { colors } from '../../consts';
+import { colorPalette } from '../../consts';
 
 const UnassignedContainer = (cell, squareSize, gridSize) => {
+  const colors = colorPalette();
   return (
     <div key={cell.id}>
       <Droppable droppableId={cell.id} key={cell.id}>

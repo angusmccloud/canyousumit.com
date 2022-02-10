@@ -4,11 +4,12 @@ import Modal from '@mui/material/Modal';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { styles, colors } from '../../consts';
+import { styles, colorPalette } from '../../consts';
 import { Typography } from '../../components';
 import { getSettings, setSettings } from '../../utils';
 
 const SettingsModal = (props) => {
+  const colors = colorPalette();
   const [settings, setSettingsState] = useState(getSettings());
 
   const handleSettingChange = (event) => {
@@ -40,7 +41,7 @@ const SettingsModal = (props) => {
             Settings
           </Typography>
           <FormGroup>
-            <FormControlLabel control={<Switch style={{color: colors.primaryBlue}} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode" />
+            <FormControlLabel control={<Switch style={{color: colors.primaryBlue}} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode - Mode Coming Soon" />
             <FormControlLabel control={<Switch style={{color: colors.primaryBlue}} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier) - Control Coming Soon" />
             <FormControlLabel control={<Switch style={{color: colors.primaryBlue}} checked={settings.showSums} onChange={handleSettingChange} name='showSums' />} label="Show Sums (Easier) - Control Coming Soon" />
           </FormGroup>

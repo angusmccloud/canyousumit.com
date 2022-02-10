@@ -3,9 +3,10 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { styles } from '../../consts';
 import { Typography } from '../../components';
-import { colors } from '../../consts';
+import { colorPalette } from '../../consts';
 
 const WinnerModal = (props) => {
+  const colors = colorPalette();
 	const handleClose = () => {
 		console.log('-- Close --');
 		props.showModal(false);

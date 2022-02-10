@@ -5,7 +5,7 @@ import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
 import { generatePuzzle, dateInfo } from '../../utils';
 import { Typography } from '../../components';
-import { colors } from '../../consts';
+import { colorPalette } from '../../consts';
 
 // Need to replace this initialCells with a function based on gridSize below
 const initialCells = [
@@ -103,6 +103,7 @@ const initialCells = [
 ];
 
 const GameBoard = () => {
+	const colors = colorPalette();
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
 	const [cells, setCells] = useState(initialCells);
 	const [numbers, setNumbers] = useState([]);

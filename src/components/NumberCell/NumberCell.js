@@ -1,9 +1,10 @@
 import React from "react";
 import { Typography } from '../../components';
-import { colors } from '../../consts';
+import { colorPalette } from '../../consts';
 import LockIcon from '@mui/icons-material/Lock';
 
 const NumberCell = (provided, snapshot, squareSize, item, locked) => {
+  const colors = colorPalette();
   return (
     <div
       ref={provided.innerRef}
