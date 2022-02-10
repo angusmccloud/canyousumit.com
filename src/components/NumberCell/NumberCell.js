@@ -1,8 +1,9 @@
 import React from "react";
 import { Typography } from '../../components';
 import { colors } from '../../consts';
+import LockIcon from '@mui/icons-material/Lock';
 
-const NumberCell = (provided, snapshot, squareSize, item) => {
+const NumberCell = (provided, snapshot, squareSize, item, locked) => {
   return (
     <div
       ref={provided.innerRef}
@@ -10,6 +11,7 @@ const NumberCell = (provided, snapshot, squareSize, item) => {
       {...provided.dragHandleProps}
       style={{
         userSelect: "none",
+        position: 'relative',
         height: squareSize,
         width: squareSize,
         borderRadius: squareSize * .2,
@@ -26,6 +28,16 @@ const NumberCell = (provided, snapshot, squareSize, item) => {
       <Typography size='XXL' component="div" weight='medium' color={colors.white}>
         {item.value.toString()}
       </Typography>
+      {locked &&
+        <LockIcon style={{
+          color: colors.white,
+          fontSize: squareSize * .2,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          padding: squareSize * .05
+        }} />
+      }
     </div>
   );
 }

@@ -27,7 +27,7 @@ const PageHeader = (props) => {
 						edge="start"
 						aria-label="Info"
 						onClick={() => setShowInfoModal(true)}
-						style={{color: colors.primaryBlue}}
+						style={{color: colors.darkBlue}}
 					>
 						<InfoOutlined />
 					</IconButton>
@@ -39,7 +39,7 @@ const PageHeader = (props) => {
 							edge="start"
 							aria-label="Stats"
 							onClick={() => setShowStatsModal(true)}
-							style={{color: colors.primaryBlue}}
+							style={{color: colors.darkBlue}}
 						>
 							<BarChart />
 						</IconButton>
@@ -48,7 +48,7 @@ const PageHeader = (props) => {
 							edge="end"
 							aria-label="Settings"
 							onClick={() => setShowSettingsModal(true)}
-							style={{color: colors.primaryBlue}}
+							style={{color: colors.darkBlue}}
 						>
 							<SettingsOutlined />
 						</IconButton>

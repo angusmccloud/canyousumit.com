@@ -11,7 +11,7 @@ const sizeConversion = {
   XL: 18,
   XXL: 22,
   XXXL: 26,
-  Jumbo: 38,
+  Jumbo: 80,
 };
 const defaultSize = 'L';
 

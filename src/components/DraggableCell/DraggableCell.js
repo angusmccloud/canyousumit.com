@@ -12,7 +12,7 @@ const DraggableCell = (item, index, squareSize, addPadding, locked) => {
         isDragDisabled={locked}
       >
         {(provided, snapshot) => {
-          return NumberCell(provided, snapshot, squareSize, item);
+          return NumberCell(provided, snapshot, squareSize, item, locked);
         }}
       </Draggable>
     </div>
