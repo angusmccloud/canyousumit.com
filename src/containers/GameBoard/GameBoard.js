@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { DroppableCell } from '../../components';
-import { Typography, CircularProgress } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
 import { generatePuzzle, dateInfo } from '../../utils';
+import { Typography } from '../../components';
+import { colors } from '../../consts';
 
 // Need to replace this initialCells with a function based on gridSize below
 const initialCells = [
@@ -263,7 +265,7 @@ const GameBoard = () => {
 								<CircularProgress />
 							) : (
 								<>
-									<Typography variant="h1" component="div">
+									<Typography size='Jumbo' color={colors.darkBlue} component="div">
 										{target.toString()}
 									</Typography>
 								</>
@@ -285,10 +287,10 @@ const GameBoard = () => {
 					{/* Moves and Best */}
 					{target !== 0 && (
 						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 15, paddingBottom: 15 }}>
-							<Typography variant="subtitle1" component="div">
+							<Typography size='XL' color={colors.darkBlue} component="div">
 								Moves: {moves}
 							</Typography>
-							<Typography variant="subtitle1" component="div">
+							<Typography size='XL' color={colors.darkBlue} component="div">
 								Best: 21
 							</Typography>
 						</div>

@@ -1,8 +1,9 @@
 import React from "react";
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { styles } from '../../consts';
+import { Typography } from '../../components';
+import { colors } from '../../consts';
 
 const WinnerModal = (props) => {
 	const handleClose = () => {
@@ -18,10 +19,10 @@ const WinnerModal = (props) => {
         aria-describedby="You Won SumIt!"
       >
         <Box sx={styles.modalWrapper}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            YOU WON!
+          <Typography size='XXL' weight='bold' color={colors.darkBlue} component="div">
+            You Won!
           </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <Typography size='L' color={colors.darkBlue} component="div">
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
           </Typography>
         </Box>

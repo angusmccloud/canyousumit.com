@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@mui/material";
+import { Typography } from '../../components';
 import { colors } from '../../consts';
 
 const NumberCell = (provided, snapshot, squareSize, item) => {
@@ -23,7 +23,7 @@ const NumberCell = (provided, snapshot, squareSize, item) => {
         ...provided.draggableProps.style
       }}
     >
-      <Typography variant="h5" component="div">
+      <Typography size='XXL' component="div" weight='medium' color={colors.white}>
         {item.value.toString()}
       </Typography>
     </div>
