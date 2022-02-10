@@ -119,8 +119,8 @@ const GameBoard = () => {
 	const squareSize = 75;
 
 	useEffect(() => {
-		const compareDateObjects = ( date1, date2 ) => {
-			return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;		
+		const compareDateObjects = (date1, date2) => {
+			return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
 		}
 		const dtInfo = dateInfo();
 		const boardStatus = JSON.parse(localStorage.getItem('gameStatus'));
@@ -132,7 +132,7 @@ const GameBoard = () => {
 
 		let { puzzleNumbers } = puzzleInput;
 		let newCells = [];
-		if(boardStatus !== undefined && boardStatus.moves > 0 && boardStatus.numbers.length > 0 && compareDateObjects(boardStatus.date, dtInfo.today)) {
+		if (boardStatus !== undefined && boardStatus.moves > 0 && boardStatus.numbers.length > 0 && compareDateObjects(boardStatus.date, dtInfo.today)) {
 			console.log('-- Have a Board Status --', boardStatus.cells);
 			newCells = boardStatus.cells;
 			puzzleNumbers = boardStatus.numbers;
@@ -163,9 +163,9 @@ const GameBoard = () => {
 		// TO-DO Need to update stats (show they started the day)
 	}, []);
 
-	useEffect (() => {
+	useEffect(() => {
 		const dtInfo = dateInfo();
-		localStorage.setItem('gameStatus', JSON.stringify({date: dtInfo.today, cells, numbers, moves, won}));
+		localStorage.setItem('gameStatus', JSON.stringify({ date: dtInfo.today, cells, numbers, moves, won }));
 		// TO-DO Need to update stats (# of moves for grid size, or something...)
 	}, [cells, numbers])
 
@@ -194,12 +194,12 @@ const GameBoard = () => {
 		const corners = sumArray(cornersCells);
 		const unused = sumArray(unusedCells);
 		setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
-		if(rowTop === target && rowBottom === target && columnLeft === target && columnRight === target && corners === target && unused === 0) {
+		if (rowTop === target && rowBottom === target && columnLeft === target && columnRight === target && corners === target && unused === 0) {
 			setShowWinnerModal(true);
 			setWon(true);
 			// TO-DO Need to update stats
 			const dtInfo = dateInfo();
-			localStorage.setItem('gameStatus', JSON.stringify({date: dtInfo.today, cells, numbers, moves, won: true}));
+			localStorage.setItem('gameStatus', JSON.stringify({ date: dtInfo.today, cells, numbers, moves, won: true }));
 		}
 	};
 
@@ -234,97 +234,97 @@ const GameBoard = () => {
 			setCells(newCells);
 			checkPuzzle(newCells);
 			setMoves(moves + 1);
-		} 
+		}
 		// TO-DO: Let the use rearrange the ones in the unassigned bucket
 	};
 
 	return (
 		<>
 			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} />
-			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column'}}>
-			<DragDropContext
-				onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
-			>
-				<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
-					{/* Top Row */}
-					<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-						{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
-							return DroppableCell(cell, squareSize, lockCorner);
-						})}
-					</div>
-					{/* Middle Container */}
-					<div style={{ display: 'flex', flexDirection: 'row', width: squareSize * (gridSize + 1), height: squareSize * (gridSize - 2) * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-						{/* Left Column */}
-						<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
-							{cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column' }}>
+				<DragDropContext
+					onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
+				>
+					<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
+						{/* Top Row */}
+						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
+							{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
 								return DroppableCell(cell, squareSize, lockCorner);
 							})}
 						</div>
-						{/* Center Square */}
-						<div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-							{target === 0 ? (
-								<CircularProgress />
-							) : (
-								<>
-									<Typography size='Jumbo' color={colors.darkBlue} component="div">
-										{target.toString()}
-									</Typography>
-								</>
-							)}
+						{/* Middle Container */}
+						<div style={{ display: 'flex', flexDirection: 'row', width: squareSize * (gridSize + 1), height: squareSize * (gridSize - 2) * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
+							{/* Left Column */}
+							<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
+								{cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+									return DroppableCell(cell, squareSize, lockCorner);
+								})}
+							</div>
+							{/* Center Square */}
+							<div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+								{target === 0 ? (
+									<CircularProgress />
+								) : (
+									<>
+										<Typography size='Jumbo' color={colors.darkBlue} component="div">
+											{target.toString()}
+										</Typography>
+									</>
+								)}
+							</div>
+							{/* Right Column */}
+							<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
+								{cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+									return DroppableCell(cell, squareSize, lockCorner);
+								})}
+							</div>
 						</div>
-						{/* Right Column */}
-						<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
-							{cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+						{/* Bottom Row */}
+						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
+							{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
 								return DroppableCell(cell, squareSize, lockCorner);
 							})}
 						</div>
-					</div>
-					{/* Bottom Row */}
-					<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-						{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
-							return DroppableCell(cell, squareSize, lockCorner);
-						})}
-					</div>
-					{/* Moves and Best */}
-					{target !== 0 && (
-						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 15, paddingBottom: 15 }}>
-							<Typography size='XL' color={colors.darkBlue} component="div">
-								Moves: {moves}
-							</Typography>
-							<Typography size='XL' color={colors.darkBlue} component="div">
-								Best: 21
-							</Typography>
+						{/* Bottom Container */}
+						<div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+							{target !== 0 &&
+								cells.filter(c => !c.inGrid).map((cell) => {
+									return UnassignedContainer(cell, squareSize, gridSize);
+								})
+							}
 						</div>
-					)}
-					{/* Bottom Container */}
-					<div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
-						{target !== 0 &&
-							cells.filter(c => !c.inGrid).map((cell) => {
-								return UnassignedContainer(cell, squareSize, gridSize);
-							})
-						}
+						{/* Moves and Best */}
+						{target !== 0 && (
+							<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10}}>
+								<Typography size='XL' color={colors.darkBlue} component="div">
+									Moves: {moves}
+								</Typography>
+								<Typography size='XL' color={colors.darkBlue} component="div">
+									Best: 21
+								</Typography>
+							</div>
+						)}
 					</div>
-				</div>
-				<div>
-					rowTop: {puzzleStatus.rowTop}
-				</div>
-				<div>
-					rowBottom: {puzzleStatus.rowBottom}
-				</div>
-				<div>
-					columnLeft: {puzzleStatus.columnLeft}
-				</div>
-				<div>
-					columnRight: {puzzleStatus.columnRight}
-				</div>
-				<div>
-					corners: {puzzleStatus.corners}
-				</div>
-				<div>
-					unused: {puzzleStatus.unused}
-				</div>
-			</DragDropContext>
-		</div>
+					{/* <div>
+						rowTop: {puzzleStatus.rowTop}
+					</div>
+					<div>
+						rowBottom: {puzzleStatus.rowBottom}
+					</div>
+					<div>
+						columnLeft: {puzzleStatus.columnLeft}
+					</div>
+					<div>
+						columnRight: {puzzleStatus.columnRight}
+					</div>
+					<div>
+						corners: {puzzleStatus.corners}
+					</div>
+					<div>
+						unused: {puzzleStatus.unused}
+					</div> */}
+				</DragDropContext>
+			</div>
 		</>
 	);
 }
