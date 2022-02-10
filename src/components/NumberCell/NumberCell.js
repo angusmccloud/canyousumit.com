@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography } from '../../components';
 import { colorPalette } from '../../consts';
-import LockIcon from '@mui/icons-material/Lock';
+import iconWhite from '../../assets/images/iconWhite.png';
 
 const NumberCell = (provided, snapshot, squareSize, item, locked) => {
   const colors = colorPalette();
@@ -30,14 +30,14 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
         {item.value.toString()}
       </Typography>
       {locked &&
-        <LockIcon style={{
-          color: colors.white,
-          fontSize: squareSize * .2,
+        <img src={iconWhite} alt="lock" style={{
+          height: squareSize * .2,
+          width: squareSize * .2,
           position: 'absolute',
           top: 0,
           left: 0,
-          padding: squareSize * .05
-        }} />
+          padding: squareSize * .1
+        }}/>
       }
     </div>
   );
