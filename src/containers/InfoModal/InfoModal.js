@@ -6,7 +6,7 @@ import { Typography } from '../../components';
 import { colorPalette } from '../../consts';
 
 const InfoModal = (props) => {
-  const colors = colorPalette();
+  const colors = colorPalette;
 	const handleClose = () => {
 		console.log('-- Close --');
 		props.showModal(false);

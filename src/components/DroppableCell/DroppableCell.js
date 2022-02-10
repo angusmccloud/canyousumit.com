@@ -3,7 +3,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
 import { colorPalette } from '../../consts';
 
-const DroppableCell = (cell, squareSize, lockCorner) => {
+const DroppableCell = (cell, squareSize, lockCorner, won) => {
 	const colors = colorPalette();
 	return (
 		<div
@@ -14,7 +14,7 @@ const DroppableCell = (cell, squareSize, lockCorner) => {
 			}}
 			key={cell.id}
 		>
-			<Droppable droppableId={cell.id} key={cell.id} isDropDisabled={lockCorner && cell.id === '0-0'}>
+			<Droppable droppableId={cell.id} key={cell.id} isDropDisabled={(lockCorner && cell.id === '0-0') || won}>
 				{(provided, snapshot) => {
 					return (
 						<div
@@ -39,7 +39,7 @@ const DroppableCell = (cell, squareSize, lockCorner) => {
 							}}
 						>
 							{cell.items.map((item, index) => {
-								return DraggableCell(item, index, squareSize, false, lockCorner && cell.id === '0-0');
+								return DraggableCell(item, index, squareSize, false, (lockCorner && cell.id === '0-0') || won);
 							})}
 							{provided.placeholder}
 						</div>
