@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { DroppableCell } from '../../components';
 import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
-import { generatePuzzle, dateInfo, getGameStatus, setGameStatus } from '../../utils';
+import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize } from '../../utils';
 import { Typography } from '../../components';
 import { colorPalette } from '../../consts';
 
@@ -104,17 +104,16 @@ const initialCells = [
 
 const GameBoard = () => {
 	const colors = colorPalette();
+	const gridSize = getGridSize();
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
 	const [cells, setCells] = useState(initialCells);
 	const [numbers, setNumbers] = useState([]);
-	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 })
+	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
 	const lockCorner = true;
 	// const [lockCorner, setLockCornet] = useState(true); // For future use...
-	// const [gridSize, setGridSize] = useState(4); // For future use...
-	const gridSize = 4;
 	// const [squareSize, setSquareSize] = useState(75); // For future use...
 	const squareSize = 75;
 

@@ -5,6 +5,7 @@ import getSettings from './getSettings/getSettings';
 import setSettings from './setSettings/setSettings';
 import getGameStatus from "./getGameStatus/getGameStatus";
 import setGameStatus from "./setGameStatus/setGameStatus";
+import getGridSize from "./getGridSize/getGridSize";
 
 export {
     generatePuzzle,
@@ -14,4 +15,5 @@ export {
     setSettings,
     getGameStatus,
     setGameStatus,
+    getGridSize,
 };

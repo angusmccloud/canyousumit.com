@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import { SettingsOutlined, InfoOutlined, BarChart } from '@mui/icons-material';
 import { InfoModal, StatsModal, SettingsModal } from '../../containers';
 import { colorPalette } from '../../consts';
+import { getGridSize } from '../../utils';
 import fullNameLogo from '../../assets/images/fullNameLogo.png';
 
 const PageHeader = (props) => {
@@ -11,8 +12,8 @@ const PageHeader = (props) => {
 	const [showStatsModal, setShowStatsModal] = useState(false);
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 
+	const gridSize = getGridSize();
 	// TO-DO: Change these to use [whatever things I haven't built yet]
-	const gridSize = 4;
 	const squareSize = 75;
 
 	return (
