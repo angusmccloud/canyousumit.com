@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography as MuiTypography } from "@mui/material";
 import { colorPalette } from "../../consts";
 
 const sizeConversion = {
@@ -31,9 +30,9 @@ const Typography = (props) => {
   let textWeight = weightConversion[weight || defaultWeight];
 
   return (
-    <MuiTypography component="div" style={{ color: textColor, fontSize: textSize, fontWeight: textWeight }} {...rest}>
+    <p style={{ color: textColor, fontSize: textSize, fontWeight: textWeight, marginBlock: 0, fontFamily: 'LucidaRegular' }} {...rest}>
       {children}
-    </MuiTypography>
+    </p>
   );
 }
 

@@ -11,9 +11,9 @@ const colorsRegular = {
 
 const colorsDark = {
 	primaryBlue: '#4279ad',
-	lightBlue: '#2e6379',
+	lightBlue: '#75a8df',
 	mediumBlue: '#b0e7ff',
-	darkBlue: '#d8f3ff',
+	darkBlue: '#004d7d',
 	black: '#ffffff',
 	white: '#000000',
 };
