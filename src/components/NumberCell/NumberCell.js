@@ -30,7 +30,7 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
         {item.value.toString()}
       </Text>
       {locked &&
-        <img src={iconWhite} alt="lock" style={{
+        <img src={iconWhite} alt="locked" style={{
           height: squareSize * .2,
           width: squareSize * .2,
           position: 'absolute',

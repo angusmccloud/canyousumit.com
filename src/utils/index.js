@@ -6,6 +6,8 @@ import setSettings from './setSettings/setSettings';
 import getGameStatus from "./getGameStatus/getGameStatus";
 import setGameStatus from "./setGameStatus/setGameStatus";
 import getGridSize from "./getGridSize/getGridSize";
+import getSquareSize from "./getSquareSize/getSquareSize";
+import {useViewport, ViewportProvider} from './viewportProvider/viewportProvider';
 
 export {
     generatePuzzle,
@@ -16,4 +18,7 @@ export {
     getGameStatus,
     setGameStatus,
     getGridSize,
+    getSquareSize,
+    useViewport,
+    ViewportProvider,
 };

@@ -1,11 +1,12 @@
 import React from 'react';
-import { 
-  HomePage,
-} from './pages';
+import { HomePage } from './pages';
+import { ViewportProvider } from './utils';
 
 const App = () => {
   return (
-    <HomePage />
+    <ViewportProvider>
+      <HomePage />
+    </ViewportProvider>
   );
 }
 

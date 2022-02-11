@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { DroppableCell } from '../../components';
 import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
-import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize } from '../../utils';
+import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize } from '../../utils';
 import { Text } from '../../components';
 import { colorPalette } from '../../consts';
 
@@ -103,8 +103,6 @@ const initialCells = [
 ];
 
 const GameBoard = () => {
-	const colors = colorPalette();
-	const gridSize = getGridSize();
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
 	const [cells, setCells] = useState(initialCells);
 	const [numbers, setNumbers] = useState([]);
@@ -112,10 +110,12 @@ const GameBoard = () => {
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
+	
+	const colors = colorPalette();
+	const gridSize = getGridSize();
+	const { width, height } = useViewport();
 	const lockCorner = true;
-	// const [lockCorner, setLockCornet] = useState(true); // For future use...
-	// const [squareSize, setSquareSize] = useState(75); // For future use...
-	const squareSize = 75;
+	const squareSize = getSquareSize(height, width);
 
 	useEffect(() => {
 		const compareDateObjects = (date1, date2) => {
@@ -308,6 +308,15 @@ const GameBoard = () => {
 							</div>
 						)}
 					</div>
+					{/* <div>
+						Width: {width}
+					</div>
+					<div>
+						Height: {height}
+					</div>
+					<div>
+						Square Size: {squareSize}
+					</div> */}
 					{/* <div>
 						rowTop: {puzzleStatus.rowTop}
 					</div>
