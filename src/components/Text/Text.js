@@ -22,7 +22,7 @@ const weightConversion = {
 }
 const defaultWeight = 'regular';
 
-const Typography = (props) => {
+const Text = (props) => {
   const colors = colorPalette();
   const { size, color, weight, children, ...rest } = props;
   let textColor = color || colors.black;
@@ -30,10 +30,10 @@ const Typography = (props) => {
   let textWeight = weightConversion[weight || defaultWeight];
 
   return (
-    <p style={{ color: textColor, fontSize: textSize, fontWeight: textWeight, marginBlock: 0, fontFamily: 'LucidaRegular' }} {...rest}>
+    <p style={{ color: textColor, fontSize: textSize, fontWeight: textWeight, marginBlock: 0, fontFamily: 'LucidaRegular', lineHeight: 1 }} {...rest}>
       {children}
     </p>
   );
 }
 
-export default Typography;
+export default Text;

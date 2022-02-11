@@ -5,7 +5,7 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styles, colorPalette } from '../../consts';
-import { Typography } from '../../components';
+import { Text } from '../../components';
 import { getSettings, setSettings } from '../../utils';
 
 const SettingsModal = (props) => {
@@ -37,9 +37,9 @@ const SettingsModal = (props) => {
         aria-describedby="Your SumIt Settings"
       >
         <Box sx={styles.modalWrapper}>
-          <Typography size='XXL' weight='bold' color={colors.darkBlue} component="div">
+          <Text size='XXL' weight='bold' color={colors.darkBlue} component="div">
             Settings
-          </Typography>
+          </Text>
           <FormGroup>
             <FormControlLabel control={<Switch style={{color: colors.primaryBlue}} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode - Mode Coming Soon" />
             <FormControlLabel control={<Switch style={{color: colors.primaryBlue}} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier) - Control Coming Soon" />

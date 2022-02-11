@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from '../../components';
+import { Text } from '../../components';
 import { colorPalette } from '../../consts';
 import iconWhite from '../../assets/images/iconWhite.png';
 
@@ -26,9 +26,9 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
         ...provided.draggableProps.style
       }}
     >
-      <Typography size='XXL' component="div" weight='medium' color={colors.white}>
+      <Text size='XXL' component="div" weight='medium' color={colors.white}>
         {item.value.toString()}
-      </Typography>
+      </Text>
       {locked &&
         <img src={iconWhite} alt="lock" style={{
           height: squareSize * .2,

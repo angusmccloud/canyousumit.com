@@ -2,7 +2,7 @@ import React from "react";
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { styles } from '../../consts';
-import { Typography } from '../../components';
+import { Text } from '../../components';
 import { colorPalette } from '../../consts';
 
 const StatsModal = (props) => {
@@ -20,12 +20,12 @@ const StatsModal = (props) => {
         aria-describedby="Your SumIt Stats"
       >
         <Box sx={styles.modalWrapper}>
-          <Typography size='XXL' weight='bold' color={colors.darkBlue} component="div">
+          <Text size='XXL' weight='bold' color={colors.darkBlue} component="div">
             Stats
-          </Typography>
-          <Typography size='L' color={colors.darkBlue} component="div">
+          </Text>
+          <Text size='L' color={colors.darkBlue} component="div">
             Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+          </Text>
         </Box>
       </Modal>
 	);

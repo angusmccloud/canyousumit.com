@@ -4,7 +4,7 @@ import { DroppableCell } from '../../components';
 import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
 import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize } from '../../utils';
-import { Typography } from '../../components';
+import { Text } from '../../components';
 import { colorPalette } from '../../consts';
 
 // Need to replace this initialCells with a function based on gridSize below
@@ -267,9 +267,9 @@ const GameBoard = () => {
 									<CircularProgress />
 								) : (
 									<>
-										<Typography size='Jumbo' color={colors.darkBlue} component="div">
+										<Text size='Jumbo' color={colors.darkBlue} component="div">
 											{target.toString()}
-										</Typography>
+										</Text>
 									</>
 								)}
 							</div>
@@ -299,12 +299,12 @@ const GameBoard = () => {
 						{/* Moves and Best */}
 						{target !== 0 && (
 							<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10}}>
-								<Typography size='XL' color={colors.darkBlue} component="div">
+								<Text size='XL' color={colors.darkBlue} component="div">
 									Moves: {moves}
-								</Typography>
-								<Typography size='XL' color={colors.darkBlue} component="div">
+								</Text>
+								<Text size='XL' color={colors.darkBlue} component="div">
 									Best: 21
-								</Typography>
+								</Text>
 							</div>
 						)}
 					</div>

@@ -45,7 +45,7 @@ const PageHeader = (props) => {
 						>
 							<BarChart />
 						</IconButton>
-						<IconButton
+						{/* <IconButton
 							size='small'
 							edge="end"
 							aria-label="Settings"
@@ -53,7 +53,7 @@ const PageHeader = (props) => {
 							style={{color: colors.darkBlue}}
 						>
 							<SettingsOutlined />
-						</IconButton>
+						</IconButton> */}
 					</div>
 				</div>
 			</div>
