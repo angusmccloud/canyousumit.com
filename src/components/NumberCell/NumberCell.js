@@ -34,9 +34,9 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
           height: squareSize * .2,
           width: squareSize * .2,
           position: 'absolute',
-          top: 0,
-          left: 0,
-          padding: squareSize * .1
+          top: squareSize * .1,
+          left: squareSize * .1,
+          zIndex: '1'
         }}/>
       }
     </div>
