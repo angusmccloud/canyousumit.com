@@ -248,7 +248,7 @@ const GameBoard = () => {
 				>
 					<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
 						{/* Top Row */}
-						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
+						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize, justifyContent: 'space-between', alignItems: 'center' }}>
 							{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
 								return DroppableCell(cell, squareSize, lockCorner, won);
 							})}
@@ -281,14 +281,14 @@ const GameBoard = () => {
 							</div>
 						</div>
 						{/* Bottom Row */}
-						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
+						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize, justifyContent: 'space-between', alignItems: 'center' }}>
 							{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
 								return DroppableCell(cell, squareSize, lockCorner, won);
 							})}
 						</div>
 						{/* Bottom Container */}
 						{!won && (
-							<div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+							<div style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: squareSize * .1}}>
 								{target !== 0 &&
 									cells.filter(c => !c.inGrid).map((cell) => {
 										return UnassignedContainer(cell, squareSize, gridSize);
