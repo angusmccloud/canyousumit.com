@@ -1,7 +1,7 @@
 const dateInfo = () => {
     const today = new Date();
-    const yesterday = new Date(today)
-    yesterday.setDate(yesterday.getDate() - 1)
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
 	const year = today.getFullYear();
 	const month = today.getMonth();
 	const date = today.getDate();

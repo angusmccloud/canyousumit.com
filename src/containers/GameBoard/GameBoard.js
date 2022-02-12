@@ -1,115 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { DroppableCell } from '../../components';
+import { DroppableCell, Text } from '../../components';
 import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
-import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize } from '../../utils';
-import { Text } from '../../components';
+import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize, setGameHistory, getStats } from '../../utils';
 import { colorPalette } from '../../consts';
-
-// Need to replace this initialCells with a function based on gridSize below
-const initialCells = [
-	{
-		id: '0-0',
-		inGrid: true,
-		items: [],
-		column: 0,
-		row: 0,
-	},
-	{
-		id: '1-0',
-		inGrid: true,
-		items: [],
-		column: 1,
-		row: 0,
-	},
-	{
-		id: '2-0',
-		inGrid: true,
-		items: [],
-		column: 2,
-		row: 0,
-	},
-	{
-		id: '3-0',
-		inGrid: true,
-		items: [],
-		column: 3,
-		row: 0,
-	},
-	{
-		id: '0-1',
-		inGrid: true,
-		items: [],
-		column: 0,
-		row: 1,
-	},
-	{
-		id: '3-1',
-		inGrid: true,
-		items: [],
-		column: 3,
-		row: 1,
-	},
-	{
-		id: '0-2',
-		inGrid: true,
-		items: [],
-		column: 0,
-		row: 2,
-	},
-	{
-		id: '3-2',
-		inGrid: true,
-		items: [],
-		column: 3,
-		row: 2,
-	},
-	{
-		id: '0-3',
-		inGrid: true,
-		items: [],
-		column: 0,
-		row: 3,
-	},
-	{
-		id: '1-3',
-		inGrid: true,
-		items: [],
-		column: 1,
-		row: 3,
-	},
-	{
-		id: '2-3',
-		inGrid: true,
-		items: [],
-		column: 2,
-		row: 3,
-	},
-	{
-		id: '3-3',
-		inGrid: true,
-		items: [],
-		column: 3,
-		row: 3,
-	},
-	{
-		id: 'unassigned',
-		inGrid: false,
-		items: [],
-		column: undefined,
-		row: undefined,
-	}
-];
 
 const GameBoard = () => {
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
-	const [cells, setCells] = useState(initialCells);
+	// TO-DO: Investigate if there's an issue with this being an Empty Array vs. the Inital Cells I used to use
+	const [cells, setCells] = useState([]);
 	const [numbers, setNumbers] = useState([]);
 	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
+	const [best, setBest] = useState(0);
 	
 	const colors = colorPalette();
 	const gridSize = getGridSize();
@@ -117,13 +23,46 @@ const GameBoard = () => {
 	const lockCorner = true;
 	const squareSize = getSquareSize(height, width);
 
+	// useEffect(() => {
+	// 	// Load up some fake history, DEV ONLY
+	// 	setGameHistory({year: 2022, month: 0, day: 1}, true, 5, 43);
+	// 	setGameHistory({year: 2022, month: 0, day: 2}, true, 6, 73);
+	// 	setGameHistory({year: 2022, month: 0, day: 3}, true, 4, 28);
+	// 	setGameHistory({year: 2022, month: 0, day: 4}, true, 4, 33);
+	// 	setGameHistory({year: 2022, month: 0, day: 5}, true, 4, 33);
+	// 	setGameHistory({year: 2022, month: 0, day: 7}, true, 5, 49);
+	// 	setGameHistory({year: 2022, month: 0, day: 8}, true, 5, 59);
+	// 	setGameHistory({year: 2022, month: 0, day: 9}, true, 6, 82);
+	// 	setGameHistory({year: 2022, month: 0, day: 10}, true, 4, 39);
+	// 	setGameHistory({year: 2022, month: 0, day: 11}, true, 4, 49);
+	// 	setGameHistory({year: 2022, month: 0, day: 12}, true, 4, 37);
+	// 	setGameHistory({year: 2022, month: 0, day: 13}, true, 4, 58);
+	// 	setGameHistory({year: 2022, month: 0, day: 14}, true, 5, 58);
+	// 	setGameHistory({year: 2022, month: 0, day: 15}, false, 5, 98);
+	// 	setGameHistory({year: 2022, month: 0, day: 16}, true, 6, 103);
+	// 	setGameHistory({year: 2022, month: 1, day: 1}, true, 4, 46);
+	// 	setGameHistory({year: 2022, month: 1, day: 2}, true, 4, 45);
+	// 	setGameHistory({year: 2022, month: 1, day: 3}, true, 4, 38);
+	// 	setGameHistory({year: 2022, month: 1, day: 4}, true, 5, 69);
+	// 	setGameHistory({year: 2022, month: 1, day: 5}, true, 5, 52);
+	// 	setGameHistory({year: 2022, month: 1, day: 6}, true, 6, 82);
+	// 	setGameHistory({year: 2022, month: 1, day: 8}, true, 4, 46);
+	// 	setGameHistory({year: 2022, month: 1, day: 9}, true, 4, 36);
+	// 	setGameHistory({year: 2022, month: 1, day: 10}, true, 4, 58);
+	// }, []);
+
 	useEffect(() => {
 		const compareDateObjects = (date1, date2) => {
 			return date1.year === date2.year && date1.month === date2.month && date1.day === date2.day;
 		}
+		// Go get the stats (so we can show Best)
+		const stats = getStats();
+		const bestThisSize = stats.statsByGridSize.find((g) => g.gridSize === gridSize);
+		setBest(bestThisSize.fewestMoves);
+
 		const dtInfo = dateInfo();
 		const boardStatus = getGameStatus();
-		console.log('-- Reloading Page, Status --', boardStatus);
+		// console.log('-- Reloading Page, Status --', boardStatus);
 		// Go load the puzzle input
 		const puzzleInput = generatePuzzle(gridSize);
 		const { puzzleTarget, puzzleCells } = puzzleInput;
@@ -132,12 +71,12 @@ const GameBoard = () => {
 		let { puzzleNumbers } = puzzleInput;
 		let newCells = [];
 		if (boardStatus !== undefined && boardStatus.moves > 0 && boardStatus.numbers.length > 0 && compareDateObjects(boardStatus.date, dtInfo.today)) {
-			console.log('-- Have a Board Status --', boardStatus.cells);
+			// console.log('-- Have a Board Status --', boardStatus.cells);
 			newCells = boardStatus.cells;
 			puzzleNumbers = boardStatus.numbers;
 			setMoves(boardStatus.moves);
 		} else {
-			console.log('-- Don\'t have a Board Status for today, set a blank one! --');
+			// console.log('-- Don\'t have a Board Status for today, set a blank one! --');
 			newCells = puzzleCells.map((cell) => {
 				if (cell.inGrid) {
 					const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
@@ -166,11 +105,11 @@ const GameBoard = () => {
 	useEffect(() => {
 		const dtInfo = dateInfo();
 		setGameStatus({ date: dtInfo.today, cells, numbers, moves, won });
-		// TO-DO Need to update stats (# of moves for grid size, or something...)
+		setGameHistory(dtInfo.today, won, gridSize, moves);
 	}, [cells, numbers])
 
 	const checkPuzzle = (checkCells, puzzleTarget = target) => {
-		console.log('-- checkPuzzle --', checkCells);
+		// console.log('-- checkPuzzle --', checkCells);
 		const sumArray = (array) => {
 			let val = 0;
 			for (let i = 0; i < array.length; i++) {
@@ -194,14 +133,17 @@ const GameBoard = () => {
 		const corners = sumArray(cornersCells);
 		const unused = sumArray(unusedCells);
 		setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
+		let winnerFlag = false
+		const dtInfo = dateInfo();
 		if (rowTop === puzzleTarget && rowBottom === puzzleTarget && columnLeft === puzzleTarget && columnRight === puzzleTarget && corners === puzzleTarget && unused === 0) {
 			// console.log('-- YOU WIN !! --');
+			winnerFlag = true;
 			setShowWinnerModal(true);
 			setWon(true);
-			// TO-DO Need to update stats
-			const dtInfo = dateInfo();
 			setGameStatus({ date: dtInfo.today, cells, numbers, moves, won: true });
 		}
+		// And update stats, winner or loser...
+		setGameHistory(dtInfo.today, winnerFlag, gridSize, moves);
 	};
 
 	const onDragEnd = (result, cells, setCells, checkPuzzle) => {
@@ -303,7 +245,7 @@ const GameBoard = () => {
 									Moves: {moves}
 								</Text>
 								<Text size='XL' color={colors.darkBlue} component="div">
-									Best: 21
+									Best: {best}
 								</Text>
 							</div>
 						)}

@@ -7,6 +7,9 @@ import getGameStatus from "./getGameStatus/getGameStatus";
 import setGameStatus from "./setGameStatus/setGameStatus";
 import getGridSize from "./getGridSize/getGridSize";
 import getSquareSize from "./getSquareSize/getSquareSize";
+import getGameHistory from "./getGameHistory/getGameHistory";
+import setGameHistory from "./setGameHistory/setGameHistory";
+import getStats from './getStats/getStats';
 import {useViewport, ViewportProvider} from './viewportProvider/viewportProvider';
 
 export {
@@ -21,4 +24,7 @@ export {
     getSquareSize,
     useViewport,
     ViewportProvider,
+    getGameHistory,
+    setGameHistory,
+    getStats,
 };
