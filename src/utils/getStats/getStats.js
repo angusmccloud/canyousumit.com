@@ -77,11 +77,24 @@ const getStats = () => {
 
   // Get stats by Grid Size
   const gridSizeStats = [];
+  let allWins = 0;
+  let allLosses = 0;
   for(let i = 4; i <= 6; i++) {
     // Grids are currently 4, 5, or 6
     // Change this loop range if we make them bigger or smaller
-    gridSizeStats.push(statsByGridSize(i, gameHistory, dtInfo.today))
+    const statsThisGrid = statsByGridSize(i, gameHistory, dtInfo.today);
+    gridSizeStats.push(statsThisGrid);
+    allWins += statsThisGrid.wins;
+    allLosses += statsThisGrid.losses;
   }
+  gridSizeStats.push({
+    gridSize: 'all',
+    totalGames: allWins + allLosses,
+    wins: allWins,
+    losses: allLosses,
+    fewestMoves: 0,
+    averageMoves: 0
+  });
 
   const streaks = streakStats(gameHistory, dtInfo.today, dtInfo.yesterday);
 
@@ -91,7 +104,7 @@ const getStats = () => {
     statsByGridSize: gridSizeStats,
   };
 
-  // console.log('-- Calculated Stats Response --', response);
+  console.log('-- Calculated Stats Response --', response);
   return response;
 }
 

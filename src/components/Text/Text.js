@@ -24,13 +24,14 @@ const defaultWeight = 'regular';
 
 const Text = (props) => {
   const colors = colorPalette();
-  const { size, color, weight, children, ...rest } = props;
+  const { size, color, weight, children, textAlign, ...rest } = props;
   let textColor = color || colors.black;
   let textSize = sizeConversion[size || defaultSize];
   let textWeight = weightConversion[weight || defaultWeight];
+  let align = textAlign || 'left';
 
   return (
-    <p style={{ color: textColor, fontSize: textSize, fontWeight: textWeight, marginBlock: 0, fontFamily: 'LucidaRegular', lineHeight: 1 }} {...rest}>
+    <p style={{color: textColor, fontSize: textSize, fontWeight: textWeight, textAlign: align, marginBlock: 0, fontFamily: 'LucidaRegular', lineHeight: 1 }} {...rest}>
       {children}
     </p>
   );
