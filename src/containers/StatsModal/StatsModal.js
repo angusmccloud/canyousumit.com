@@ -33,6 +33,30 @@ const StatsModal = (props) => {
         </div>
       </>
     );
+  };
+
+  const gridStats = (gridSize, thisGridStats) => {
+    return (
+      <div style={{display: 'flex', flexDirection: 'column', paddingTop: 20}} >
+        <Text size='XL' weight='bold' color={colors.darkBlue}>
+          {gridSize}x{gridSize} Stats
+        </Text>
+        {thisGridStats.totalGames === 0 ? (
+          <Text size='L' color={colors.darkBlue}>
+            None Played Yet
+          </Text>
+        ) : (
+          <div>
+            <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 5}}>
+              {summaryStat('Games Played', thisGridStats.totalGames)}
+              {summaryStat('Win %', Math.round((thisGridStats.wins / thisGridStats.totalGames) * 100, 0))}
+              {summaryStat('Average Moves', thisGridStats.averageMoves)}
+              {summaryStat('Best Moves', thisGridStats.fewestMoves)}
+            </div>
+          </div>
+        )}
+      </div>
+    );
   }
 
 	return (
@@ -45,7 +69,7 @@ const StatsModal = (props) => {
         <Box sx={styles.modalWrapper}>
           <div>
             <Text size='XXL' weight='bold' color={colors.darkBlue}>
-              Statistics
+              Overall Statistics
             </Text>
           </div>
           {stats === undefined ? (
@@ -58,6 +82,9 @@ const StatsModal = (props) => {
                 {summaryStat('Longest Streak', stats.longestStreak)}
                 {summaryStat('Current Streak', stats.currentStreak)}
               </div>
+              {gridStats(4, stats.statsByGridSize.find((g) => g.gridSize === 4))}
+              {gridStats(5, stats.statsByGridSize.find((g) => g.gridSize === 5))}
+              {gridStats(6, stats.statsByGridSize.find((g) => g.gridSize === 6))}
             </>
           )}
         </Box>
