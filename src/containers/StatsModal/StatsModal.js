@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Box from '@mui/material/Box';
+// import Modal from 'react-modal';
 import Modal from '@mui/material/Modal';
 import { CircularProgress } from "@mui/material";
 import { styles, colorPalette } from '../../consts';
@@ -49,7 +50,7 @@ const StatsModal = (props) => {
           <div>
             <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 5}}>
               {summaryStat('Games Played', thisGridStats.totalGames)}
-              {summaryStat('Win %', Math.round((thisGridStats.wins / thisGridStats.totalGames) * 100, 0))}
+              {summaryStat('Win %', thisGridStats.totalGames > 0 ? Math.round((thisGridStats.wins / thisGridStats.totalGames) * 100, 0) : 0)}
               {summaryStat('Average Moves', thisGridStats.averageMoves)}
               {summaryStat('Best Moves', thisGridStats.fewestMoves)}
             </div>
@@ -78,7 +79,7 @@ const StatsModal = (props) => {
             <>
               <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 10}}>
                 {summaryStat('Games Played', stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames)}
-                {summaryStat('Win %', Math.round((stats.statsByGridSize.find((g) => g.gridSize === 'all').wins / stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames) * 100, 0))}
+                {summaryStat('Win %', stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames > 0 ? Math.round((stats.statsByGridSize.find((g) => g.gridSize === 'all').wins / stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames) * 100, 0) : 0)}
                 {summaryStat('Longest Streak', stats.longestStreak)}
                 {summaryStat('Current Streak', stats.currentStreak)}
               </div>

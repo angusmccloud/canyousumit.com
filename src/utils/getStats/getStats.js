@@ -23,30 +23,32 @@ const getStats = () => {
 
   const streakStats = (gameHistory, today, yesterday) => {
     const wonGames = gameHistory.filter((g) => g.won);
-    wonGames.sort((a, b) => b.date.year - a.date.year || b.date.month - a.date.month || b.date.day - a.date.day);
-    // console.log('-- Won Games in Streaks --', wonGames);
     let longestStreak = 0;
     let currentStreak = 0;
 
-    // Calculate the Current Streak (if there is one)
-    if((wonGames[0].date.year === today.year && wonGames[0].date.month === today.month && wonGames[0].date.day === today.day) || (wonGames[0].date.year === yesterday.year && wonGames[0].date.month === yesterday.month && wonGames[0].date.day === yesterday.day)) {
-      // Last won game was today or yesterday, there is indeed a Current Streak
-      currentStreak = 1;
-      const compareDate = new Date(wonGames[0].date.year, wonGames[0].date.month, wonGames[0].date.day);
-      for(let i = 1; i < wonGames.length; i++) { 
-        compareDate.setDate(compareDate.getDate() - 1);
-        // console.log('-- Compare Date --', compareDate);
-        if(wonGames[i].date.year === compareDate.getFullYear() && wonGames[i].date.month === compareDate.getMonth() && wonGames[i].date.day === compareDate.getDate()) {
-          currentStreak += 1;
-        } else {
-          // console.log('-- Streak Broken!! --');
-          break;
-        }
-      }
-    };
-
-    // Let's calculate the longest streak
     if(wonGames.length > 0) {
+
+      wonGames.sort((a, b) => b.date.year - a.date.year || b.date.month - a.date.month || b.date.day - a.date.day);
+      // console.log('-- Won Games in Streaks --', wonGames);
+
+      // Calculate the Current Streak (if there is one)
+      if((wonGames[0].date.year === today.year && wonGames[0].date.month === today.month && wonGames[0].date.day === today.day) || (wonGames[0].date.year === yesterday.year && wonGames[0].date.month === yesterday.month && wonGames[0].date.day === yesterday.day)) {
+        // Last won game was today or yesterday, there is indeed a Current Streak
+        currentStreak = 1;
+        const compareDate = new Date(wonGames[0].date.year, wonGames[0].date.month, wonGames[0].date.day);
+        for(let i = 1; i < wonGames.length; i++) { 
+          compareDate.setDate(compareDate.getDate() - 1);
+          // console.log('-- Compare Date --', compareDate);
+          if(wonGames[i].date.year === compareDate.getFullYear() && wonGames[i].date.month === compareDate.getMonth() && wonGames[i].date.day === compareDate.getDate()) {
+            currentStreak += 1;
+          } else {
+            // console.log('-- Streak Broken!! --');
+            break;
+          }
+        }
+      };
+
+      // Let's calculate the longest streak
       let compareDate = new Date(wonGames[0].date.year, wonGames[0].date.month, wonGames[0].date.day);
       let thisStreak = 1;
       for(let i = 1; i < wonGames.length; i++) {
