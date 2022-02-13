@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.08dd023e.css",
-    "main.js": "/static/js/main.ac0926e3.js",
+    "main.js": "/static/js/main.54455810.js",
     "static/media/fullNameLogo.png": "/static/media/fullNameLogo.83c4993095709a9885e1.png",
     "static/media/Lucida-Console-Regular.ttf": "/static/media/Lucida-Console-Regular.c52c29b676f1503e7cec.ttf",
     "index.html": "/index.html",
     "main.08dd023e.css.map": "/static/css/main.08dd023e.css.map",
-    "main.ac0926e3.js.map": "/static/js/main.ac0926e3.js.map"
+    "main.54455810.js.map": "/static/js/main.54455810.js.map"
   },
   "entrypoints": [
     "static/css/main.08dd023e.css",
-    "static/js/main.ac0926e3.js"
+    "static/js/main.54455810.js"
   ]
 }
