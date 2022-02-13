@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from '../../components';
 import { colorPalette } from '../../consts';
-import iconWhite from '../../assets/images/iconWhite.png';
+// import iconWhite from '../../assets/images/iconWhite.png';
 
 const NumberCell = (provided, snapshot, squareSize, item, locked) => {
   const colors = colorPalette();
@@ -19,9 +19,11 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: snapshot.isDragging
-          ? colors.darkBlue
-          : colors.primaryBlue,
+        backgroundColor: locked ?
+          colors.darkBlue : 
+          snapshot.isDragging
+            ? colors.darkBlue
+            : colors.primaryBlue,
         color: colors.white,
         ...provided.draggableProps.style
       }}
@@ -29,7 +31,7 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
       <Text size='XXL' component="div" weight='medium' color={colors.white}>
         {item.value.toString()}
       </Text>
-      {locked &&
+      {/* {locked &&
         <img src={iconWhite} alt="locked" style={{
           height: squareSize * .2,
           width: squareSize * .2,
@@ -38,7 +40,7 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
           left: squareSize * .1,
           zIndex: '1'
         }}/>
-      }
+      } */}
     </div>
   );
 }

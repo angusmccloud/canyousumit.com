@@ -29,9 +29,11 @@ const DroppableCell = (cell, squareSize, lockCorner, won) => {
 								borderRadius: squareSize * .2,
 								borderWidth: 2,
 								border: 'solid',
-								borderColor: snapshot.isDraggingOver
-									? colors.darkBlue
-									: colors.primaryBlue,
+								borderColor: lockCorner && cell.id === '0-0' || won ?
+									colors.darkBlue :
+									snapshot.isDraggingOver
+										? colors.darkBlue
+										: colors.primaryBlue,
 								display: 'flex',
 								alignItems: 'center',
 								justifyContent: 'center',
