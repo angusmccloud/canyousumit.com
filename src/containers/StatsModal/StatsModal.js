@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Box from '@mui/material/Box';
-// import Modal from 'react-modal';
-import Modal from '@mui/material/Modal';
+import Modal from 'react-modal';
 import { CircularProgress } from "@mui/material";
+import Divider from '@mui/material/Divider';
 import { styles, colorPalette } from '../../consts';
 import { Text } from '../../components';
 import { getStats } from '../../utils';
@@ -61,15 +60,38 @@ const StatsModal = (props) => {
   }
 
 	return (
-			<Modal
-        open={props.visible}
-        onClose={handleClose}
-        aria-labelledby="SumIt Stats"
-        aria-describedby="Your SumIt Stats"
-      >
-        <Box sx={styles.modalWrapper}>
+    <Modal
+      isOpen={props.visible}
+      onRequestClose={handleClose}
+      style={{
+        overlay: {
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(33, 74, 92, 0.9)',
+        },
+        content: {
+          padding: 20,
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          maxWidth: 500,
+          bgcolor: 'background.paper',
+          border: '2px solid #000',
+          borderRadius: 20,
+          boxShadow: 24,
+          borderColor: colors.darkBlue,
+          p: 4,
+        }
+      }}
+      contentLabel="Example Modal"
+    >
+        <>
           <div>
-            <Text size='XXL' weight='bold' color={colors.darkBlue}>
+            <Text size='XXXL' weight='bold' color={colors.darkBlue}>
               Overall Statistics
             </Text>
           </div>
@@ -77,18 +99,19 @@ const StatsModal = (props) => {
             <CircularProgress />
           ) : (
             <>
-              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 10}}>
+              <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 10, paddingBottom: 20}}>
                 {summaryStat('Games Played', stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames)}
                 {summaryStat('Win %', stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames > 0 ? Math.round((stats.statsByGridSize.find((g) => g.gridSize === 'all').wins / stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames) * 100, 0) : 0)}
                 {summaryStat('Longest Streak', stats.longestStreak)}
                 {summaryStat('Current Streak', stats.currentStreak)}
               </div>
+              <Divider color={colors.darkBlue} />
               {gridStats(4, stats.statsByGridSize.find((g) => g.gridSize === 4))}
               {gridStats(5, stats.statsByGridSize.find((g) => g.gridSize === 5))}
               {gridStats(6, stats.statsByGridSize.find((g) => g.gridSize === 6))}
             </>
           )}
-        </Box>
+        </>
       </Modal>
 	);
 }
