@@ -70,7 +70,8 @@ const GameBoard = () => {
 
 		let { puzzleNumbers } = puzzleInput;
 		let newCells = [];
-		if (boardStatus !== undefined && boardStatus.moves > 0 && boardStatus.numbers.length > 0 && compareDateObjects(boardStatus.date, dtInfo.today)) {
+		// console.log('-- boardStatus --', boardStatus);
+		if (boardStatus && boardStatus.moves && boardStatus.moves > 0 && boardStatus.numbers.length > 0 && compareDateObjects(boardStatus.date, dtInfo.today)) {
 			// console.log('-- Have a Board Status --', boardStatus.cells);
 			newCells = boardStatus.cells;
 			puzzleNumbers = boardStatus.numbers;

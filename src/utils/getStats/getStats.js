@@ -106,7 +106,7 @@ const getStats = () => {
     statsByGridSize: gridSizeStats,
   };
 
-  console.log('-- Calculated Stats Response --', response);
+  // console.log('-- Calculated Stats Response --', response);
   return response;
 }
 
