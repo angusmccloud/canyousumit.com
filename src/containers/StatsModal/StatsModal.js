@@ -4,19 +4,20 @@ import { CircularProgress } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { styles, colorPalette } from '../../consts';
 import { Text } from '../../components';
-import { getStats } from '../../utils';
+import { getStats, useViewport } from '../../utils';
 
 const StatsModal = (props) => {
   const [stats, setStats] = useState(undefined);
   const colors = colorPalette();
+  const { width, height } = useViewport();
 
   useEffect(() => {
-    console.log('-- Stats Modal, Let\'s Get Data!! --');
+    // console.log('-- Stats Modal, Let\'s Get Data!! --');
     setStats(getStats());
   }, [props]);
 
 	const handleClose = () => {
-		console.log('-- Close --');
+		// console.log('-- Close --');
 		props.showModal(false);
 	}
 
@@ -63,6 +64,7 @@ const StatsModal = (props) => {
     <Modal
       isOpen={props.visible}
       onRequestClose={handleClose}
+      ariaHideApp={false}
       style={{
         overlay: {
           position: 'fixed',
@@ -70,24 +72,25 @@ const StatsModal = (props) => {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(33, 74, 92, 0.9)',
+          backgroundColor: 'rgba(33, 74, 92, 0.75)',
         },
         content: {
-          padding: 20,
+          padding: 10,
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: 500,
-          bgcolor: 'background.paper',
+          minWidth: width < 500 ? width * .9 : 500,
+          maxWidth: width > 700 ? 700 : width * .9,
+          minHeight: height < 450 ? height * .9 : 400,
+          maxHeight: height > 600 ? 600 : height * .9,
+          bgcolor: colors.white,
           border: '2px solid #000',
           borderRadius: 20,
-          boxShadow: 24,
           borderColor: colors.darkBlue,
-          p: 4,
         }
       }}
-      contentLabel="Example Modal"
+      contentLabel="Stats Modal"
     >
         <>
           <div>
