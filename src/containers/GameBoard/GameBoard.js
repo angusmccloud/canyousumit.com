@@ -202,7 +202,7 @@ const GameBoard = () => {
 
 	return (
 		<>
-			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} />
+			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} gridSize={gridSize} moves={moves} />
 			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column' }}>
 				<DragDropContext
 					onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
