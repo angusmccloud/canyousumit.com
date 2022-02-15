@@ -1,15 +1,11 @@
 import React from "react";
 import { PageHeader, GameBoard } from '../../containers';
 import ReactGA from "react-ga4";
-import { colorPalette } from "../../consts";
+import { colorPalette, googleAnalyticsId } from "../../consts";
 
 const HomePage = () => {
   const colors = colorPalette();
-  ReactGA.initialize([
-    {
-      trackingId: 'G-X0L52798CN',
-    },
-  ]);
+  ReactGA.initialize([{trackingId: googleAnalyticsId}]);
   ReactGA.send({ hitType: "pageview", page: "/" });
 
   return (

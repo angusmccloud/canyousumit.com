@@ -4,7 +4,8 @@ import { DroppableCell, Text } from '../../components';
 import { CircularProgress } from "@mui/material";
 import { UnassignedContainer, WinnerModal } from '../../containers';
 import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize, setGameHistory, getStats } from '../../utils';
-import { colorPalette } from '../../consts';
+import ReactGA from "react-ga4";
+import { colorPalette, googleAnalyticsId } from '../../consts';
 
 const GameBoard = () => {
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
@@ -16,6 +17,8 @@ const GameBoard = () => {
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
 	const [best, setBest] = useState(0);
+
+	ReactGA.initialize([{trackingId: googleAnalyticsId}]);
 	
 	const colors = colorPalette();
 	const gridSize = getGridSize();
@@ -100,7 +103,6 @@ const GameBoard = () => {
 		setNumbers(puzzleNumbers);
 		setTarget(puzzleTarget);
 		checkPuzzle(newCells, puzzleTarget);
-		// TO-DO Need to update stats (show they started the day)
 	}, []);
 
 	useEffect(() => {
@@ -142,6 +144,19 @@ const GameBoard = () => {
 			setShowWinnerModal(true);
 			setWon(true);
 			setGameStatus({ date: dtInfo.today, cells, numbers, moves, won: true });
+			ReactGA.event({
+				category: 'Game',
+				action: 'Win',
+				label: `Grid Size ${gridSize}`,
+				value: moves
+			});
+		} else {
+			ReactGA.event({
+				category: 'Game',
+				action: 'In Progress',
+				label: `Grid Size ${gridSize}`,
+				value: moves
+			});
 		}
 		// And update stats, winner or loser...
 		setGameHistory(dtInfo.today, winnerFlag, gridSize, moves);
