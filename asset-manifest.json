@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.08dd023e.css",
-    "main.js": "/static/js/main.38d82547.js",
+    "main.js": "/static/js/main.d9cc359f.js",
     "static/media/fullNameLogo.png": "/static/media/fullNameLogo.83c4993095709a9885e1.png",
     "static/media/Lucida-Console-Regular.ttf": "/static/media/Lucida-Console-Regular.c52c29b676f1503e7cec.ttf",
     "static/media/instructions-1.png": "/static/media/instructions-1.cdf587bd70b0a111fc01.png",
@@ -12,10 +12,10 @@
     "static/media/instructions-3-left.png": "/static/media/instructions-3-left.74340a5bade2c8967f9e.png",
     "index.html": "/index.html",
     "main.08dd023e.css.map": "/static/css/main.08dd023e.css.map",
-    "main.38d82547.js.map": "/static/js/main.38d82547.js.map"
+    "main.d9cc359f.js.map": "/static/js/main.d9cc359f.js.map"
   },
   "entrypoints": [
     "static/css/main.08dd023e.css",
-    "static/js/main.38d82547.js"
+    "static/js/main.d9cc359f.js"
   ]
 }
