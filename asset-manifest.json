@@ -1,15 +1,21 @@
 {
   "files": {
     "main.css": "/static/css/main.08dd023e.css",
-    "main.js": "/static/js/main.54455810.js",
+    "main.js": "/static/js/main.54749ef5.js",
     "static/media/fullNameLogo.png": "/static/media/fullNameLogo.83c4993095709a9885e1.png",
     "static/media/Lucida-Console-Regular.ttf": "/static/media/Lucida-Console-Regular.c52c29b676f1503e7cec.ttf",
+    "static/media/instructions-1.png": "/static/media/instructions-1.cdf587bd70b0a111fc01.png",
+    "static/media/instructions-4.png": "/static/media/instructions-4.64856cdead2604b6c781.png",
+    "static/media/instructions-2-right.png": "/static/media/instructions-2-right.d2cdf29382f045ff90d1.png",
+    "static/media/instructions-2-left.png": "/static/media/instructions-2-left.9791d7f85150ebdc54db.png",
+    "static/media/instructions-3-right.png": "/static/media/instructions-3-right.5d50bb58187fd489287d.png",
+    "static/media/instructions-3-left.png": "/static/media/instructions-3-left.74340a5bade2c8967f9e.png",
     "index.html": "/index.html",
     "main.08dd023e.css.map": "/static/css/main.08dd023e.css.map",
-    "main.54455810.js.map": "/static/js/main.54455810.js.map"
+    "main.54749ef5.js.map": "/static/js/main.54749ef5.js.map"
   },
   "entrypoints": [
     "static/css/main.08dd023e.css",
-    "static/js/main.54455810.js"
+    "static/js/main.54749ef5.js"
   ]
 }
