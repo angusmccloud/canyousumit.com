@@ -34,7 +34,7 @@ const InfoModal = (props) => {
           backgroundColor: 'rgba(33, 74, 92, 0.75)',
         },
         content: {
-          padding: 10,
+          padding: width > 500 ? 20 : 10,
           position: 'absolute',
           top: '50%',
           left: '50%',
@@ -66,7 +66,7 @@ const InfoModal = (props) => {
             Complete the square by correctly filling in all the open spots so that:
           </Text>
         </div>
-        <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row'}}>
+        <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
           <Text size='L' color={colors.darkBlue}>The</Text>
           <Text size='L' weight='bold' color={colors.green}>&nbsp;sum&nbsp;</Text>
           <Text size='L' color={colors.darkBlue}>of each</Text>
@@ -78,7 +78,7 @@ const InfoModal = (props) => {
           <img src={instructions2Left} alt="Instructions (Each Column Sums to Match the Center Number)" height={150} />
           <img src={instructions2Right} alt="Instructions (Each Column Sums to Match the Center Number)" height={150} />
         </div>
-        <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row'}}>
+        <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
           <Text size='L' color={colors.darkBlue}>The</Text>
           <Text size='L' weight='bold' color={colors.green}>&nbsp;sum&nbsp;</Text>
           <Text size='L' color={colors.darkBlue}>of each</Text>
@@ -90,7 +90,7 @@ const InfoModal = (props) => {
           <img src={instructions3Left} alt="Instructions (Each Row Sums to Match the Center Number)" height={150} />
           <img src={instructions3Right} alt="Instructions (Each Row Sums to Match the Center Number)" height={150} />
         </div>
-        <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row'}}>
+        <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
           <Text size='L' color={colors.darkBlue}>The</Text>
           <Text size='L' weight='bold' color={colors.green}>&nbsp;sum&nbsp;</Text>
           <Text size='L' color={colors.darkBlue}>of all the</Text>
