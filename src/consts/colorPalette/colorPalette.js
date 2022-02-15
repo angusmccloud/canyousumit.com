@@ -3,11 +3,11 @@ import {getSettings} from '../../utils';
 const colorsRegular = {
 	primaryBlue: '#4279ad',
 	darkBlue: '#214a5c',
-	// darkBlue: '#2e6379',
 	mediumBlue: '#b0e7ff',
 	lightBlue: '#d8f3ff',
 	white: '#ffffff',
 	black: '#000000',
+	green: '#6aa74e',
 };
 
 const colorsDark = {
