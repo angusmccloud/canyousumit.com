@@ -150,13 +150,6 @@ const GameBoard = () => {
 				label: `Grid Size ${gridSize}`,
 				value: moves
 			});
-		} else {
-			ReactGA.event({
-				category: 'Game',
-				action: 'In Progress',
-				label: `Grid Size ${gridSize}`,
-				value: moves
-			});
 		}
 		// And update stats, winner or loser...
 		setGameHistory(dtInfo.today, winnerFlag, gridSize, moves);
@@ -189,6 +182,16 @@ const GameBoard = () => {
 			// Sort Unassigned Cell Items
 			unassignedCell.items.sort((a, b) => a.value - b.value);
 			// Update cells
+
+			if(moves === 0) {
+				// When they make their first move, let's log it
+				ReactGA.event({
+					category: 'Game',
+					action: 'Started',
+					label: `Grid Size ${gridSize}`,
+					value: 1
+				});
+			}
 
 			setCells(newCells);
 			checkPuzzle(newCells);
