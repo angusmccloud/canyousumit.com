@@ -50,8 +50,8 @@ const StatsModal = (props) => {
           <div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 5 }}>
               {summaryStat('Games Played', thisGridStats.totalGames)}
-              {summaryStat('Win %', thisGridStats.totalGames > 0 ? Math.round((thisGridStats.wins / thisGridStats.totalGames) * 100, 0) : 0)}
-              {summaryStat('Average Moves', thisGridStats.averageMoves)}
+              {summaryStat('Win %', thisGridStats.totalGames > 0 ? Math.round((thisGridStats.wins / thisGridStats.totalGames) * 100) : 0)}
+              {summaryStat('Average Moves', thisGridStats.averageMoves > 0 ? Math.round(thisGridStats.averageMoves) : 0)}
               {summaryStat('Best Moves', thisGridStats.fewestMoves)}
             </div>
           </div>
@@ -75,7 +75,7 @@ const StatsModal = (props) => {
           backgroundColor: 'rgba(33, 74, 92, 0.75)',
         },
         content: {
-          padding: 10,
+          padding: width > 500 ? 20 : 10,
           position: 'absolute',
           top: '50%',
           left: '50%',
