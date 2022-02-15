@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
 import { SettingsOutlined, InfoOutlined, BarChart } from '@mui/icons-material';
 import { InfoModal, StatsModal, SettingsModal } from '../../containers';
 import { colorPalette } from '../../consts';
-import { getGridSize } from '../../utils';
+import { getGridSize, getSeenHowToPlay, setSeenHowToPlay, } from '../../utils';
 import fullNameLogo from '../../assets/images/fullNameLogo.png';
 
 const PageHeader = (props) => {
@@ -11,6 +11,14 @@ const PageHeader = (props) => {
 	const [showInfoModal, setShowInfoModal] = useState(false);
 	const [showStatsModal, setShowStatsModal] = useState(false);
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+	useEffect(() => {
+		const seenHowToPlay = getSeenHowToPlay();
+		if (!seenHowToPlay) {
+			setShowInfoModal(true);
+			setSeenHowToPlay(true);
+		}
+	}, []);
 
 	const gridSize = getGridSize();
 	// TO-DO: Change these to use [whatever things I haven't built yet]

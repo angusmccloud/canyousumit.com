@@ -10,6 +10,8 @@ import getSquareSize from "./getSquareSize/getSquareSize";
 import getGameHistory from "./getGameHistory/getGameHistory";
 import setGameHistory from "./setGameHistory/setGameHistory";
 import getStats from './getStats/getStats';
+import getSeenHowToPlay from './getSeenHowToPlay/getSeenHowToPlay';
+import setSeenHowToPlay from "./setSeenHowToPlay/setSeenHowToPlay";
 import {useViewport, ViewportProvider} from './viewportProvider/viewportProvider';
 
 export {
@@ -27,4 +29,6 @@ export {
     getGameHistory,
     setGameHistory,
     getStats,
+    getSeenHowToPlay,
+    setSeenHowToPlay,
 };
