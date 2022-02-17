@@ -62,19 +62,21 @@ const WinnerModal = (props) => {
     for(let i = 0; i < num.length; i++) {
       string += convertNum[num[i]];
     }
-    return `🟦${num.length === 2 ? '   ' : ''}${string}${num.length === 2 ? '  ' : ''}🟦`;
+    return `${num.length <= 3 ? '🟦' : ''}${num.length === 2 || num.length === 4 ? '   ' : ''}${string}${num.length === 2 || num.length === 4 ? '  ' : ''}${num.length <= 3 ? '🟦' : ''}`;
   }
 
   const shareWin = () => {
     try {
-      let shareString = `I won today's ${gridSize}x${gridSize} SumIt in ${moves} moves${moves <= bestThisSize ? ', my new best' : ''}!`;
-      if(stats && stats.currentStreak > 1) {
-        shareString += ` I've won ${stats.currentStreak} games in a row!`;
-      }
-      shareString += '\n\n';
+      let shareString = `SumIt Streak of ${stats.currentStreak}\n`;
+      shareString += `${gridSize}x${gridSize}\n`;
+      // let shareString = `I won today's ${gridSize}x${gridSize} SumIt in ${moves} moves${moves <= bestThisSize ? ', my new best' : ''}!`;
+      // if(stats && stats.currentStreak > 1) {
+      //   shareString += ` I've won ${stats.currentStreak} games in a row!`;
+      // }
+      // shareString += '\n\n';
       shareString += '🟦🟦🟦🟦🟦\n';
       shareString += '🎉S U M I T🎉\n';
-      shareString += `${numberString(target)}\n`;
+      shareString += `${numberString(moves)}\n`;
       shareString += '🎉🏔🏔🏔🎉\n';
       shareString += '🟦🟦🟦🟦🟦\n\n';
       shareString += 'https://canyousumit.com';
