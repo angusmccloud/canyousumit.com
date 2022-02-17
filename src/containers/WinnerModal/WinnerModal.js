@@ -67,7 +67,7 @@ const WinnerModal = (props) => {
 
   const shareWin = () => {
     try {
-      let shareString = `SumIt Streak of ${stats.currentStreak}\n`;
+      let shareString = `SumIt Streak: ${stats.currentStreak}\n`;
       shareString += `${gridSize}x${gridSize}\n`;
       // let shareString = `I won today's ${gridSize}x${gridSize} SumIt in ${moves} moves${moves <= bestThisSize ? ', my new best' : ''}!`;
       // if(stats && stats.currentStreak > 1) {
