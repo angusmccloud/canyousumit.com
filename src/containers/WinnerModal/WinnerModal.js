@@ -13,7 +13,7 @@ const WinnerModal = (props) => {
   const [stats, setStats] = useState(undefined);
   const [snackbarMessage, setSnackbarMessage] = useState('Copied to Clipboard');
   const { width, height } = useViewport();
-  const { gridSize, moves, visible } = props;
+  const { gridSize, moves, visible, target } = props;
   ReactGA.initialize([{trackingId: googleAnalyticsId}]);
 
   const loadStats = () => {
@@ -42,13 +42,41 @@ const WinnerModal = (props) => {
     props.showModal(false);
   }
 
+  const numberString = (number) => {
+    const convertNum = {
+      '1': '1️⃣',
+      '2': '2️⃣',
+      '3': '3️⃣',
+      '4': '4️⃣',
+      '5': '5️⃣',
+      '6': '6️⃣',
+      '7': '7️⃣',
+      '8': '8️⃣',
+      '9': '9️⃣',
+      '0': '0️⃣',
+    };
+
+    const num = number.toString();
+    let string = '';
+    // Convert characters in Num to Emojis
+    for(let i = 0; i < num.length; i++) {
+      string += convertNum[num[i]];
+    }
+    return `🟦${num.length === 2 ? '   ' : ''}${string}${num.length === 2 ? '  ' : ''}🟦`;
+  }
+
   const shareWin = () => {
     try {
-      let shareString = 'I Summed It!\n\n';
-      shareString += `I won today's ${gridSize}x${gridSize} SumIt in ${moves} moves${moves <= bestThisSize ? ', my new best' : ''}!\n\n`;
+      let shareString = `I won today's ${gridSize}x${gridSize} SumIt in ${moves} moves${moves <= bestThisSize ? ', my new best' : ''}!`;
       if(stats && stats.currentStreak > 1) {
-        shareString += `I've won ${stats.currentStreak} games in a row!\n\n`;
+        shareString += ` I've won ${stats.currentStreak} games in a row!`;
       }
+      shareString += '\n\n';
+      shareString += '🟦🟦🟦🟦🟦\n';
+      shareString += '🎉S U M I T🎉\n';
+      shareString += `${numberString(target)}\n`;
+      shareString += '🎉🏔🏔🏔🎉\n';
+      shareString += '🟦🟦🟦🟦🟦\n\n';
       shareString += 'https://canyousumit.com';
       if (navigator.share) {
         // console.log('-- On a phone! --', shareString);
