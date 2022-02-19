@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { DroppableCell, Text } from '../../components';
+import { DroppableCell, Text, Dialog } from '../../components';
 import { CircularProgress } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import { RestartAlt } from '@mui/icons-material';
 import { UnassignedContainer, WinnerModal } from '../../containers';
 import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize, setGameHistory, getStats } from '../../utils';
 import ReactGA from "react-ga4";
@@ -17,6 +19,7 @@ const GameBoard = () => {
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
 	const [best, setBest] = useState(0);
+	const [showResetDialog, setShowResetDialog] = useState(false);
 
 	ReactGA.initialize([{trackingId: googleAnalyticsId}]);
 	
@@ -25,34 +28,6 @@ const GameBoard = () => {
 	const { width, height } = useViewport();
 	const lockCorner = true;
 	const squareSize = getSquareSize(height, width);
-
-	// useEffect(() => {
-	// 	// Load up some fake history, DEV ONLY
-	// 	setGameHistory({year: 2022, month: 0, day: 1}, true, 5, 43);
-	// 	setGameHistory({year: 2022, month: 0, day: 2}, true, 6, 73);
-	// 	setGameHistory({year: 2022, month: 0, day: 3}, true, 4, 28);
-	// 	setGameHistory({year: 2022, month: 0, day: 4}, true, 4, 33);
-	// 	setGameHistory({year: 2022, month: 0, day: 5}, true, 4, 33);
-	// 	setGameHistory({year: 2022, month: 0, day: 7}, true, 5, 49);
-	// 	setGameHistory({year: 2022, month: 0, day: 8}, true, 5, 59);
-	// 	setGameHistory({year: 2022, month: 0, day: 9}, true, 6, 82);
-	// 	setGameHistory({year: 2022, month: 0, day: 10}, true, 4, 39);
-	// 	setGameHistory({year: 2022, month: 0, day: 11}, true, 4, 49);
-	// 	setGameHistory({year: 2022, month: 0, day: 12}, true, 4, 37);
-	// 	setGameHistory({year: 2022, month: 0, day: 13}, true, 4, 58);
-	// 	setGameHistory({year: 2022, month: 0, day: 14}, true, 5, 58);
-	// 	setGameHistory({year: 2022, month: 0, day: 15}, false, 5, 98);
-	// 	setGameHistory({year: 2022, month: 0, day: 16}, true, 6, 103);
-	// 	setGameHistory({year: 2022, month: 1, day: 1}, true, 4, 46);
-	// 	setGameHistory({year: 2022, month: 1, day: 2}, true, 4, 45);
-	// 	setGameHistory({year: 2022, month: 1, day: 3}, true, 4, 38);
-	// 	setGameHistory({year: 2022, month: 1, day: 4}, true, 5, 69);
-	// 	setGameHistory({year: 2022, month: 1, day: 5}, true, 5, 52);
-	// 	setGameHistory({year: 2022, month: 1, day: 6}, true, 6, 82);
-	// 	setGameHistory({year: 2022, month: 1, day: 8}, true, 4, 46);
-	// 	setGameHistory({year: 2022, month: 1, day: 9}, true, 4, 36);
-	// 	setGameHistory({year: 2022, month: 1, day: 10}, true, 4, 58);
-	// }, []);
 
 	useEffect(() => {
 		const compareDateObjects = (date1, date2) => {
@@ -200,6 +175,47 @@ const GameBoard = () => {
 		// TO-DO: Let the use rearrange the ones in the unassigned bucket
 	};
 
+	const restartClickHandler = () => {
+		setShowResetDialog(true);
+	}
+
+	const handleCloseResetDialog = () => {
+		setShowResetDialog(false);
+	}
+
+	const handleResetDialogConfirm = () => {
+		setShowResetDialog(false);
+		// console.log('-- Restart Time! --');
+		const puzzleInput = generatePuzzle(gridSize);
+		const { puzzleTarget, puzzleCells } = puzzleInput;
+		let { puzzleNumbers } = puzzleInput;
+		let newCells = [];
+
+		newCells = puzzleCells.map((cell) => {
+			if (cell.inGrid) {
+				const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
+				return {
+					...cell,
+					items
+				};
+			} else {
+				const items = puzzleNumbers.filter((item) => item.column === undefined && item.row === undefined);
+				return {
+					...cell,
+					items
+				};
+			}
+		});
+		
+		setCells(newCells);
+		setMoves(moves + 1);
+		setNumbers(puzzleNumbers);
+	};
+
+	
+	const resetCells = cells.filter((cell) => cell.items.length > 0 && cell.inGrid && (cell.row !== 0 || cell.column !== 0));
+	const showResetButton = !won && resetCells.length > 0;
+
 	return (
 		<>
 			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} gridSize={gridSize} moves={moves} target={target} />
@@ -259,44 +275,29 @@ const GameBoard = () => {
 						)}
 						{/* Moves and Best */}
 						{target !== 0 && (
-							<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10}}>
+							<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
 								<Text size='XL' color={colors.darkBlue} component="div">
 									Moves: {moves}
 								</Text>
+								{showResetButton && (
+									<IconButton
+										size="small"
+										edge="start"
+										aria-label="Reset"
+										onClick={() => restartClickHandler()}
+										style={{color: colors.darkBlue}}
+									>
+										<RestartAlt />
+									</IconButton>
+								)}
 								<Text size='XL' color={colors.darkBlue} component="div">
 									Best: {best}
 								</Text>
 							</div>
 						)}
 					</div>
-					{/* <div>
-						Width: {width}
-					</div>
-					<div>
-						Height: {height}
-					</div>
-					<div>
-						Square Size: {squareSize}
-					</div> */}
-					{/* <div>
-						rowTop: {puzzleStatus.rowTop}
-					</div>
-					<div>
-						rowBottom: {puzzleStatus.rowBottom}
-					</div>
-					<div>
-						columnLeft: {puzzleStatus.columnLeft}
-					</div>
-					<div>
-						columnRight: {puzzleStatus.columnRight}
-					</div>
-					<div>
-						corners: {puzzleStatus.corners}
-					</div>
-					<div>
-						unused: {puzzleStatus.unused}
-					</div> */}
 				</DragDropContext>
+				<Dialog open={showResetDialog} handleClose={handleCloseResetDialog} handleConfirmationPress={handleResetDialogConfirm} title={'Reset Board'} description={'Are you sure you want to reset the board? This can\'t be undone.'} confirmText={'Reset Board'} cancelText={'Cancel'} />
 			</div>
 		</>
 	);
