@@ -11,8 +11,8 @@ const getSquareSize = (height, width) => {
     Math.max(
       minSquareSize,
       Math.min(
-        Math.floor((width - padding * (gridSize + 1)) / gridSize),
-        Math.floor((height - padding * (gridSize + 1)) / gridSize)
+        Math.floor(((width - padding) * (gridSize / (gridSize + 1))) / gridSize),
+        Math.floor(((height - padding) * (gridSize / (gridSize + 1))) / gridSize),
       )
     )
   );
