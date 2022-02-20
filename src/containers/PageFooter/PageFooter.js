@@ -6,7 +6,7 @@ import { colorPalette } from '../../consts';
 import { getGridSize, getSquareSize, useViewport } from '../../utils';
 import { Text } from '../../components';
 
-const PageFooter = () => {
+const PageFooter = (props) => {
 	const colors = colorPalette();
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const [showAboutUsModal, setShowAboutUsModal] = useState(false);
@@ -15,11 +15,9 @@ const PageFooter = () => {
 	const { width, height } = useViewport();
 	const squareSize = getSquareSize(height, width);
 
-	const dt = new Date();
-
 	return (
 		<>
-			<SettingsModal showModal={setShowSettingsModal} visible={showSettingsModal} />
+			<SettingsModal showModal={setShowSettingsModal} visible={showSettingsModal} handleThemeChange={props.handleThemeChange} />
 			<AboutUsModal showModal={setShowAboutUsModal} visible={showAboutUsModal} />
 			<div style={{ width: '100%', height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 				<div style={{ width: (gridSize + 1) * squareSize, height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -29,14 +27,14 @@ const PageFooter = () => {
 						edge="start"
 						aria-label="Info"
 						onClick={() => setShowAboutUsModal(true)}
-						style={{color: colors.darkBlue}}
+						style={{color: colors.textDefault}}
 					>
 						<InfoOutlined />
 					</IconButton>
 					</div>
 					<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-						<CopyrightOutlined style={{color: colors.darkBlue, marginRight: 5}} />
-						<Text color={colors.darkBlue} size={'M'}>
+						<CopyrightOutlined style={{color: colors.textDefault, marginRight: 5}} />
+						<Text color={colors.textDefault} size={'M'}>
 							{new Date().getFullYear()} SUMIT
 						</Text>
 					</div>
@@ -46,7 +44,7 @@ const PageFooter = () => {
 							edge="end"
 							aria-label="Settings"
 							onClick={() => setShowSettingsModal(true)}
-							style={{color: colors.darkBlue}}
+							style={{color: colors.textDefault}}
 						>
 							<SettingsOutlined />
 						</IconButton>

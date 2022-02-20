@@ -22,7 +22,7 @@ const DroppableCell = (cell, squareSize, lockCorner, won) => {
 							ref={provided.innerRef}
 							style={{
 								background: snapshot.isDraggingOver
-									? colors.lightBlue
+									? colors.hoverBackground
 									: 'none',
 								width: squareSize - 4,
 								height: squareSize - 4,

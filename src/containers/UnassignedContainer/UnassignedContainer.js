@@ -15,7 +15,7 @@ const UnassignedContainer = (cell, squareSize, gridSize) => {
               ref={provided.innerRef}
               style={{
                 background: snapshot.isDraggingOver
-                  ? colors.lightBlue
+                  ? colors.hoverBackground
                   : "none",
                 width: (squareSize * (gridSize + 1)) - 4,
                 minHeight: (squareSize * 3) - 4,

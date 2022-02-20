@@ -43,7 +43,7 @@ const InfoModal = (props) => {
           maxWidth: width > 700 ? 700 : width * .9,
           minHeight: height < 700 ? height * .9 : 700,
           maxHeight: height > 600 ? 600 : height * .9,
-          bgcolor: colors.white,
+          backgroundColor: colors.background,
           border: '2px solid #000',
           borderRadius: 20,
           borderColor: colors.darkBlue,
@@ -52,57 +52,57 @@ const InfoModal = (props) => {
       contentLabel="Instructions Modal"
     >
       <>
-        <Text size='XXXL' weight='bold' color={colors.darkBlue}>
+        <Text size='XXXL' weight='bold' color={colors.textDefault}>
           How to Play
         </Text>
         <div style={{paddingTop: 20, display: 'flex', flexDirection: 'row'}}>
           <img src={instructions1} alt="Instructions (Drag the Numbers)" height={200} style={{paddingRight: 20}} />
-          <Text size='L' color={colors.darkBlue}>
+          <Text size='L' color={colors.textDefault}>
             Drag the numbers from the bank into spots in the square.
           </Text>
         </div>
         <div style={{paddingTop: 20}}>
-          <Text size='L' color={colors.darkBlue}>
+          <Text size='L' color={colors.textDefault}>
             Complete the square by correctly filling in all the open spots so that:
           </Text>
         </div>
         <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-          <Text size='L' color={colors.darkBlue}>The</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;sum&nbsp;</Text>
-          <Text size='L' color={colors.darkBlue}>of each</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;column&nbsp;</Text>
-          <Text size='L' color={colors.darkBlue}>= the</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;center number</Text>
+          <Text size='L' color={colors.textDefault}>The</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;sum&nbsp;</Text>
+          <Text size='L' color={colors.textDefault}>of each</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;column&nbsp;</Text>
+          <Text size='L' color={colors.textDefault}>= the</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;center number</Text>
         </div>
         <div style={{display: 'flex', flexDirection: 'row', paddingTop: 10, justifyContent: 'space-evenly'}}>
           <img src={instructions2Left} alt="Instructions (Each Column Sums to Match the Center Number)" height={150} />
           <img src={instructions2Right} alt="Instructions (Each Column Sums to Match the Center Number)" height={150} />
         </div>
         <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-          <Text size='L' color={colors.darkBlue}>The</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;sum&nbsp;</Text>
-          <Text size='L' color={colors.darkBlue}>of each</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;row&nbsp;</Text>
-          <Text size='L' color={colors.darkBlue}>= the </Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;center number</Text>
+          <Text size='L' color={colors.textDefault}>The</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;sum&nbsp;</Text>
+          <Text size='L' color={colors.textDefault}>of each</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;row&nbsp;</Text>
+          <Text size='L' color={colors.textDefault}>= the </Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;center number</Text>
         </div>
         <div style={{display: 'flex', flexDirection: 'row', paddingTop: 10, justifyContent: 'space-evenly'}}>
           <img src={instructions3Left} alt="Instructions (Each Row Sums to Match the Center Number)" height={150} />
           <img src={instructions3Right} alt="Instructions (Each Row Sums to Match the Center Number)" height={150} />
         </div>
         <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row', flexWrap: 'wrap'}}>
-          <Text size='L' color={colors.darkBlue}>The</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;sum&nbsp;</Text>
-          <Text size='L' color={colors.darkBlue}>of all the</Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;corners&nbsp;</Text>
-          <Text size='L' color={colors.darkBlue}>= the </Text>
-          <Text size='L' weight='bold' color={colors.green}>&nbsp;center number</Text>
+          <Text size='L' color={colors.textDefault}>The</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;sum&nbsp;</Text>
+          <Text size='L' color={colors.textDefault}>of all the</Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;corners&nbsp;</Text>
+          <Text size='L' color={colors.textDefault}>= the </Text>
+          <Text size='L' weight='bold' color={colors.textHighlight}>&nbsp;center number</Text>
         </div>
         <div style={{display: 'flex', flexDirection: 'row', paddingTop: 10, justifyContent: 'space-evenly'}}>
           <img src={instructions4} alt="Instructions (The Four Corners Sums to Match the Center Number)" height={150}/>
         </div>
         <div style={{paddingTop: 10, display: 'flex', flexDirection: 'row'}}>
-          <Text size='L' color={colors.darkBlue}>Solve the puzzle by filling in the square in as few moves as possible!</Text>
+          <Text size='L' color={colors.textDefault}>Solve the puzzle by filling in the square in as few moves as possible!</Text>
         </div>
       </>
     </Modal>

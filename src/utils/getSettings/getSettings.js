@@ -8,7 +8,7 @@ const getSettings = () => {
     lockTopCorner: true,
     showSums: false,
   }
-  let isDarkMode = isDark.matches;
+  // let isDarkMode = isDark.matches;
   if (currentSettings) {
     // isDarkMode = currentSettings.darkMode;
     settings = currentSettings;

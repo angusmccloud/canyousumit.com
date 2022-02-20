@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Modal from 'react-modal';
 import Button from '@mui/material/Button';
 import { Text, Snackbar } from '../../components';
-import { colorPalette, googleAnalyticsId, styles } from '../../consts';
+import { colorPalette, googleAnalyticsId } from '../../consts';
 import { useViewport, getStats } from '../../utils';
 import ReactGA from "react-ga4";
 
@@ -13,7 +13,7 @@ const WinnerModal = (props) => {
   const [stats, setStats] = useState(undefined);
   const [snackbarMessage, setSnackbarMessage] = useState('Copied to Clipboard');
   const { width, height } = useViewport();
-  const { gridSize, moves, visible, target } = props;
+  const { gridSize, moves, visible } = props;
   ReactGA.initialize([{trackingId: googleAnalyticsId}]);
 
   const loadStats = () => {
@@ -142,17 +142,17 @@ const WinnerModal = (props) => {
         }}
         contentLabel="Stats Modal"
       >
-        <Text size='XXXL' weight='bold' color={colors.darkBlue}>
+        <Text size='XXXL' weight='bold' color={colors.textDefault}>
           You Won!
         </Text>
         <div style={{paddingTop: 20}}>
-          <Text size='XL' color={colors.darkBlue}>
+          <Text size='XL' color={colors.textDefault}>
             You beat today's {gridSize}x{gridSize} puzzle in {moves} moves{bestThisSize <= moves ? ', your new best!' : '!'}
           </Text>
         </div>
         {stats && (
           <div style={{paddingTop: 20}}>
-            <Text size='XL' color={colors.darkBlue}>
+            <Text size='XL' color={colors.textDefault}>
               {stats.currentStreak <= 1 ? (
                 `While your current streak of wins is only 1, come back tomorrow to keep it going!`
               ) : (
@@ -163,7 +163,7 @@ const WinnerModal = (props) => {
         )}
         <div style={{paddingTop: 20}}>
           <Button variant="contained" size="large" style={{backgroundColor: colors.green}} onClick={() => shareWin()}>
-            <Text size='XXL' weight='bold' color={colors.white}>
+            <Text size='XXL' weight='bold' color={colors.textDefault}>
               Share
             </Text>
           </Button>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from 'react-modal';
 import { CircularProgress } from "@mui/material";
 import Divider from '@mui/material/Divider';
-import { styles, colorPalette } from '../../consts';
+import { colorPalette } from '../../consts';
 import { Text } from '../../components';
 import { getStats, useViewport } from '../../utils';
 
@@ -25,10 +25,10 @@ const StatsModal = (props) => {
     return (
       <>
         <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <Text size='XXL' weight='bold' color={colors.darkBlue}>
+          <Text size='XXL' weight='bold' color={colors.textDefault}>
             {value}
           </Text>
-          <Text size='S' color={colors.darkBlue} textAlign='center'>
+          <Text size='S' color={colors.textDefault} textAlign='center'>
             {label}
           </Text>
         </div>
@@ -39,11 +39,11 @@ const StatsModal = (props) => {
   const gridStats = (gridSize, thisGridStats) => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', paddingTop: 20 }} >
-        <Text size='XL' weight='bold' color={colors.darkBlue}>
+        <Text size='XL' weight='bold' color={colors.textDefault}>
           {gridSize}x{gridSize} Stats
         </Text>
         {thisGridStats.totalGames === 0 ? (
-          <Text size='L' color={colors.darkBlue}>
+          <Text size='L' color={colors.textDefault}>
             None Played Yet
           </Text>
         ) : (
@@ -84,7 +84,7 @@ const StatsModal = (props) => {
           maxWidth: width > 700 ? 700 : width * .9,
           minHeight: height < 450 ? height * .9 : 400,
           maxHeight: height > 600 ? 600 : height * .9,
-          bgcolor: colors.white,
+          backgroundColor: colors.background,
           border: '2px solid #000',
           borderRadius: 20,
           borderColor: colors.darkBlue,
@@ -94,7 +94,7 @@ const StatsModal = (props) => {
     >
       <>
         <div>
-          <Text size='XXXL' weight='bold' color={colors.darkBlue}>
+          <Text size='XXXL' weight='bold' color={colors.textDefault}>
             Overall Statistics
           </Text>
         </div>
@@ -108,7 +108,7 @@ const StatsModal = (props) => {
               {summaryStat('Longest Streak', stats.longestStreak)}
               {summaryStat('Current Streak', stats.currentStreak)}
             </div>
-            <Divider color={colors.darkBlue} />
+            <Divider color={colors.divider} />
             {gridStats(4, stats.statsByGridSize.find((g) => g.gridSize === 4))}
             {gridStats(5, stats.statsByGridSize.find((g) => g.gridSize === 5))}
             {gridStats(6, stats.statsByGridSize.find((g) => g.gridSize === 6))}

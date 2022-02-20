@@ -1,20 +1,27 @@
-import React from "react";
-import { PageHeader, GameBoard } from '../../containers';
+import React, { useState, useEffect } from "react";
+import { PageHeader, PageFooter, GameBoard } from '../../containers';
 import ReactGA from "react-ga4";
 import { colorPalette, googleAnalyticsId } from "../../consts";
 
 const HomePage = () => {
+  const [triggerTime, setTriggerTime] = useState(0);
   const colors = colorPalette();
-  ReactGA.initialize([{trackingId: googleAnalyticsId}]);
-  ReactGA.send({ hitType: "pageview", page: "/" });
+
+  useEffect(() => {
+    ReactGA.initialize([{trackingId: googleAnalyticsId}]);
+    ReactGA.send({ hitType: "pageview", page: "/" });
+  }, []);
+
+  const handleThemeChange = () => {
+    setTriggerTime(new Date);
+  }
 
   return (
-    <>
-      <div style={{ width: '100%', height: '100%', backgroundColor: colors.white}}>
-        <PageHeader pageName={'Sum it!'} />
-        <GameBoard />
-      </div>
-    </>
+    <div style={{ width: '100%', height: '100%', backgroundColor: colors.background}}>
+      <PageHeader />
+      <GameBoard triggerTime={triggerTime} />
+      <PageFooter handleThemeChange={handleThemeChange} />
+    </div>
   );
 }
 

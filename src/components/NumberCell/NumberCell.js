@@ -20,15 +20,13 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: locked ?
-          colors.darkBlue : 
-          snapshot.isDragging
-            ? colors.darkBlue
-            : colors.primaryBlue,
+          colors.lockedCell
+          : colors.cell,
         color: colors.white,
         ...provided.draggableProps.style
       }}
     >
-      <Text size='XXL' component="div" weight='medium' color={colors.white}>
+      <Text size='XXL' component="div" weight='medium' color={locked ? colors.lockedCellText : colors.cellText}>
         {item.value.toString()}
       </Text>
       {/* {locked &&

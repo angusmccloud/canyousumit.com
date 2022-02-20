@@ -14,7 +14,7 @@ const GameBoard = () => {
 	// TO-DO: Investigate if there's an issue with this being an Empty Array vs. the Inital Cells I used to use
 	const [cells, setCells] = useState([]);
 	const [numbers, setNumbers] = useState([]);
-	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
+	// const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
@@ -110,7 +110,7 @@ const GameBoard = () => {
 		const columnRight = sumArray(columnRightCells);
 		const corners = sumArray(cornersCells);
 		const unused = sumArray(unusedCells);
-		setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
+		// setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
 		let winnerFlag = false
 		const dtInfo = dateInfo();
 		if (rowTop === puzzleTarget && rowBottom === puzzleTarget && columnLeft === puzzleTarget && columnRight === puzzleTarget && corners === puzzleTarget && unused === 0) {
@@ -187,7 +187,8 @@ const GameBoard = () => {
 		setShowResetDialog(false);
 		// console.log('-- Restart Time! --');
 		const puzzleInput = generatePuzzle(gridSize);
-		const { puzzleTarget, puzzleCells } = puzzleInput;
+		const { puzzleCells } = puzzleInput;
+		// const { puzzleTarget, puzzleCells } = puzzleInput;
 		let { puzzleNumbers } = puzzleInput;
 		let newCells = [];
 
@@ -244,7 +245,7 @@ const GameBoard = () => {
 									<CircularProgress />
 								) : (
 									<>
-										<Text size='Jumbo' color={colors.darkBlue} component="div">
+										<Text size='Jumbo' color={colors.textDefault} component="div">
 											{target.toString()}
 										</Text>
 									</>
@@ -276,7 +277,7 @@ const GameBoard = () => {
 						{/* Moves and Best */}
 						{target !== 0 && (
 							<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10}}>
-								<Text size='XL' color={colors.darkBlue} component="div">
+								<Text size='XL' color={colors.textDefault} component="div">
 									Moves: {moves}
 								</Text>
 								{showResetButton && (
@@ -285,12 +286,12 @@ const GameBoard = () => {
 										edge="start"
 										aria-label="Reset"
 										onClick={() => restartClickHandler()}
-										style={{color: colors.darkBlue}}
+										style={{color: colors.textDefault}}
 									>
 										<RestartAlt />
 									</IconButton>
 								)}
-								<Text size='XL' color={colors.darkBlue} component="div">
+								<Text size='XL' color={colors.textDefault} component="div">
 									Best: {best}
 								</Text>
 							</div>
