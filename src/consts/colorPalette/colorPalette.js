@@ -8,6 +8,7 @@ const colorsRegular = {
 	white: '#ffffff',
 	black: '#000000',
 	green: '#6aa74e',
+	twitterBlue: '#1DA1F2',
 };
 
 const colorsDark = {
@@ -17,6 +18,7 @@ const colorsDark = {
 	darkBlue: '#004d7d',
 	black: '#ffffff',
 	white: '#000000',
+	twitterBlue: '#1DA1F2',
 };
 
 const colorPalette = () => {
