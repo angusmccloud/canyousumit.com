@@ -21,7 +21,7 @@ const SettingsModal = (props) => {
     newSettings[setting] = value;
     setSettingsState(newSettings);
     setSettings(newSettings);
-    if(setting === 'darkMode') {
+    if (setting === 'darkMode') {
       props.handleThemeChange();
     }
   };
@@ -67,9 +67,9 @@ const SettingsModal = (props) => {
           Settings
         </Text>
         <FormGroup>
-          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode" style={{color: colors.textDefault}} />
-          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.showSums} onChange={handleSettingChange} name='showSums' />} label="Show Sums (Easier) (Coming Soon)" style={{color: colors.textDefault}} />
-          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier) (Coming Soon - Always on for now)" style={{color: colors.textDefault}} />
+          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode" style={{ color: colors.textDefault }} />
+          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.showSums} onChange={handleSettingChange} name='showSums' />} label="Show Sums (Easier) (Coming Soon)" style={{ color: colors.textDefault }} />
+          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier) (Coming Soon - Always on for now)" style={{ color: colors.textDefault }} />
         </FormGroup>
       </>
     </Modal>
