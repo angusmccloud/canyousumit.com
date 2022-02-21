@@ -132,9 +132,9 @@ const WinnerModal = (props) => {
             transform: 'translate(-50%, -50%)',
             minWidth: width < 500 ? width * .9 : 500,
             maxWidth: width > 700 ? 700 : width * .9,
-            minHeight: height < 250 ? height * .9 : 200,
-            maxHeight: height > 300 ? 300 : height * .9,
-            bgcolor: colors.white,
+            minHeight: height < 200 ? height * .9 : 200,
+            maxHeight: height > 250 ? 250 : height * .9,
+            backgroundColor: colors.background,
             border: '2px solid #000',
             borderRadius: 20,
             borderColor: colors.darkBlue,
@@ -162,8 +162,8 @@ const WinnerModal = (props) => {
           </div>
         )}
         <div style={{paddingTop: 20}}>
-          <Button variant="contained" size="large" style={{backgroundColor: colors.green}} onClick={() => shareWin()}>
-            <Text size='XXL' weight='bold' color={colors.textDefault}>
+          <Button variant="contained" size="large" style={{backgroundColor: colors.textHighlight}} onClick={() => shareWin()}>
+            <Text size='XXL' weight='bold' color={colors.white}>
               Share
             </Text>
           </Button>
