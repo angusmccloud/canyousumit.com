@@ -16,6 +16,8 @@ const HomePage = () => {
     setTriggerTime(new Date);
   }
 
+  document.body.style.backgroundColor = colors.background;
+
   return (
     <div style={{ width: '100%', height: '100%', backgroundColor: colors.background}}>
       <PageHeader />
