@@ -1,5 +1,5 @@
 {
-  "name": "SumIt - A Daily Puzzle Ga,e",
+  "name": "SumIt - A Daily Puzzle Game",
   "short_name": "SumIt",
   "icons": [
     {
@@ -13,7 +13,5 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#ffffff",
-  "background_color": "#ffffff",
   "display": "standalone"
 }
