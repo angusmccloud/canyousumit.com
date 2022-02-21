@@ -14,11 +14,11 @@ const HomePage = () => {
   }, []);
 
   const handleThemeChange = () => {
-    setTriggerTime(new Date);
+    setTriggerTime(new Date().getTime());
   }
 
   document.body.style.backgroundColor = colors.background;
-  const { width, height } = useViewport();
+  const { height } = useViewport();
 
   return (
     <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: height}}>
