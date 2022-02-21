@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import IconButton from '@mui/material/IconButton';
-import { InfoOutlined, BarChart } from '@mui/icons-material';
+import { BarChart, HelpOutline } from '@mui/icons-material';
 import { InfoModal, StatsModal } from '../../containers';
 import { colorPalette } from '../../consts';
 import { getGridSize, getSeenHowToPlay, setSeenHowToPlay, getSquareSize, useViewport } from '../../utils';
@@ -37,7 +37,7 @@ const PageHeader = () => {
 							onClick={() => setShowInfoModal(true)}
 							style={{color: colors.textDefault}}
 						>
-							<InfoOutlined />
+							<HelpOutline />
 						</IconButton>
 					</div>
 					<img src={fullNameLogo} alt="Sum It" height={50} />
