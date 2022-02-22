@@ -27,7 +27,7 @@ const PageHeader = () => {
 		<>
 			<InfoModal showModal={setShowInfoModal} visible={showInfoModal} />
 			<StatsModal showModal={setShowStatsModal} visible={showStatsModal} />
-			<div style={{ width: '100%', height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+			<div style={{ width: '100%', height: 70, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 				<div style={{ width: (gridSize + 1) * squareSize, height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
 					<div style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 						<IconButton
