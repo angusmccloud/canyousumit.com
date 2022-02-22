@@ -84,7 +84,7 @@ const AboutUsModal = (props) => {
             <TwitterIcon />
           </IconButton>
           <Text size='M' color={colors.textDefault}>
-            Need Help? Have Feedback? Find me on Twitter!
+            Need Help? Have Feedback? Reach out to Connor on Twitter!
           </Text>
         </div>
       </>
