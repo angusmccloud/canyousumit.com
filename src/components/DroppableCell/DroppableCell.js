@@ -3,7 +3,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
 import { colorPalette } from '../../consts';
 
-const DroppableCell = (cell, squareSize, lockCorner, won) => {
+const DroppableCell = (cell, squareSize, lockTopLeftCorner, won, gridSize, lockBottomRightCorner) => {
 	const colors = colorPalette();
 	return (
 		<div
@@ -14,7 +14,7 @@ const DroppableCell = (cell, squareSize, lockCorner, won) => {
 			}}
 			key={cell.id}
 		>
-			<Droppable droppableId={cell.id} key={cell.id} isDropDisabled={(lockCorner && cell.id === '0-0') || won}>
+			<Droppable droppableId={cell.id} key={cell.id} isDropDisabled={(lockTopLeftCorner && cell.id === '0-0') || (lockBottomRightCorner && cell.id === `${gridSize-1}-${gridSize-1}`) || won}>
 				{(provided, snapshot) => {
 					return (
 						<div
@@ -29,7 +29,7 @@ const DroppableCell = (cell, squareSize, lockCorner, won) => {
 								borderRadius: squareSize * .2,
 								borderWidth: 2,
 								border: 'solid',
-								borderColor: lockCorner && cell.id === '0-0' || won ?
+								borderColor: (lockTopLeftCorner && cell.id === '0-0') || (lockBottomRightCorner && cell.id === `${gridSize-1}-${gridSize-1}`) || won ?
 									colors.darkBlue :
 									snapshot.isDraggingOver
 										? colors.darkBlue
@@ -41,7 +41,7 @@ const DroppableCell = (cell, squareSize, lockCorner, won) => {
 							}}
 						>
 							{cell.items.map((item, index) => {
-								return DraggableCell(item, index, squareSize, false, (lockCorner && cell.id === '0-0') || won);
+								return DraggableCell(item, index, squareSize, false, (lockTopLeftCorner && cell.id === '0-0') || (lockBottomRightCorner && cell.id === `${gridSize-1}-${gridSize-1}`) || won);
 							})}
 							{provided.placeholder}
 						</div>

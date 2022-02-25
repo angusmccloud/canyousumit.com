@@ -3,7 +3,7 @@ import shuffleSeed from 'shuffle-seed';
 import {dateInfo} from '../index';
 const _ = require('lodash');
 
-const generatePuzzle = (gridSize) => {
+const generatePuzzle = (gridSize, topLeftCorner, bottomRightCorner) => {
 	const generateSide = (seed, sideNumber, target, cornerOne, cornerTwo, numNeeded, allNumbers) => {
 		// console.log('-- Generate a side... --', sideNumber, target, cornerOne, cornerTwo, numNeeded);
 		let numLeft = numNeeded;
@@ -65,8 +65,8 @@ const generatePuzzle = (gridSize) => {
 		return {
 			id: uuid(),
 			value: num,
-			column: index === 0 ? 0 : undefined,
-			row: index === 0 ? 0 : undefined,
+			column: (index === 0 && topLeftCorner) ? 0 : (index === 3 && bottomRightCorner) ? gridSize - 1 : undefined,
+			row: (index === 0 && topLeftCorner) ? 0 : (index === 3 && bottomRightCorner) ? gridSize - 1 : undefined,
 		}
 	});
 	puzzleNumbers.sort((a, b) => a.value - b.value);

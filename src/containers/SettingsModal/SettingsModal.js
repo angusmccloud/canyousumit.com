@@ -13,17 +13,15 @@ const SettingsModal = (props) => {
   const { width, height } = useViewport();
 
   const handleSettingChange = (event) => {
-    // console.log('-- Checked --', event.target.checked);
-    // console.log('-- Name --', event.target.name);
     const setting = event.target.name;
     const value = event.target.checked;
     const newSettings = { ...settings };
     newSettings[setting] = value;
     setSettingsState(newSettings);
     setSettings(newSettings);
-    if (setting === 'darkMode') {
+    // if (setting === 'darkMode') {
       props.handleThemeChange();
-    }
+    // }
   };
 
   const handleClose = () => {
@@ -69,7 +67,7 @@ const SettingsModal = (props) => {
         <FormGroup>
           <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode" style={{ color: colors.textDefault }} />
           <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.showSums} onChange={handleSettingChange} name='showSums' />} label="Show Sums (Easier) (Coming Soon)" style={{ color: colors.textDefault }} />
-          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier) (Coming Soon - Always on for now)" style={{ color: colors.textDefault }} />
+          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier)" style={{ color: colors.textDefault }} />
         </FormGroup>
       </>
     </Modal>
