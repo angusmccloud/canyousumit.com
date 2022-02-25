@@ -67,7 +67,7 @@ const SettingsModal = (props) => {
         <FormGroup>
           <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.darkMode} onChange={handleSettingChange} name='darkMode' />} label="Dark Mode" style={{ color: colors.textDefault }} />
           <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.showSums} onChange={handleSettingChange} name='showSums' />} label="Show Sums (Easier) (Coming Soon)" style={{ color: colors.textDefault }} />
-          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Show Top Corner (Easier)" style={{ color: colors.textDefault }} />
+          <FormControlLabel control={<Switch style={{ color: colors.textDefault }} checked={settings.lockTopCorner} onChange={handleSettingChange} name='lockTopCorner' />} label="Start with Top Corner (Easier)" style={{ color: colors.textDefault }} />
         </FormGroup>
       </>
     </Modal>
