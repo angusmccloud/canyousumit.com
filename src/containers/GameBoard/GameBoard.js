@@ -55,6 +55,7 @@ const GameBoard = () => {
 		setNumbers(puzzleNumbers);
 		setTarget(puzzleTarget);
 		checkPuzzle();
+		calcSums(newCells);
 	}
 
 	useEffect(() => {
@@ -82,6 +83,7 @@ const GameBoard = () => {
 			const { puzzleTarget } = puzzleInput;
 			setTarget(puzzleTarget);
 			checkPuzzle(newCells, puzzleTarget);
+			calcSums(newCells);
 		} else {
 			resetBoard(lockTopLeftCorner, helpUsed);
 		}
@@ -91,20 +93,19 @@ const GameBoard = () => {
 		const dtInfo = dateInfo();
 		setGameStatus({ date: dtInfo.today, cells, numbers, moves, won, helpUsed });
 		setGameHistory(dtInfo.today, won, gridSize, moves);
-	}, [cells, numbers, helpUsed])
+	}, [cells, numbers, helpUsed]);
+
+	const sumArray = (array) => {
+		let val = 0;
+		for (let i = 0; i < array.length; i++) {
+			for (let ii = 0; ii < array[i].items.length; ii++) {
+				val += array[i].items[ii].value;
+			}
+		}
+		return val;
+	};
 
 	const checkPuzzle = (checkCells, puzzleTarget = target) => {
-		console.log('-- checkCells --', checkCells);
-		const sumArray = (array) => {
-			let val = 0;
-			for (let i = 0; i < array.length; i++) {
-				for (let ii = 0; ii < array[i].items.length; ii++) {
-					val += array[i].items[ii].value;
-				}
-			}
-			return val;
-		}
-
 		if(checkCells) {
 			const rowTopCells = checkCells.filter(c => c.row === 0 && c.items.length > 0);
 			const rowBottomCells = checkCells.filter(c => c.row === gridSize - 1 && c.items.length > 0);
@@ -214,6 +215,24 @@ const GameBoard = () => {
 		setHelpUsed(true);
 	};
 
+	const calcSums = (checkCells) => {
+		if(checkCells) {
+			const rowTopCells = checkCells.filter(c => c.row === 0 && c.items.length > 0);
+			const rowBottomCells = checkCells.filter(c => c.row === gridSize - 1 && c.items.length > 0);
+			const columnLeftCells = checkCells.filter(c => c.column === 0 && c.items.length > 0);
+			const columnRightCells = checkCells.filter(c => c.column === gridSize - 1 && c.items.length > 0);
+			const cornersCells = checkCells.filter(c => ((c.column === 0 && c.row === 0) || (c.column === 0 && c.row === gridSize - 1) || (c.column === gridSize - 1 && c.row === 0) || (c.column === gridSize - 1 && c.row === gridSize - 1)) && c.items.length > 0);
+			const unusedCells = checkCells.filter(c => c.id === 'unassigned' && c.items.length > 0);
+			const rowTop = sumArray(rowTopCells);
+			const rowBottom = sumArray(rowBottomCells);
+			const columnLeft = sumArray(columnLeftCells);
+			const columnRight = sumArray(columnRightCells);
+			const corners = sumArray(cornersCells);
+			const unused = sumArray(unusedCells);
+			setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
+		}
+	}
+
 	const resetCells = cells.filter((cell) => cell.items.length > 0 && cell.inGrid && (!lockTopLeftCorner || cell.row !== 0 || cell.column !== 0) && (!helpUsed || cell.row !== gridSize - 1 || cell.column !== gridSize - 1));
 	const showResetButton = !won && resetCells.length > 0;
 
@@ -223,11 +242,11 @@ const GameBoard = () => {
 			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column' }}>
 				<DragDropContext onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}>
 					<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
-						<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center'}}>
+						<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center' }}>
 							{ShowSum(target, puzzleStatus.rowTop, 0, settings.showSums)}
-							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 80, backgroundColor: 'red' }}>
+							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 80 }}>
 								{ShowSum(target, puzzleStatus.columnLeft, 270, settings.showSums)}
-								<div>
+								<div style={{ width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) }}>
 									{/* Top Row */}
 									<div style={{ display: 'flex', alignItems: 'center' }}>
 										{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
@@ -280,14 +299,14 @@ const GameBoard = () => {
 							<div style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: squareSize * .1 }}>
 								{target !== 0 &&
 									cells.filter(c => !c.inGrid).map((cell) => {
-										return UnassignedContainer(cell, squareSize, gridSize);
+										return UnassignedContainer(cell, squareSize, gridSize, settings.showSums);
 									})
 								}
 							</div>
 						)}
 						{/* Moves and Best */}
 						{target !== 0 && (
-							<div style={{ display: 'flex', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
+							<div style={{ display: 'flex', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + (settings.showSums ? 60 : 0), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
 								<Text size='XL' color={colors.textDefault} component="div">
 									Moves: {moves}
 								</Text>
