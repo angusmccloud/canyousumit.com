@@ -24,8 +24,3 @@ const getSquareSize = (height, width) => {
 }
 
 export default getSquareSize;
-
-// 211
-// 91
-
-// 222
