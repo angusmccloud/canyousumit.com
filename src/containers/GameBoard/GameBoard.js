@@ -4,17 +4,17 @@ import { DroppableCell, Text, Dialog } from '../../components';
 import { CircularProgress } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import { RestartAlt, ExtensionOutlined } from '@mui/icons-material';
-import { UnassignedContainer, WinnerModal } from '../../containers';
+import { UnassignedContainer, WinnerModal, ShowSum } from '../../containers';
 import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize, setGameHistory, getStats, getSettings } from '../../utils';
 import ReactGA from "react-ga4";
-import { colorPalette, googleAnalyticsId } from '../../consts';
+import { colorPalette, googleAnalyticsId, droppableCellPadding } from '../../consts';
 
 const GameBoard = () => {
 	const [showWinnerModal, setShowWinnerModal] = useState(false);
 	// TO-DO: Need to track this in Local Storage
 	const [cells, setCells] = useState([]);
 	const [numbers, setNumbers] = useState([]);
-	// const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
+	const [puzzleStatus, setPuzzleStatus] = useState({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
 	const [moves, setMoves] = useState(0);
 	const [target, setTarget] = useState(0);
 	const [won, setWon] = useState(false);
@@ -54,6 +54,8 @@ const GameBoard = () => {
 		setCells(newCells);
 		setNumbers(puzzleNumbers);
 		setTarget(puzzleTarget);
+		checkPuzzle();
+		calcSums(newCells);
 	}
 
 	useEffect(() => {
@@ -81,6 +83,7 @@ const GameBoard = () => {
 			const { puzzleTarget } = puzzleInput;
 			setTarget(puzzleTarget);
 			checkPuzzle(newCells, puzzleTarget);
+			calcSums(newCells);
 		} else {
 			resetBoard(lockTopLeftCorner, helpUsed);
 		}
@@ -90,50 +93,53 @@ const GameBoard = () => {
 		const dtInfo = dateInfo();
 		setGameStatus({ date: dtInfo.today, cells, numbers, moves, won, helpUsed });
 		setGameHistory(dtInfo.today, won, gridSize, moves);
-	}, [cells, numbers, helpUsed])
+	}, [cells, numbers, helpUsed]);
+
+	const sumArray = (array) => {
+		let val = 0;
+		for (let i = 0; i < array.length; i++) {
+			for (let ii = 0; ii < array[i].items.length; ii++) {
+				val += array[i].items[ii].value;
+			}
+		}
+		return val;
+	};
 
 	const checkPuzzle = (checkCells, puzzleTarget = target) => {
-		// console.log('-- checkPuzzle --', checkCells);
-		const sumArray = (array) => {
-			let val = 0;
-			for (let i = 0; i < array.length; i++) {
-				for (let ii = 0; ii < array[i].items.length; ii++) {
-					val += array[i].items[ii].value;
-				}
+		if(checkCells) {
+			const rowTopCells = checkCells.filter(c => c.row === 0 && c.items.length > 0);
+			const rowBottomCells = checkCells.filter(c => c.row === gridSize - 1 && c.items.length > 0);
+			const columnLeftCells = checkCells.filter(c => c.column === 0 && c.items.length > 0);
+			const columnRightCells = checkCells.filter(c => c.column === gridSize - 1 && c.items.length > 0);
+			const cornersCells = checkCells.filter(c => ((c.column === 0 && c.row === 0) || (c.column === 0 && c.row === gridSize - 1) || (c.column === gridSize - 1 && c.row === 0) || (c.column === gridSize - 1 && c.row === gridSize - 1)) && c.items.length > 0);
+			const unusedCells = checkCells.filter(c => c.id === 'unassigned' && c.items.length > 0);
+			const rowTop = sumArray(rowTopCells);
+			const rowBottom = sumArray(rowBottomCells);
+			const columnLeft = sumArray(columnLeftCells);
+			const columnRight = sumArray(columnRightCells);
+			const corners = sumArray(cornersCells);
+			const unused = sumArray(unusedCells);
+			setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
+			let winnerFlag = false
+			const dtInfo = dateInfo();
+			if (rowTop === puzzleTarget && rowBottom === puzzleTarget && columnLeft === puzzleTarget && columnRight === puzzleTarget && corners === puzzleTarget && unused === 0) {
+				// console.log('-- YOU WIN !! --');
+				winnerFlag = true;
+				setShowWinnerModal(true);
+				setWon(true);
+				setGameStatus({ date: dtInfo.today, cells, numbers, moves, won: true, helpUsed });
+				ReactGA.event({
+					category: 'Game',
+					action: 'Win',
+					label: `Grid Size ${gridSize}`,
+					value: moves
+				});
 			}
-			return val;
+			// And update stats, winner or loser...
+			setGameHistory(dtInfo.today, winnerFlag, gridSize, moves);
+		} else {
+			setPuzzleStatus({ rowTop: 0, rowBottom: 0, columnLeft: 0, columnRight: 0, corners: 0, unused: 0 });
 		}
-
-		const rowTopCells = checkCells.filter(c => c.row === 0 && c.items.length > 0);
-		const rowBottomCells = checkCells.filter(c => c.row === gridSize - 1 && c.items.length > 0);
-		const columnLeftCells = checkCells.filter(c => c.column === 0 && c.items.length > 0);
-		const columnRightCells = checkCells.filter(c => c.column === gridSize - 1 && c.items.length > 0);
-		const cornersCells = checkCells.filter(c => ((c.column === 0 && c.row === 0) || (c.column === 0 && c.row === gridSize - 1) || (c.column === gridSize - 1 && c.row === 0) || (c.column === gridSize - 1 && c.row === gridSize - 1)) && c.items.length > 0);
-		const unusedCells = checkCells.filter(c => c.id === 'unassigned' && c.items.length > 0);
-		const rowTop = sumArray(rowTopCells);
-		const rowBottom = sumArray(rowBottomCells);
-		const columnLeft = sumArray(columnLeftCells);
-		const columnRight = sumArray(columnRightCells);
-		const corners = sumArray(cornersCells);
-		const unused = sumArray(unusedCells);
-		// setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
-		let winnerFlag = false
-		const dtInfo = dateInfo();
-		if (rowTop === puzzleTarget && rowBottom === puzzleTarget && columnLeft === puzzleTarget && columnRight === puzzleTarget && corners === puzzleTarget && unused === 0) {
-			// console.log('-- YOU WIN !! --');
-			winnerFlag = true;
-			setShowWinnerModal(true);
-			setWon(true);
-			setGameStatus({ date: dtInfo.today, cells, numbers, moves, won: true, helpUsed });
-			ReactGA.event({
-				category: 'Game',
-				action: 'Win',
-				label: `Grid Size ${gridSize}`,
-				value: moves
-			});
-		}
-		// And update stats, winner or loser...
-		setGameHistory(dtInfo.today, winnerFlag, gridSize, moves);
 	};
 
 	const onDragEnd = (result, cells, setCells, checkPuzzle) => {
@@ -209,6 +215,24 @@ const GameBoard = () => {
 		setHelpUsed(true);
 	};
 
+	const calcSums = (checkCells) => {
+		if(checkCells) {
+			const rowTopCells = checkCells.filter(c => c.row === 0 && c.items.length > 0);
+			const rowBottomCells = checkCells.filter(c => c.row === gridSize - 1 && c.items.length > 0);
+			const columnLeftCells = checkCells.filter(c => c.column === 0 && c.items.length > 0);
+			const columnRightCells = checkCells.filter(c => c.column === gridSize - 1 && c.items.length > 0);
+			const cornersCells = checkCells.filter(c => ((c.column === 0 && c.row === 0) || (c.column === 0 && c.row === gridSize - 1) || (c.column === gridSize - 1 && c.row === 0) || (c.column === gridSize - 1 && c.row === gridSize - 1)) && c.items.length > 0);
+			const unusedCells = checkCells.filter(c => c.id === 'unassigned' && c.items.length > 0);
+			const rowTop = sumArray(rowTopCells);
+			const rowBottom = sumArray(rowBottomCells);
+			const columnLeft = sumArray(columnLeftCells);
+			const columnRight = sumArray(columnRightCells);
+			const corners = sumArray(cornersCells);
+			const unused = sumArray(unusedCells);
+			setPuzzleStatus({ rowTop, rowBottom, columnLeft, columnRight, corners, unused });
+		}
+	}
+
 	const resetCells = cells.filter((cell) => cell.items.length > 0 && cell.inGrid && (!lockTopLeftCorner || cell.row !== 0 || cell.column !== 0) && (!helpUsed || cell.row !== gridSize - 1 || cell.column !== gridSize - 1));
 	const showResetButton = !won && resetCells.length > 0;
 
@@ -216,62 +240,73 @@ const GameBoard = () => {
 		<>
 			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} gridSize={gridSize} moves={moves} target={target} />
 			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column' }}>
-				<DragDropContext
-					onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}
-				>
+				<DragDropContext onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}>
 					<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
-						{/* Top Row */}
-						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize, justifyContent: 'space-between', alignItems: 'center' }}>
-							{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
-								return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
-							})}
-						</div>
-						{/* Middle Container */}
-						<div style={{ display: 'flex', flexDirection: 'row', width: squareSize * (gridSize + 1), height: squareSize * (gridSize - 2) * (1 + (1 / gridSize)), justifyContent: 'space-between', alignItems: 'center' }}>
-							{/* Left Column */}
-							<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
-								{cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
-									return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
-								})}
+						<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center' }}>
+							{ShowSum(target, puzzleStatus.rowTop, 0, settings.showSums)}
+							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 80 }}>
+								{ShowSum(target, puzzleStatus.columnLeft, 270, settings.showSums)}
+								<div style={{ width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) }}>
+									{/* Top Row */}
+									<div style={{ display: 'flex', alignItems: 'center' }}>
+										{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
+											return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
+										})}
+									</div>
+									{/* Middle Container */}
+									<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+										<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+											{/* Left Column */}
+											<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+												{cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+													return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
+												})}
+											</div>
+											{/* Center Square */}
+											<div style={{ height: '100%', width: (squareSize + (droppableCellPadding * 2)) * (gridSize - 2), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+												{target === 0 ? (
+													<CircularProgress />
+												) : (
+													<>
+														<Text size='Jumbo' color={colors.textDefault} component="div">
+															{target.toString()}
+														</Text>
+													</>
+												)}
+											</div>
+											{/* Right Column */}
+											<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+												{cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
+													return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
+												})}
+											</div>
+											{/* {ShowSum(target, puzzleStatus.columnRight, 90, settings.showSums)} */}
+										</div>
+									</div>
+									{/* Bottom Row */}
+									<div style={{ display: 'flex', alignItems: 'center' }}>
+										{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
+											return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
+										})}
+									</div>
+								</div>
+								{ShowSum(target, puzzleStatus.columnRight, 90, settings.showSums)}
 							</div>
-							{/* Center Square */}
-							<div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-								{target === 0 ? (
-									<CircularProgress />
-								) : (
-									<>
-										<Text size='Jumbo' color={colors.textDefault} component="div">
-											{target.toString()}
-										</Text>
-									</>
-								)}
-							</div>
-							{/* Right Column */}
-							<div style={{ display: 'flex', flexDirection: 'column', width: squareSize, justifyContent: 'space-evenly', alignItems: 'center', height: ((gridSize - 2) / gridSize) * (squareSize * (gridSize + 1)) }}>
-								{cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
-									return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
-								})}
-							</div>
-						</div>
-						{/* Bottom Row */}
-						<div style={{ display: 'flex', width: squareSize * (gridSize + 1), height: squareSize, justifyContent: 'space-between', alignItems: 'center' }}>
-							{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
-								return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
-							})}
+							{ShowSum(target, puzzleStatus.rowBottom, 180, settings.showSums)}
 						</div>
 						{/* Bottom Container */}
 						{!won && (
 							<div style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: squareSize * .1 }}>
 								{target !== 0 &&
 									cells.filter(c => !c.inGrid).map((cell) => {
-										return UnassignedContainer(cell, squareSize, gridSize);
+										return UnassignedContainer(cell, squareSize, gridSize, settings.showSums);
 									})
 								}
 							</div>
 						)}
 						{/* Moves and Best */}
 						{target !== 0 && (
-							<div style={{ display: 'flex', width: squareSize * (gridSize + 1), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
+							<div style={{ display: 'flex', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + (settings.showSums ? 60 : 0), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
 								<Text size='XL' color={colors.textDefault} component="div">
 									Moves: {moves}
 								</Text>

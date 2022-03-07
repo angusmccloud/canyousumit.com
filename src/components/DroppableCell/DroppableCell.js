@@ -1,7 +1,7 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
-import { colorPalette } from '../../consts';
+import { colorPalette, droppableCellPadding } from '../../consts';
 
 const DroppableCell = (cell, squareSize, lockTopLeftCorner, won, gridSize, lockBottomRightCorner) => {
 	const colors = colorPalette();
@@ -11,6 +11,7 @@ const DroppableCell = (cell, squareSize, lockTopLeftCorner, won, gridSize, lockB
 				display: "flex",
 				flexDirection: "row",
 				alignItems: "center",
+				padding: droppableCellPadding,
 			}}
 			key={cell.id}
 		>
@@ -24,8 +25,8 @@ const DroppableCell = (cell, squareSize, lockTopLeftCorner, won, gridSize, lockB
 								background: snapshot.isDraggingOver
 									? colors.hoverBackground
 									: 'none',
-								width: squareSize - 4,
-								height: squareSize - 4,
+								width: squareSize,
+								height: squareSize,
 								borderRadius: squareSize * .2,
 								borderWidth: 2,
 								border: 'solid',
