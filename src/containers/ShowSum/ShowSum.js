@@ -19,7 +19,7 @@ const ShowSum = (target, sum, rotation, showSums) => {
     <div style={{ display: 'flex', flexDirection: vertical ? 'column' : 'row', justifyContent: 'center', alignItems: 'center', width: vertical ? undefined : containerWidth, height: vertical ? containerWidth : undefined }}>
       <div style={{ backgroundColor: sum === target ? colors.textHighlight : colors.primaryBlue, width: vertical ? sumBorderWidth : (containerWidth - 60) / 2, height: vertical ? (containerWidth - 60) / 2 : sumBorderWidth }} />
       <div style={{ width: vertical ? 30 : 60, height: vertical ? 60 : 30, display: 'flex', alignItems: 'center', justifyContent: 'center', borderWidth: sumBorderWidth, borderStyle: 'solid', borderRadius: 5, borderColor: sum === target ? colors.textHighlight : colors.primaryBlue }}>
-        <Text size='XXL' weight='bold' color={sum === target ? colors.textHighlight : colors.textDefault} rotation={rotation}>
+        <Text size='XXL' weight='bold' color={sum === target ? colors.textHighlight : colors.textDefault} rotation={rotation === 180 ? 0 : rotation}>
           {sum}
         </Text>
       </div>
