@@ -17,7 +17,7 @@ const UnassignedContainer = (cell, squareSize, gridSize, showSums) => {
                 background: snapshot.isDraggingOver
                   ? colors.hoverBackground
                   : "none",
-                width: ((squareSize + (droppableCellPadding * 2)) * gridSize) - (droppableCellPadding * 2) + (showSums ? 60 : 0),
+                width: ((squareSize + (droppableCellPadding * 2)) * gridSize) - (droppableCellPadding * 2) + (showSums ? 45 : 0),
                 minHeight: (squareSize * 3),
                 borderRadius: squareSize * .2,
                 borderWidth: 2,

@@ -244,7 +244,7 @@ const GameBoard = () => {
 					<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
 						<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center' }}>
 							{ShowSum(target, puzzleStatus.rowTop, 0, settings.showSums)}
-							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 80 }}>
+							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 60 }}>
 								{ShowSum(target, puzzleStatus.columnLeft, 270, settings.showSums)}
 								<div style={{ width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) }}>
 									{/* Top Row */}
