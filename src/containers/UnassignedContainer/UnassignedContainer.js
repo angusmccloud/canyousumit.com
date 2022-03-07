@@ -1,7 +1,7 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { DraggableCell } from '../../components';
-import { colorPalette } from '../../consts';
+import { colorPalette, droppableCellPadding } from '../../consts';
 
 const UnassignedContainer = (cell, squareSize, gridSize) => {
   const colors = colorPalette();
@@ -17,8 +17,8 @@ const UnassignedContainer = (cell, squareSize, gridSize) => {
                 background: snapshot.isDraggingOver
                   ? colors.hoverBackground
                   : "none",
-                width: (squareSize * (gridSize + 1)) - 4,
-                minHeight: (squareSize * 3) - 4,
+                width: ((squareSize + (droppableCellPadding * 2)) * gridSize) - (droppableCellPadding * 2),
+                minHeight: (squareSize * 3),
                 borderRadius: squareSize * .2,
                 borderWidth: 2,
                 border: 'solid',

@@ -19,9 +19,7 @@ const SettingsModal = (props) => {
     newSettings[setting] = value;
     setSettingsState(newSettings);
     setSettings(newSettings);
-    // if (setting === 'darkMode') {
-      props.handleThemeChange();
-    // }
+    props.handleThemeChange();
   };
 
   const handleClose = () => {
@@ -61,7 +59,7 @@ const SettingsModal = (props) => {
       contentLabel="Settings Modal"
     >
       <>
-        <Text size='XXL' weight='bold' color={colors.textDefault} component="div">
+        <Text size='XXL' weight='bold' color={colors.textDefault}>
           Settings
         </Text>
         <FormGroup>
