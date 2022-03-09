@@ -4,7 +4,7 @@ import { DroppableCell, Text, Dialog } from '../../components';
 import { CircularProgress } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import { RestartAlt, ExtensionOutlined } from '@mui/icons-material';
-import { UnassignedContainer, WinnerModal, ShowSum } from '../../containers';
+import { UnassignedContainer, WinnerModal, ShowSum, ShowSumCenter } from '../../containers';
 import { generatePuzzle, dateInfo, getGameStatus, setGameStatus, getGridSize, useViewport, getSquareSize, setGameHistory, getStats, getSettings } from '../../utils';
 import ReactGA from "react-ga4";
 import { colorPalette, googleAnalyticsId, droppableCellPadding } from '../../consts';
@@ -267,11 +267,14 @@ const GameBoard = () => {
 												{target === 0 ? (
 													<CircularProgress />
 												) : (
-													<>
-														<Text size='Jumbo' color={colors.textDefault} component="div">
-															{target.toString()}
-														</Text>
-													</>
+													<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly'}}>
+														<div>
+															<Text size='Jumbo' color={colors.textDefault}>
+																{target.toString()}
+															</Text>
+														</div>
+														{ShowSumCenter(target, puzzleStatus.corners,settings.showSums)}
+													</div>
 												)}
 											</div>
 											{/* Right Column */}
@@ -280,7 +283,6 @@ const GameBoard = () => {
 													return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
 												})}
 											</div>
-											{/* {ShowSum(target, puzzleStatus.columnRight, 90, settings.showSums)} */}
 										</div>
 									</div>
 									{/* Bottom Row */}
