@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
+import { Container } from '../';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -15,7 +16,7 @@ const Dialog = (props) => {
   const {open, handleClose, handleConfirmationPress, title, description, confirmText, cancelText} = props;
 
   return (
-    <div>
+    <Container>
       <MuiDialog
         open={open}
         TransitionComponent={Transition}
@@ -34,7 +35,7 @@ const Dialog = (props) => {
           <Button onClick={handleConfirmationPress}>{confirmText}</Button>
         </DialogActions>
       </MuiDialog>
-    </div>
+    </Container>
   );
 };
 

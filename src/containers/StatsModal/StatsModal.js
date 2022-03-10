@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { CircularProgress } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { colorPalette } from '../../consts';
-import { Text } from '../../components';
+import { Text, Container } from '../../components';
 import { getStats, useViewport } from '../../utils';
 
 const StatsModal = (props) => {
@@ -24,21 +24,21 @@ const StatsModal = (props) => {
   const summaryStat = (label, value) => {
     return (
       <>
-        <div style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Container style={{ display: 'flex', flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
           <Text size='XXL' weight='bold' color={colors.textDefault}>
             {value}
           </Text>
           <Text size='S' color={colors.textDefault} textAlign='center'>
             {label}
           </Text>
-        </div>
+        </Container>
       </>
     );
   };
 
   const gridStats = (gridSize, thisGridStats) => {
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', paddingTop: 20 }} >
+      <Container style={{ display: 'flex', flexDirection: 'column', paddingTop: 20 }} >
         <Text size='XL' weight='bold' color={colors.textDefault}>
           {gridSize}x{gridSize} Stats
         </Text>
@@ -47,16 +47,16 @@ const StatsModal = (props) => {
             None Played Yet
           </Text>
         ) : (
-          <div>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 5 }}>
+          <Container>
+            <Container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 5 }}>
               {summaryStat('Games Played', thisGridStats.totalGames)}
               {summaryStat('Win %', thisGridStats.totalGames > 0 ? Math.round((thisGridStats.wins / thisGridStats.totalGames) * 100) : 0)}
               {summaryStat('Average Moves', thisGridStats.averageMoves > 0 ? Math.round(thisGridStats.averageMoves) : 0)}
               {summaryStat('Best Moves', thisGridStats.fewestMoves)}
-            </div>
-          </div>
+            </Container>
+          </Container>
         )}
-      </div>
+      </Container>
     );
   }
 
@@ -93,21 +93,21 @@ const StatsModal = (props) => {
       contentLabel="Stats Modal"
     >
       <>
-        <div>
+        <Container>
           <Text size='XXXL' weight='bold' color={colors.textDefault}>
             Overall Statistics
           </Text>
-        </div>
+        </Container>
         {stats === undefined ? (
           <CircularProgress />
         ) : (
           <>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 10, paddingBottom: 20 }}>
+            <Container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', paddingTop: 10, paddingBottom: 20 }}>
               {summaryStat('Games Played', stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames)}
               {summaryStat('Win %', stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames > 0 ? Math.round((stats.statsByGridSize.find((g) => g.gridSize === 'all').wins / stats.statsByGridSize.find((g) => g.gridSize === 'all').totalGames) * 100, 0) : 0)}
               {summaryStat('Longest Streak', stats.longestStreak)}
               {summaryStat('Current Streak', stats.currentStreak)}
-            </div>
+            </Container>
             <Divider color={colors.divider} />
             {gridStats(4, stats.statsByGridSize.find((g) => g.gridSize === 4))}
             {gridStats(5, stats.statsByGridSize.find((g) => g.gridSize === 5))}

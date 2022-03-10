@@ -3,6 +3,7 @@ import { PageHeader, PageFooter, GameBoard } from '../../containers';
 import ReactGA from "react-ga4";
 import { colorPalette, googleAnalyticsId } from "../../consts";
 import { useViewport } from '../../utils';
+import { Container } from '../../components';
 
 const HomePage = () => {
   const [triggerTime, setTriggerTime] = useState(0);
@@ -21,13 +22,13 @@ const HomePage = () => {
   const { height } = useViewport();
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: height}}>
-      <div>
+    <Container style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: height}}>
+      <Container>
         <PageHeader />
         <GameBoard triggerTime={triggerTime} />
-      </div>
+      </Container>
       <PageFooter handleThemeChange={handleThemeChange} />
-    </div>
+    </Container>
   );
 }
 

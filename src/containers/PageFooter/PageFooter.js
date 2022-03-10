@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import IconButton from '@mui/material/IconButton';
 import { CopyrightOutlined, InfoOutlined, SettingsOutlined } from '@mui/icons-material';
 import { SettingsModal, AboutUsModal } from '../';
 import { colorPalette } from '../../consts';
 import { getGridSize, getSquareSize, useViewport } from '../../utils';
-import { Text } from '../../components';
+import { Text, Container } from '../../components';
 
 const PageFooter = (props) => {
 	const colors = colorPalette();
@@ -19,9 +19,9 @@ const PageFooter = (props) => {
 		<>
 			<SettingsModal showModal={setShowSettingsModal} visible={showSettingsModal} handleThemeChange={props.handleThemeChange} />
 			<AboutUsModal showModal={setShowAboutUsModal} visible={showAboutUsModal} />
-			<div style={{ width: '100%', height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-				<div style={{ width: (gridSize + 1) * squareSize, height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-					<div style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+			<Container style={{ width: '100%', height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+				<Container style={{ width: (gridSize + 1) * squareSize, height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+					<Container style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 					<IconButton
 						size="small"
 						edge="start"
@@ -31,14 +31,14 @@ const PageFooter = (props) => {
 					>
 						<InfoOutlined />
 					</IconButton>
-					</div>
-					<div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+					</Container>
+					<Container style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
 						<CopyrightOutlined style={{color: colors.textDefault, marginRight: 5}} />
 						<Text color={colors.textDefault} size={'M'}>
 							{new Date().getFullYear()} SUMIT
 						</Text>
-					</div>
-					<div style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					</Container>
+					<Container style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 						<IconButton
 							size='small'
 							edge="end"
@@ -48,9 +48,9 @@ const PageFooter = (props) => {
 						>
 							<SettingsOutlined />
 						</IconButton>
-					</div>
-				</div>
-			</div>
+					</Container>
+				</Container>
+			</Container>
 		</>
 	);
 }

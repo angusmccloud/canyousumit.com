@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import { BarChart, HelpOutline } from '@mui/icons-material';
 import { InfoModal, StatsModal } from '../../containers';
 import { colorPalette } from '../../consts';
+import { Container } from '../../components';
 import { getGridSize, getSeenHowToPlay, setSeenHowToPlay, getSquareSize, useViewport } from '../../utils';
 import fullNameLogo from '../../assets/images/fullNameLogo.png';
 
@@ -27,9 +28,9 @@ const PageHeader = () => {
 		<>
 			<InfoModal showModal={setShowInfoModal} visible={showInfoModal} />
 			<StatsModal showModal={setShowStatsModal} visible={showStatsModal} />
-			<div style={{ width: '100%', height: 70, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-				<div style={{ width: (gridSize + 1) * squareSize, height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-					<div style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+			<Container style={{ width: '100%', height: 70, display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+				<Container style={{ width: (gridSize + 1) * squareSize, height: 50, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+					<Container style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 						<IconButton
 							size="small"
 							edge="start"
@@ -39,9 +40,9 @@ const PageHeader = () => {
 						>
 							<HelpOutline />
 						</IconButton>
-					</div>
+					</Container>
 					<img src={fullNameLogo} alt="Sum It" height={50} />
-					<div style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					<Container style={{width: squareSize, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
 						<IconButton
 							size='small'
 							edge="start"
@@ -51,9 +52,9 @@ const PageHeader = () => {
 						>
 							<BarChart />
 						</IconButton>
-					</div>
-				</div>
-			</div>
+					</Container>
+				</Container>
+			</Container>
 		</>
 	);
 }

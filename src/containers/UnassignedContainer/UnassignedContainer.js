@@ -1,16 +1,16 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
-import { DraggableCell } from '../../components';
+import { DraggableCell, Container } from '../../components';
 import { colorPalette, droppableCellPadding } from '../../consts';
 
 const UnassignedContainer = (cell, squareSize, gridSize, showSums) => {
   const colors = colorPalette();
   return (
-    <div key={cell.id}>
+    <Container key={cell.id}>
       <Droppable droppableId={cell.id} key={cell.id}>
         {(provided, snapshot) => {
           return (
-            <div
+            <Container
               {...provided.droppableProps}
               ref={provided.innerRef}
               style={{
@@ -36,11 +36,11 @@ const UnassignedContainer = (cell, squareSize, gridSize, showSums) => {
                 return DraggableCell(item, index, squareSize, true);
               })}
               {provided.placeholder}
-            </div>
+            </Container>
           );
         }}
       </Droppable>
-    </div>
+    </Container>
   );
 };
 

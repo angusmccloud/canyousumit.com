@@ -1,12 +1,12 @@
 import React from "react";
-import { Text } from '../../components';
+import { Text, Container } from '../';
 import { colorPalette } from '../../consts';
 // import iconWhite from '../../assets/images/iconWhite.png';
 
 const NumberCell = (provided, snapshot, squareSize, item, locked) => {
   const colors = colorPalette();
   return (
-    <div
+    <Container
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
@@ -39,7 +39,7 @@ const NumberCell = (provided, snapshot, squareSize, item, locked) => {
           zIndex: '1'
         }}/>
       } */}
-    </div>
+    </Container>
   );
 }
 

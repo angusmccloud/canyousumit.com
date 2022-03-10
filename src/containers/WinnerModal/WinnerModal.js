@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Modal from 'react-modal';
 import Button from '@mui/material/Button';
-import { Text, Snackbar } from '../../components';
+import { Text, Snackbar, Container } from '../../components';
 import { colorPalette, googleAnalyticsId } from '../../consts';
 import { useViewport, getStats } from '../../utils';
 import ReactGA from "react-ga4";
@@ -145,13 +145,13 @@ const WinnerModal = (props) => {
         <Text size='XXXL' weight='bold' color={colors.textDefault}>
           You Won!
         </Text>
-        <div style={{paddingTop: 20}}>
+        <Container style={{paddingTop: 20}}>
           <Text size='XL' color={colors.textDefault}>
             You beat today's {gridSize}x{gridSize} puzzle in {moves} moves{bestThisSize <= moves ? ', your new best!' : '!'}
           </Text>
-        </div>
+        </Container>
         {stats && (
-          <div style={{paddingTop: 20}}>
+          <Container style={{paddingTop: 20}}>
             <Text size='XL' color={colors.textDefault}>
               {stats.currentStreak <= 1 ? (
                 `While your current streak of wins is only 1, come back tomorrow to keep it going!`
@@ -159,15 +159,15 @@ const WinnerModal = (props) => {
                 `Your current win-streak is ${stats.currentStreak}${stats.currentStreak >= stats.longestStreak ? ', your longest streak yet! Come back tomorrow to keep it going!' : ', come back tomorrow to keep it going!'}`
               )}
             </Text>
-          </div>
+          </Container>
         )}
-        <div style={{paddingTop: 20}}>
+        <Container style={{paddingTop: 20}}>
           <Button variant="contained" size="large" style={{backgroundColor: colors.textHighlight}} onClick={() => shareWin()}>
             <Text size='XXL' weight='bold' color={colors.white}>
               Share
             </Text>
           </Button>
-        </div>
+        </Container>
       </Modal>
       <Snackbar open={showSnackbar} onClose={handleSnackbarClose} message={snackbarMessage} severity='error' />
     </>

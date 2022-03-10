@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from '../../components';
+import { Text, Container } from '../../components';
 import { colorPalette, droppableCellPadding } from '../../consts';
 import { getGridSize, getSquareSize, useViewport } from '../../utils';
 
@@ -16,15 +16,15 @@ const ShowSum = (target, sum, rotation, showSums) => {
   if (!showSums) return null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: vertical ? 'column' : 'row', justifyContent: 'center', alignItems: 'center', width: vertical ? undefined : containerWidth, height: vertical ? containerWidth : undefined }}>
-      <div style={{ backgroundColor: sum === target ? colors.textHighlight : colors.primaryBlue, width: vertical ? sumBorderWidth : (containerWidth - 60) / 2, height: vertical ? (containerWidth - 60) / 2 : sumBorderWidth }} />
-      <div style={{ width: vertical ? 30 : 60, height: vertical ? 60 : 30, display: 'flex', alignItems: 'center', justifyContent: 'center', borderWidth: sumBorderWidth, borderStyle: 'solid', borderRadius: 5, borderColor: sum === target ? colors.textHighlight : colors.primaryBlue }}>
+    <Container style={{ display: 'flex', flexDirection: vertical ? 'column' : 'row', justifyContent: 'center', alignItems: 'center', width: vertical ? undefined : containerWidth, height: vertical ? containerWidth : undefined }}>
+      <Container style={{ backgroundColor: sum === target ? colors.textHighlight : colors.primaryBlue, width: vertical ? sumBorderWidth : (containerWidth - 60) / 2, height: vertical ? (containerWidth - 60) / 2 : sumBorderWidth }} />
+      <Container style={{ width: vertical ? 30 : 60, height: vertical ? 60 : 30, display: 'flex', alignItems: 'center', justifyContent: 'center', borderWidth: sumBorderWidth, borderStyle: 'solid', borderRadius: 5, borderColor: sum === target ? colors.textHighlight : colors.primaryBlue }}>
         <Text size='XXL' weight='bold' color={sum === target ? colors.textHighlight : colors.textDefault} rotation={rotation === 180 ? 0 : rotation}>
           {sum}
         </Text>
-      </div>
-      <div style={{ backgroundColor: sum === target ? colors.textHighlight : colors.primaryBlue, width: vertical ? sumBorderWidth : (containerWidth - 60) / 2, height: vertical ? (containerWidth - 60) / 2 : sumBorderWidth }} />
-    </div>
+      </Container>
+      <Container style={{ backgroundColor: sum === target ? colors.textHighlight : colors.primaryBlue, width: vertical ? sumBorderWidth : (containerWidth - 60) / 2, height: vertical ? (containerWidth - 60) / 2 : sumBorderWidth }} />
+    </Container>
   )
 }
 

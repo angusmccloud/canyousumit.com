@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { DroppableCell, Text, Dialog } from '../../components';
+import { DroppableCell, Text, Dialog, Container } from '../../components';
 import { CircularProgress } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import { RestartAlt, ExtensionOutlined } from '@mui/icons-material';
@@ -239,76 +239,76 @@ const GameBoard = () => {
 	return (
 		<>
 			<WinnerModal showModal={setShowWinnerModal} visible={showWinnerModal} gridSize={gridSize} moves={moves} target={target} />
-			<div style={{ display: "flex", justifyContent: "center", flexDirection: 'column' }}>
+			<Container style={{ display: "flex", justifyContent: "center", flexDirection: 'column' }}>
 				<DragDropContext onDragEnd={result => onDragEnd(result, cells, setCells, checkPuzzle)}>
-					<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
-						<div style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center' }}>
+					<Container style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center', height: "100%" }}>
+						<Container style={{ display: "flex", flexDirection: 'column', justifyContent: "center", alignItems: 'center' }}>
 							{ShowSum(target, puzzleStatus.rowTop, 0, settings.showSums)}
-							<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 60 }}>
+							<Container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + 60 }}>
 								{ShowSum(target, puzzleStatus.columnLeft, 270, settings.showSums)}
-								<div style={{ width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) }}>
+								<Container style={{ width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) }}>
 									{/* Top Row */}
-									<div style={{ display: 'flex', alignItems: 'center' }}>
+									<Container style={{ display: 'flex', alignItems: 'center' }}>
 										{cells.filter(c => c.inGrid && c.row === 0).map((cell) => {
 											return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
 										})}
-									</div>
+									</Container>
 									{/* Middle Container */}
-									<div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-										<div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+									<Container style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+										<Container style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
 											{/* Left Column */}
-											<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+											<Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
 												{cells.filter(c => c.inGrid && c.column === 0 && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
 													return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
 												})}
-											</div>
+											</Container>
 											{/* Center Square */}
-											<div style={{ height: '100%', width: (squareSize + (droppableCellPadding * 2)) * (gridSize - 2), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+											<Container style={{ height: '100%', width: (squareSize + (droppableCellPadding * 2)) * (gridSize - 2), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 												{target === 0 ? (
 													<CircularProgress />
 												) : (
-													<div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly'}}>
-														<div>
+													<Container style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-evenly'}}>
+														<Container>
 															<Text size='Jumbo' color={colors.textDefault}>
 																{target.toString()}
 															</Text>
-														</div>
+														</Container>
 														{ShowSumCenter(target, puzzleStatus.corners,settings.showSums)}
-													</div>
+													</Container>
 												)}
-											</div>
+											</Container>
 											{/* Right Column */}
-											<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+											<Container style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 												{cells.filter(c => c.inGrid && c.column === (gridSize - 1) && c.row !== 0 && c.row !== (gridSize - 1)).map((cell) => {
 													return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
 												})}
-											</div>
-										</div>
-									</div>
+											</Container>
+										</Container>
+									</Container>
 									{/* Bottom Row */}
-									<div style={{ display: 'flex', alignItems: 'center' }}>
+									<Container style={{ display: 'flex', alignItems: 'center' }}>
 										{cells.filter(c => c.inGrid && c.row === gridSize - 1).map((cell) => {
 											return DroppableCell(cell, squareSize, lockTopLeftCorner, won, gridSize, helpUsed);
 										})}
-									</div>
-								</div>
+									</Container>
+								</Container>
 								{ShowSum(target, puzzleStatus.columnRight, 90, settings.showSums)}
-							</div>
+							</Container>
 							{ShowSum(target, puzzleStatus.rowBottom, 180, settings.showSums)}
-						</div>
+						</Container>
 						{/* Bottom Container */}
 						{!won && (
-							<div style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: squareSize * .1 }}>
+							<Container style={{ display: "flex", justifyContent: "center", height: "100%", paddingTop: squareSize * .1 }}>
 								{target !== 0 &&
 									cells.filter(c => !c.inGrid).map((cell) => {
 										return UnassignedContainer(cell, squareSize, gridSize, settings.showSums);
 									})
 								}
-							</div>
+							</Container>
 						)}
 						{/* Moves and Best */}
 						{target !== 0 && (
-							<div style={{ display: 'flex', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + (settings.showSums ? 60 : 0), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
+							<Container style={{ display: 'flex', width: (squareSize * gridSize) + (gridSize * (droppableCellPadding * 2)) + (settings.showSums ? 60 : 0), flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', paddingTop: 10, paddingBottom: 10 }}>
 								<Text size='XL' color={colors.textDefault} component="div">
 									Moves: {moves}
 								</Text>
@@ -337,13 +337,13 @@ const GameBoard = () => {
 								<Text size='XL' color={colors.textDefault} component="div">
 									Best: {best}
 								</Text>
-							</div>
+							</Container>
 						)}
-					</div>
+					</Container>
 				</DragDropContext>
 				<Dialog open={showResetDialog} handleClose={handleCloseResetDialog} handleConfirmationPress={handleResetDialogConfirm} title={'Reset Board'} description={'Are you sure you want to reset the board? This can\'t be undone.'} confirmText={'Reset Board'} cancelText={'Cancel'} />
 				<Dialog open={showHelpDialog} handleClose={handleCloseHelpDialog} handleConfirmationPress={handleHelpDialogConfirm} title={'Help!'} description={'Having trouble? We can give you another corner to help make things easier!'} confirmText={'Give Me That Corner!'} cancelText={'Cancel'} />
-			</div>
+			</Container>
 		</>
 	);
 }

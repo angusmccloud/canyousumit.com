@@ -1,10 +1,10 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { NumberCell } from '../index';
+import { NumberCell, Container } from '../';
 
 const DraggableCell = (item, index, squareSize, addPadding, locked) => {
   return (
-    <div style={{padding: addPadding ? squareSize * .1 : 0}} key={item.id}>
+    <Container style={{padding: addPadding ? squareSize * .1 : 0}} key={item.id}>
       <Draggable
         key={item.id}
         draggableId={item.id}
@@ -15,7 +15,7 @@ const DraggableCell = (item, index, squareSize, addPadding, locked) => {
           return NumberCell(provided, snapshot, squareSize, item, locked);
         }}
       </Draggable>
-    </div>
+    </Container>
   );
 }
 
