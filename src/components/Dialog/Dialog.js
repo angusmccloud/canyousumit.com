@@ -1,12 +1,7 @@
 import React from "react";
 import Button from '@mui/material/Button';
-import Slide from '@mui/material/Slide';
 import { Container, Modal, Text } from '../';
 import { colorPalette } from '../../consts';
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const Dialog = (props) => {
   const colors = colorPalette();

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import Button from '@mui/material/Button';
 import { Text, Snackbar, Container, Modal } from '../../components';
 import { colorPalette, googleAnalyticsId } from '../../consts';
-import { useViewport, getStats } from '../../utils';
+import { getStats } from '../../utils';
 import ReactGA from "react-ga4";
 
 const WinnerModal = (props) => {
@@ -11,7 +11,6 @@ const WinnerModal = (props) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [stats, setStats] = useState(undefined);
   const [snackbarMessage, setSnackbarMessage] = useState('Copied to Clipboard');
-  const { width, height } = useViewport();
   const { gridSize, moves, visible } = props;
   ReactGA.initialize([{trackingId: googleAnalyticsId}]);
 
@@ -34,11 +33,6 @@ const WinnerModal = (props) => {
 
   const handleSnackbarClose = () => {
     setShowSnackbar(false);
-  }
-
-  const handleClose = () => {
-    // console.log('-- Close --');
-    props.showModal(false);
   }
 
   const numberString = (number) => {

@@ -1,9 +1,7 @@
 import React from "react";
 import { Snackbar as MuiSnackbar } from '@mui/material';
-import { colorPalette } from '../../consts';
 
 const Snackbar = (props) => {
-  const colors = colorPalette();
   const {open, message, severity, duration, onClose} = props;
 
   const handleClose = () => {
