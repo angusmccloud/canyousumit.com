@@ -1,41 +1,47 @@
 import React from "react";
 import Button from '@mui/material/Button';
-import { Dialog as MuiDialog } from '@mui/material';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
-import { Container } from '../';
+import { Container, Modal, Text } from '../';
+import { colorPalette } from '../../consts';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const Dialog = (props) => {
-  const {open, handleClose, handleConfirmationPress, title, description, confirmText, cancelText} = props;
+  const colors = colorPalette();
+  const { open, handleClose, handleConfirmationPress, title, description, confirmText, cancelText } = props;
+
+  const handleForceClose = () => {
+    handleClose();
+  }
 
   return (
-    <Container>
-      <MuiDialog
-        open={open}
-        TransitionComponent={Transition}
-        keepMounted
-        onClose={handleClose}
-        aria-describedby="alert-dialog-slide-description"
-      >
-        <DialogTitle>{title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
+    <Modal
+      visible={open}
+      setShowModal={handleForceClose}
+      minWidth={300}
+      maxWidth={500}
+      minHeight={100}
+      maxHeight={160}
+    >
+      <>
+        <Container>
+          <Text size='XXXL' weight='bold' color={colors.textDefault}>
+            {title}
+          </Text>
+        </Container>
+        <Container>
+          <Text size='XL' color={colors.textDefault}>
             {description}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
+          </Text>
+        </Container>
+        <Container style={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly', paddingTop: 20}}>
           <Button onClick={handleClose}>{cancelText}</Button>
           <Button onClick={handleConfirmationPress}>{confirmText}</Button>
-        </DialogActions>
-      </MuiDialog>
-    </Container>
+        </Container>
+      </>
+    </Modal>
   );
 };
 
