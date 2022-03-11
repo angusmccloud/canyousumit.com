@@ -59,8 +59,8 @@ const StatsModal = (props) => {
       setShowModal={props.showModal}
       minWidth={300}
       maxWidth={500}
-      minHeight={400}
-      maxHeight={450}
+      minHeight={350}
+      maxHeight={400}
     >
       <>
         <Container>
