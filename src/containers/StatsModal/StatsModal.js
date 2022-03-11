@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Modal from 'react-modal';
 import { CircularProgress } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import { colorPalette } from '../../consts';
-import { Text, Container } from '../../components';
-import { getStats, useViewport } from '../../utils';
+import { Text, Container, Modal } from '../../components';
+import { getStats } from '../../utils';
 
 const StatsModal = (props) => {
   const [stats, setStats] = useState(undefined);
   const colors = colorPalette();
-  const { width, height } = useViewport();
 
   useEffect(() => {
     // console.log('-- Stats Modal, Let\'s Get Data!! --');
     setStats(getStats());
   }, [props]);
-
-  const handleClose = () => {
-    // console.log('-- Close --');
-    props.showModal(false);
-  }
 
   const summaryStat = (label, value) => {
     return (
@@ -62,35 +55,12 @@ const StatsModal = (props) => {
 
   return (
     <Modal
-      isOpen={props.visible}
-      onRequestClose={handleClose}
-      ariaHideApp={false}
-      style={{
-        overlay: {
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(33, 74, 92, 0.75)',
-        },
-        content: {
-          padding: width > 500 ? 20 : 10,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          minWidth: width < 300 ? width * .9 : 300,
-          maxWidth: width > 500 ? 500 : width * .9,
-          minHeight: height < 450 ? height * .9 : 400,
-          maxHeight: height > 600 ? 600 : height * .9,
-          backgroundColor: colors.background,
-          border: '2px solid #000',
-          borderRadius: 20,
-          borderColor: colors.darkBlue,
-        }
-      }}
-      contentLabel="Stats Modal"
+      visible={props.visible}
+      setShowModal={props.showModal}
+      minWidth={300}
+      maxWidth={500}
+      minHeight={400}
+      maxHeight={450}
     >
       <>
         <Container>

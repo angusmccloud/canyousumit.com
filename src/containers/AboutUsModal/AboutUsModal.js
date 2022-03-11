@@ -1,53 +1,22 @@
 import React from "react";
-import Modal from 'react-modal';
-// import { styles } from '../../consts';
 import IconButton from '@mui/material/IconButton';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import Divider from '@mui/material/Divider';
-import { Text, Container } from '../../components';
+import { Text, Container, Modal } from '../../components';
 import { colorPalette } from '../../consts';
-import { useViewport } from '../../utils';
 import aboutus from '../../assets/images/aboutus.png';
 
 const AboutUsModal = (props) => {
   const colors = colorPalette();
-  const handleClose = () => {
-    // console.log('-- Close --');
-    props.showModal(false);
-  }
-  const { width, height } = useViewport();
 
   return (
     <Modal
-      isOpen={props.visible}
-      onRequestClose={handleClose}
-      ariaHideApp={false}
-      style={{
-        overlay: {
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(33, 74, 92, 0.75)',
-        },
-        content: {
-          padding: width > 500 ? 20 : 10,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          minWidth: width < 500 ? width * .9 : 500,
-          maxWidth: width > 700 ? 700 : width * .9,
-          minHeight: height < 700 ? height * .9 : 700,
-          maxHeight: height > 600 ? 600 : height * .9,
-          backgroundColor: colors.background,
-          border: '2px solid #000',
-          borderRadius: 20,
-          borderColor: colors.darkBlue,
-        }
-      }}
-      contentLabel="Instructions Modal"
+      visible={props.visible}
+      setShowModal={props.showModal}
+      minWidth={500}
+      maxWidth={700}
+      minHeight={600}
+      maxHeight={1000}
     >
       <>
         <Text size='XXXL' weight='bold' color={colors.textDefault}>

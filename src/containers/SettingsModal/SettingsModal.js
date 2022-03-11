@@ -1,16 +1,13 @@
-import React, { useState } from "react";
-import Modal from 'react-modal';
-import FormGroup from '@mui/material/FormGroup';
+import React, { useState } from "react";import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { colorPalette } from '../../consts';
-import { Text } from '../../components';
-import { getSettings, setSettings, useViewport } from '../../utils';
+import { Text, Modal } from '../../components';
+import { getSettings, setSettings } from '../../utils';
 
 const SettingsModal = (props) => {
   const colors = colorPalette();
   const [settings, setSettingsState] = useState(getSettings());
-  const { width, height } = useViewport();
 
   const handleSettingChange = (event) => {
     const setting = event.target.name;
@@ -22,41 +19,14 @@ const SettingsModal = (props) => {
     props.handleThemeChange();
   };
 
-  const handleClose = () => {
-    props.showModal(false);
-  }
-
   return (
     <Modal
-      isOpen={props.visible}
-      onRequestClose={handleClose}
-      ariaHideApp={false}
-      style={{
-        overlay: {
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: 'rgba(33, 74, 92, 0.75)',
-        },
-        content: {
-          padding: width > 500 ? 20 : 10,
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          minWidth: width < 500 ? width * .9 : 500,
-          maxWidth: width > 700 ? 700 : width * .9,
-          minHeight: height < 100 ? height * .9 : 100,
-          maxHeight: height > 200 ? 200 : height * .9,
-          backgroundColor: colors.background,
-          border: '2px solid #000',
-          borderRadius: 20,
-          borderColor: colors.darkBlue,
-        }
-      }}
-      contentLabel="Settings Modal"
+      visible={props.visible}
+      setShowModal={props.showModal}
+      minWidth={500}
+      maxWidth={700}
+      minHeight={100}
+      maxHeight={175}
     >
       <>
         <Text size='XXL' weight='bold' color={colors.textDefault}>

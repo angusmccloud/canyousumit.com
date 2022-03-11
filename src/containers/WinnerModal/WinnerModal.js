@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
-import Modal from 'react-modal';
 import Button from '@mui/material/Button';
-import { Text, Snackbar, Container } from '../../components';
+import { Text, Snackbar, Container, Modal } from '../../components';
 import { colorPalette, googleAnalyticsId } from '../../consts';
 import { useViewport, getStats } from '../../utils';
 import ReactGA from "react-ga4";
@@ -112,35 +111,12 @@ const WinnerModal = (props) => {
   return (
     <>
       <Modal
-        isOpen={visible}
-        onRequestClose={handleClose}
-        ariaHideApp={false}
-        style={{
-          overlay: {
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(33, 74, 92, 0.75)',
-          },
-          content: {
-            padding: width > 500 ? 20 : 10, 
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            minWidth: width < 500 ? width * .9 : 500,
-            maxWidth: width > 700 ? 700 : width * .9,
-            minHeight: height < 250 ? height * .9 : 250,
-            maxHeight: height > 300 ? 300 : height * .9,
-            backgroundColor: colors.background,
-            border: '2px solid #000',
-            borderRadius: 20,
-            borderColor: colors.darkBlue,
-          }
-        }}
-        contentLabel="Stats Modal"
+        visible={props.visible}
+        setShowModal={props.showModal}
+        minWidth={500}
+        maxWidth={700}
+        minHeight={250}
+        maxHeight={300}
       >
         <Text size='XXXL' weight='bold' color={colors.textDefault}>
           You Won!
