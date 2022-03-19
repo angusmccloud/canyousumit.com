@@ -35,6 +35,7 @@ const GameBoard = () => {
 	const resetBoard = (topLeftCorner, bottomRightCorner) => {
 		const puzzleInput = generatePuzzle(gridSize, topLeftCorner, bottomRightCorner);
 		const { puzzleTarget, puzzleCells, puzzleNumbers } = puzzleInput;
+		// console.log('-- Puzzle Input --', puzzleInput);
 		const newCells = puzzleCells.map((cell) => {
 			if (cell.inGrid) {
 				const items = puzzleNumbers.filter((item) => item.column === cell.column && item.row === cell.row);
